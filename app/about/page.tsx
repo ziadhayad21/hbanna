@@ -19,7 +19,8 @@ export default function AboutPage() {
       <SvgDefs />
       <Nav solidOnLoad />
       <main className="subpage">
-        <section className="subpage-intro section-pad">
+        <section className="subpage-intro section-pad about-hero-section">
+          <div className="about-hero-bg"></div>
           <PageHero
             eyebrow="Who We Are"
             title="Quality Starts at the Source."
@@ -31,7 +32,7 @@ export default function AboutPage() {
           />
         </section>
 
-        <section className="section-pad about-page-main">
+        <section className="about-page-main section-pad">
           <div className="about-grid">
             <div className="about-text reveal">
               <span className="eyebrow">Our Story</span>
@@ -63,7 +64,8 @@ export default function AboutPage() {
             </div>
 
             <div className="about-media about-frame reveal">
-              <div className="ph-inner">
+              <div className="ph-inner about-image-wrapper">
+                <div className="about-image-overlay"></div>
                 <Image
                   src="/images/farm.jpg"
                   alt="Egyptian farm and agricultural groves"
@@ -71,6 +73,7 @@ export default function AboutPage() {
                   height={1050}
                   sizes="(max-width: 900px) 100vw, 52vw"
                   priority
+                  className="about-main-image"
                 />
               </div>
               <div className="about-media-badge" aria-hidden="true">

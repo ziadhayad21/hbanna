@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import CategoryProductViewer from "@/components/CategoryProductViewer";
+import CategoryProductGrid from "@/components/CategoryProductGrid";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import PageHero from "@/components/PageHero";
@@ -58,9 +58,7 @@ export default function ProductCategoryPage({ params }: PageProps) {
         </section>
 
         <section className="section-pad category-detail">
-          <CategoryProductViewer
-            categoryTitle={category.title}
-            fallbackImage={category.image}
+          <CategoryProductGrid
             summary={category.summary}
             products={category.products}
           />
