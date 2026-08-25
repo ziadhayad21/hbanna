@@ -1,3 +1,8 @@
+export type CategoryProduct = {
+  name: string;
+  image: string;
+};
+
 export type ProductCategory = {
   slug: string;
   num: string;
@@ -7,7 +12,7 @@ export type ProductCategory = {
   alt: string;
   summary: string;
   description: string;
-  products: string[];
+  products: CategoryProduct[];
 };
 
 export const productCategories: ProductCategory[] = [
@@ -23,19 +28,22 @@ export const productCategories: ProductCategory[] = [
     description:
       "Premium Egyptian citrus grown across our groves and packed for global markets — from classic navel and Valencia oranges to easy peelers, lemons, limes, and grapefruit.",
     products: [
-      "Navel Oranges",
-      "Valencia Oranges",
-      "Baladi Oranges",
-      "Sweet Oranges",
-      "Shamouti",
-      "Blood Oranges",
-      "Mandarins",
-      "Murcott Mandarins",
-      "Easy Peelers",
-      "Lemons",
-      "Limes",
-      "Grapefruit",
-      "Other seasonal citrus varieties",
+      { name: "Navel Oranges", image: "/images/products/citrus/navel-oranges.jpg" },
+      { name: "Valencia Oranges", image: "/images/products/citrus/valencia-oranges.jpg" },
+      { name: "Baladi Oranges", image: "/images/products/citrus/baladi-oranges.jpg" },
+      { name: "Sweet Oranges", image: "/images/products/citrus/sweet-oranges.jpg" },
+      { name: "Shamouti", image: "/images/products/citrus/shamouti.jpg" },
+      { name: "Blood Oranges", image: "/images/products/citrus/blood-oranges.jpg" },
+      { name: "Mandarins", image: "/images/products/citrus/mandarins.jpg" },
+      { name: "Murcott Mandarins", image: "/images/products/citrus/murcott-mandarins.jpg" },
+      { name: "Easy Peelers", image: "/images/products/citrus/easy-peelers.jpg" },
+      { name: "Lemons", image: "/images/products/citrus/lemons.jpg" },
+      { name: "Limes", image: "/images/products/citrus/limes.jpg" },
+      { name: "Grapefruit", image: "/images/products/citrus/grapefruit.jpg" },
+      {
+        name: "Other seasonal citrus varieties",
+        image: "/images/products/citrus/seasonal-citrus.jpg",
+      },
     ],
   },
   {
@@ -50,13 +58,16 @@ export const productCategories: ProductCategory[] = [
     description:
       "Processed in our own modern dates factories — semi-dry, dry, Medjool, fresh Barhi, and a wide range of premium Egyptian date varieties and date-based products.",
     products: [
-      "Semi-Dry Dates",
-      "Dry Dates",
-      "Medjool Dates",
-      "Fresh Barhi Dates",
-      "Fresh Dates",
-      "Premium Egyptian date varieties",
-      "Date-based products",
+      { name: "Semi-Dry Dates", image: "/images/products/dates/semi-dry-dates.jpg" },
+      { name: "Dry Dates", image: "/images/products/dates/dry-dates.jpg" },
+      { name: "Medjool Dates", image: "/images/products/dates/medjool-dates.jpg" },
+      { name: "Fresh Barhi Dates", image: "/images/products/dates/fresh-barhi-dates.jpg" },
+      { name: "Fresh Dates", image: "/images/products/dates/fresh-dates.jpg" },
+      {
+        name: "Premium Egyptian date varieties",
+        image: "/images/products/dates/premium-varieties.jpg",
+      },
+      { name: "Date-based products", image: "/images/products/dates/date-products.jpg" },
     ],
   },
   {
@@ -71,16 +82,19 @@ export const productCategories: ProductCategory[] = [
     description:
       "Seasonal Egyptian fruits selected at peak ripeness — table grapes, pomegranates, mangoes, berries, stone fruit, melons, and more for international buyers.",
     products: [
-      "Grapes",
-      "Pomegranates",
-      "Mangoes",
-      "Strawberries",
-      "Peaches",
-      "Apricots",
-      "Melons",
-      "Watermelons",
-      "Guava",
-      "Other seasonal Egyptian fruits",
+      { name: "Grapes", image: "/images/products/fresh-fruits/grapes.jpg" },
+      { name: "Pomegranates", image: "/images/products/fresh-fruits/pomegranates.jpg" },
+      { name: "Mangoes", image: "/images/products/fresh-fruits/mangoes.jpg" },
+      { name: "Strawberries", image: "/images/products/fresh-fruits/strawberries.jpg" },
+      { name: "Peaches", image: "/images/products/fresh-fruits/peaches.jpg" },
+      { name: "Apricots", image: "/images/products/fresh-fruits/apricots.jpg" },
+      { name: "Melons", image: "/images/products/fresh-fruits/melons.jpg" },
+      { name: "Watermelons", image: "/images/products/fresh-fruits/watermelons.jpg" },
+      { name: "Guava", image: "/images/products/fresh-fruits/guava.jpg" },
+      {
+        name: "Other seasonal Egyptian fruits",
+        image: "/images/products/fresh-fruits/seasonal-fruits.jpg",
+      },
     ],
   },
   {
@@ -95,20 +109,29 @@ export const productCategories: ProductCategory[] = [
     description:
       "A broad vegetable program packed for freshness — onions, garlic, roots, tomatoes, peppers, crucifers, and a wide range of seasonal Egyptian vegetables.",
     products: [
-      "Red & Yellow Onions",
-      "Garlic",
-      "Potatoes",
-      "Sweet Potatoes",
-      "Tomatoes",
-      "Peppers",
-      "Cucumbers",
-      "Carrots",
-      "Broccoli",
-      "Cauliflower",
-      "Cabbage",
-      "Eggplant",
-      "Okra",
-      "Seasonal vegetables",
+      {
+        name: "Red & Yellow Onions",
+        image: "/images/products/fresh-vegetables/onions.jpg",
+      },
+      { name: "Garlic", image: "/images/products/fresh-vegetables/garlic.jpg" },
+      { name: "Potatoes", image: "/images/products/fresh-vegetables/potatoes.jpg" },
+      {
+        name: "Sweet Potatoes",
+        image: "/images/products/fresh-vegetables/sweet-potatoes.jpg",
+      },
+      { name: "Tomatoes", image: "/images/products/fresh-vegetables/tomatoes.jpg" },
+      { name: "Peppers", image: "/images/products/fresh-vegetables/peppers.jpg" },
+      { name: "Cucumbers", image: "/images/products/fresh-vegetables/cucumbers.jpg" },
+      { name: "Carrots", image: "/images/products/fresh-vegetables/carrots.jpg" },
+      { name: "Broccoli", image: "/images/products/fresh-vegetables/broccoli.jpg" },
+      { name: "Cauliflower", image: "/images/products/fresh-vegetables/cauliflower.jpg" },
+      { name: "Cabbage", image: "/images/products/fresh-vegetables/cabbage.jpg" },
+      { name: "Eggplant", image: "/images/products/fresh-vegetables/eggplant.jpg" },
+      { name: "Okra", image: "/images/products/fresh-vegetables/okra.jpg" },
+      {
+        name: "Seasonal vegetables",
+        image: "/images/products/fresh-vegetables/seasonal-vegetables.jpg",
+      },
     ],
   },
   {
@@ -123,11 +146,23 @@ export const productCategories: ProductCategory[] = [
     description:
       "Fresh herbs, spices, dried vegetables, sun-dried tomatoes, and selected agricultural ingredients for wholesale and food-industry partners.",
     products: [
-      "Fresh Herbs",
-      "Herbs & Spices",
-      "Dried Vegetables",
-      "Sun-Dried Tomatoes",
-      "Selected agricultural ingredients",
+      { name: "Fresh Herbs", image: "/images/products/herbs-spices-dried/fresh-herbs.jpg" },
+      {
+        name: "Herbs & Spices",
+        image: "/images/products/herbs-spices-dried/herbs-spices.jpg",
+      },
+      {
+        name: "Dried Vegetables",
+        image: "/images/products/herbs-spices-dried/dried-vegetables.jpg",
+      },
+      {
+        name: "Sun-Dried Tomatoes",
+        image: "/images/products/herbs-spices-dried/sun-dried-tomatoes.jpg",
+      },
+      {
+        name: "Selected agricultural ingredients",
+        image: "/images/products/herbs-spices-dried/ingredients.jpg",
+      },
     ],
   },
   {
@@ -142,11 +177,14 @@ export const productCategories: ProductCategory[] = [
     description:
       "A growing range of high-quality pulses, beans, legumes, grains, and agricultural commodities — sourced and supplied according to our customers' requirements.",
     products: [
-      "Pulses",
-      "Beans",
-      "Legumes",
-      "Grains",
-      "Agricultural commodities",
+      { name: "Pulses", image: "/images/products/pulses-grains/pulses.jpg" },
+      { name: "Beans", image: "/images/products/pulses-grains/beans.jpg" },
+      { name: "Legumes", image: "/images/products/pulses-grains/legumes.jpg" },
+      { name: "Grains", image: "/images/products/pulses-grains/grains.jpg" },
+      {
+        name: "Agricultural commodities",
+        image: "/images/products/pulses-grains/commodities.jpg",
+      },
     ],
   },
 ];

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CategoryProductViewer from "@/components/CategoryProductViewer";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import PageHero from "@/components/PageHero";
@@ -57,38 +58,19 @@ export default function ProductCategoryPage({ params }: PageProps) {
         </section>
 
         <section className="section-pad category-detail">
-          <div className="category-detail-grid">
-            <div className="category-detail-media about-frame reveal">
-              <div className="ph-inner">
-                <Image
-                  src={category.image}
-                  alt={category.alt}
-                  width={900}
-                  height={720}
-                  priority
-                  sizes="(max-width: 900px) 100vw, 48vw"
-                />
-              </div>
-            </div>
-
-            <div className="category-detail-copy reveal">
-              <span className="eyebrow">Product Range</span>
-              <h2 className="serif">What we supply in this category</h2>
-              <p className="category-detail-lead">{category.summary}</p>
-              <ul className="product-range-list">
-                {category.products.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <div className="category-detail-actions">
-                <Link href="/#contact" className="btn btn-primary">
-                  Request Availability
-                </Link>
-                <Link href="/products" className="btn btn-ghost">
-                  All Categories
-                </Link>
-              </div>
-            </div>
+          <CategoryProductViewer
+            categoryTitle={category.title}
+            fallbackImage={category.image}
+            summary={category.summary}
+            products={category.products}
+          />
+          <div className="category-detail-actions category-detail-actions-below">
+            <Link href="/#contact" className="btn btn-primary">
+              Request Availability
+            </Link>
+            <Link href="/products" className="btn btn-ghost">
+              All Categories
+            </Link>
           </div>
         </section>
 
