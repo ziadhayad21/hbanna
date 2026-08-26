@@ -1,145 +1,133 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef } from "react";
-
-const STAGES = 5;
-
-const COPY = [
-  {
-    title: "Navel & Valencia Oranges",
-    desc: "Grown across our citrus groves and packed for global markets.",
-  },
-  {
-    title: "Medjool & Barhi Dates",
-    desc: "Processed in our own modern dates factories.",
-  },
-  {
-    title: "Table Grapes",
-    desc: "Fresh clusters selected at peak ripeness.",
-  },
-  {
-    title: "Egyptian Mangoes",
-    desc: "A seasonal signature among our fresh fruit range.",
-  },
-  {
-    title: "Fresh Vegetables",
-    desc: "Tomatoes, peppers and more — packed for freshness.",
-  },
-] as const;
-
-const IMAGES = [
-  { src: "/images/orange.jpg", alt: "Navel and Valencia oranges" },
-  { src: "/images/dates.jpg", alt: "Medjool and Barhi dates" },
-  { src: "/images/grapes.jpg", alt: "Table grapes" },
-  { src: "/images/mango.jpg", alt: "Egyptian mangoes" },
-  { src: "/images/tomato.jpg", alt: "Fresh vegetables" },
-] as const;
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SignatureHarvestScene, {
+  preloadHarvestModels,
+} from "@/components/SignatureHarvestScene";
 
 export default function Showcase() {
   const sectionRef = useRef<HTMLElement>(null);
+  const progressRef = useRef(0);
+  const [mobile, setMobile] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const showcaseSection = sectionRef.current;
-    if (!showcaseSection) return;
+    preloadHarvestModels();
+  }, []);
 
-    const showcaseItems =
-      showcaseSection.querySelectorAll<HTMLElement>(".showcase-item");
-    const showcaseTitles =
-      showcaseSection.querySelectorAll<HTMLElement>(".showcase-title");
-    const showcaseDescs =
-      showcaseSection.querySelectorAll<HTMLElement>(".showcase-desc");
-    const ticks = showcaseSection.querySelectorAll<HTMLElement>(".tick");
-
-    let showcaseRaf: number | null = null;
-
-    const updateShowcase = () => {
-      showcaseRaf = null;
-      const rect = showcaseSection.getBoundingClientRect();
-      const total = showcaseSection.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
-      let progress = -rect.top / total;
-      progress = Math.max(0, Math.min(1, progress));
-      let stage = Math.floor(progress * STAGES);
-      if (stage >= STAGES) stage = STAGES - 1;
-
-      showcaseItems.forEach((it) =>
-        it.classList.toggle(
-          "active",
-          parseInt(it.dataset.stage || "-1", 10) === stage
-        )
-      );
-      showcaseTitles.forEach((t) =>
-        t.classList.toggle(
-          "active",
-          parseInt(t.dataset.stage || "-1", 10) === stage
-        )
-      );
-      showcaseDescs.forEach((d) =>
-        d.classList.toggle(
-          "active",
-          parseInt(d.dataset.stage || "-1", 10) === stage
-        )
-      );
-      ticks.forEach((t) =>
-        t.classList.toggle(
-          "active",
-          parseInt(t.dataset.stage || "-1", 10) === stage
-        )
-      );
-    };
-
-    showcaseSection.style.height = `${STAGES * 100}vh`;
-
-    const onScroll = () => {
-      if (showcaseRaf) return;
-      showcaseRaf = requestAnimationFrame(updateShowcase);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    updateShowcase();
-
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 860px)");
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setMobile(mq.matches);
+    const syncRm = () => setReducedMotion(rm.matches);
+    sync();
+    syncRm();
+    mq.addEventListener("change", sync);
+    rm.addEventListener("change", syncRm);
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (showcaseRaf) cancelAnimationFrame(showcaseRaf);
-      showcaseSection.style.height = "";
+      mq.removeEventListener("change", sync);
+      rm.removeEventListener("change", syncRm);
     };
   }, []);
 
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const proxy = { t: 0 };
+
+    const ctx = gsap.context(() => {
+      gsap.set(".harvest-copy > *", {
+        opacity: reducedMotion ? 1 : 0,
+        y: reducedMotion ? 0 : 18,
+      });
+
+      if (reducedMotion) {
+        progressRef.current = 1;
+        return;
+      }
+
+      progressRef.current = 0;
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 72%",
+        once: true,
+        onEnter: () => {
+          gsap.to(".harvest-copy > *", {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            stagger: 0.08,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        },
+      });
+
+      // Fall starts when the section reaches the top of the viewport
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        once: true,
+        onEnter: () => {
+          preloadHarvestModels();
+          gsap.to(proxy, {
+            t: 1,
+            duration: 1.85,
+            ease: "none",
+            onUpdate: () => {
+              progressRef.current = proxy.t;
+            },
+            onComplete: () => {
+              progressRef.current = 1;
+            },
+          });
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [reducedMotion]);
+
   return (
-    <section id="showcase" ref={sectionRef}>
-      <div className="showcase-pin">
-        <div className="showcase-bg"></div>
+    <section id="showcase" className="harvest" ref={sectionRef}>
+      <div className="harvest-pin">
+        <div className="harvest-bg" aria-hidden="true" />
 
-        <div className="showcase-copy">
-          <span className="eyebrow">Signature Harvest</span>
-          {COPY.map((item, i) => (
-            <div key={item.title} style={{ display: "contents" }}>
-              <h3 className="showcase-title serif" data-stage={i}>
-                {item.title}
-              </h3>
-              <p className="showcase-desc" data-stage={i}>
-                {item.desc}
-              </p>
-            </div>
-          ))}
+        <div className="harvest-shell">
+          <aside className="harvest-copy">
+            <span className="eyebrow">Signature Harvest</span>
+            <h2 className="serif harvest-headline">
+              Quality You Can See.
+              <br />
+              Standards You Can Trust.
+            </h2>
+            <p className="harvest-lead">
+              From Egyptian groves to export-ready fruit — selected for
+              freshness, consistency, and presentation that buyers can trust.
+            </p>
+            <ul className="harvest-meta">
+              <li>Premium citrus selection</li>
+              <li>Export-grade packing</li>
+              <li>Consistent quality standards</li>
+            </ul>
+          </aside>
+
+          <div
+            className="harvest-stage"
+            aria-label="Cinematic 3D orange presentation"
+          >
+            <SignatureHarvestScene
+              progressRef={progressRef}
+              reducedMotion={reducedMotion}
+              mobile={mobile}
+            />
+          </div>
         </div>
-
-        <div className="showcase-stage">
-          {IMAGES.map((img, i) => (
-            <div className="showcase-item" data-stage={i} key={img.src}>
-              <Image src={img.src} alt={img.alt} width={420} height={420} />
-            </div>
-          ))}
-        </div>
-
-        <div className="showcase-progress">
-          {Array.from({ length: STAGES }, (_, i) => (
-            <div className="tick" data-stage={i} key={i}></div>
-          ))}
-        </div>
-
-        <div className="showcase-hint">Scroll to explore</div>
       </div>
     </section>
   );
