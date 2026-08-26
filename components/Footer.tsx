@@ -37,7 +37,7 @@ export default function Footer() {
           <h4>Company</h4>
           <ul>
             <li>
-              <Link href="/about">About Us</Link>
+              <Link href="/#about">About Us</Link>
             </li>
             <li>
               <Link href="/products">All Products</Link>
@@ -52,7 +52,7 @@ export default function Footer() {
               <Link href="/#certifications">Quality &amp; Certifications</Link>
             </li>
             <li>
-              <Link href="/#contact">Contact Us</Link>
+              <Link href="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>
@@ -62,7 +62,7 @@ export default function Footer() {
             Ready to discuss volumes, specs, or shipping? Reach our export desk
             directly.
           </p>
-          <Link href="/#contact" className="btn btn-primary">
+          <Link href="/contact" className="btn btn-primary">
             Open Contact Form
           </Link>
         </div>

@@ -1,6 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-
 export default function About() {
   return (
     <section id="about" className="section-pad">
@@ -31,27 +28,6 @@ export default function About() {
             <li>Own groves &amp; factories</li>
             <li>Export-ready quality</li>
           </ul>
-          <div className="about-actions">
-            <Link href="/about" className="btn btn-ghost">
-              Learn More About Us
-            </Link>
-          </div>
-        </div>
-
-        <div className="about-media about-frame reveal">
-          <div className="ph-inner">
-            <Image
-              src="/images/farm.jpg"
-              alt="Egyptian farm and agricultural groves"
-              width={1100}
-              height={1050}
-              sizes="(max-width: 900px) 100vw, 52vw"
-            />
-          </div>
-          <div className="about-media-badge" aria-hidden="true">
-            <span className="about-media-badge-year">1992</span>
-            <span className="about-media-badge-label">Established</span>
-          </div>
         </div>
       </div>
     </section>

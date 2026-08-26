@@ -6,12 +6,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 
 const NAV_LINKS = [
-  { href: "/about", label: "About" },
+  { href: "/#about", label: "About" },
   { href: "/products", label: "Products" },
   { href: "/#journey", label: "Our Process" },
   { href: "/#facilities", label: "Facilities" },
   { href: "/#certifications", label: "Quality" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 type NavProps = {
@@ -118,7 +118,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
               />
             </svg>
           </button>
-          <Link href="/#contact" className="nav-cta">
+          <Link href="/contact" className="nav-cta">
             Partner With Us
           </Link>
           <div
@@ -157,7 +157,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
           </Link>
         ))}
         <Link
-          href="/#contact"
+          href="/contact"
           className="nav-cta-mobile"
           onClick={closeDrawer}
         >

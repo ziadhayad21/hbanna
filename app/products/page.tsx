@@ -67,7 +67,7 @@ export default function ProductsPage() {
               <Link href="/#contact" className="btn btn-primary">
                 Contact Export Desk
               </Link>
-              <Link href="/about" className="btn btn-ghost">
+              <Link href="/#about" className="btn btn-ghost">
                 About HBanna
               </Link>
             </div>
