@@ -36,7 +36,7 @@ const FLOAT_ITEMS = [
   {
     className: "float-item f-orange2",
     depth: "14",
-    src: "/images/orange-small.jpg",
+    src: "/images/grains.jpg",
     width: 126,
     height: 126,
   },
