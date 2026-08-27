@@ -1,32 +1,25 @@
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageProvider";
+
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="section-pad">
       <div className="about-grid">
         <div className="about-text reveal">
-          <span className="eyebrow">Who We Are</span>
-          <h2 className="serif">Quality Starts at the Source.</h2>
-          <p className="about-lead">
-            Since our establishment in 1992, we have been pioneers in the
-            cultivation, production, packing, and export of Dates, Citrus, Fresh
-            Fruits &amp; Vegetables, Herbs &amp; Spices, Pulses, and Grains.
-          </p>
+          <span className="eyebrow">{t.about.eyebrow}</span>
+          <h2 className="serif">{t.about.title}</h2>
+          <p className="about-lead">{t.about.lead}</p>
           <div className="about-body">
-            <p>
-              Our vertically integrated approach lets us oversee every step —
-              from cultivation and harvesting to packing and delivery — ensuring
-              consistent quality, freshness, and reliability throughout the
-              supply chain.
-            </p>
-            <p>
-              We combine generations of agricultural experience with modern
-              farming techniques, advanced production methods, and strict quality
-              control.
-            </p>
+            <p>{t.about.body1}</p>
+            <p>{t.about.body2}</p>
           </div>
-          <ul className="about-pills" aria-label="Company highlights">
-            <li>Vertically integrated</li>
-            <li>Own groves &amp; factories</li>
-            <li>Export-ready quality</li>
+          <ul className="about-pills" aria-label={t.about.eyebrow}>
+            <li>{t.about.pill1}</li>
+            <li>{t.about.pill2}</li>
+            <li>{t.about.pill3}</li>
           </ul>
         </div>
       </div>

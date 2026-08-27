@@ -1,4 +1,10 @@
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageProvider";
+
 export default function Cta() {
+  const { t } = useLanguage();
+
   return (
     <section id="cta">
       <svg className="cta-botanical" viewBox="0 0 200 200" fill="none">
@@ -20,19 +26,15 @@ export default function Cta() {
           fill="none"
         />
       </svg>
-      <span className="eyebrow reveal">Global Partnership</span>
-      <h2 className="serif reveal">Let&apos;s Build a Lasting Partnership.</h2>
-      <p className="reveal">
-        Trusted by wholesalers, retailers, and supermarket chains across
-        international markets — reliability, flexibility, and quality since
-        1992.
-      </p>
+      <span className="eyebrow reveal">{t.cta.eyebrow}</span>
+      <h2 className="serif reveal">{t.cta.title}</h2>
+      <p className="reveal">{t.cta.body}</p>
       <div className="cta-actions reveal">
-        <a href="#contact" className="btn btn-primary">
-          Get in Touch
+        <a href="/contact" className="btn btn-primary">
+          {t.cta.getInTouch}
         </a>
         <a href="#" className="btn btn-ghost">
-          Download Company Profile
+          {t.cta.download}
         </a>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Anton, Fraunces, Manrope } from "next/font/google";
+import { Anton, Fraunces, Manrope, Noto_Sans_SC } from "next/font/google";
+import Providers from "@/components/Providers";
 import "./globals.css";
 
 const anton = Anton({
@@ -24,13 +25,20 @@ const manrope = Manrope({
   display: "swap",
 });
 
+const notoSansSc = Noto_Sans_SC({
+  weight: ["400", "500", "700"],
+  variable: "--font-noto-sc",
+  display: "swap",
+  preload: false,
+});
+
 export const metadata: Metadata = {
   title: "Egyptian Export Center — Growing Excellence. Delivering Trust Since 1992.",
   description:
     "A vertically integrated Egyptian agricultural house — from grove to global market. Dates, citrus, fresh fruits & vegetables since 1992.",
 };
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('hbanna-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+const themeInitScript = `(function(){try{var t=localStorage.getItem('hbanna-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('hbanna-locale');if(l==='en'||l==='de'||l==='zh'){document.documentElement.setAttribute('data-locale',l);document.documentElement.lang=l==='zh'?'zh-CN':l;}}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -41,13 +49,16 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
-      className={`${anton.variable} ${fraunces.variable} ${manrope.variable}`}
+      data-locale="en"
+      className={`${anton.variable} ${fraunces.variable} ${manrope.variable} ${notoSansSc.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className={manrope.className}>{children}</body>
+      <body className={manrope.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

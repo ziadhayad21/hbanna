@@ -1,27 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-const METRICS = [
-  {
-    target: 40,
-    suffix: "+",
-    label: "Years of agricultural excellence, since 1992",
-  },
-  {
-    target: 75,
-    suffix: "%+",
-    label: "Of our dates grown in our own groves",
-  },
-  {
-    target: 2,
-    suffix: "",
-    label: "Our own modern dates factories",
-  },
-] as const;
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 export default function Metrics() {
   const rowRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
+
+  const metrics = [
+    { target: 40, suffix: "+", label: t.metrics.years },
+    { target: 75, suffix: "%+", label: t.metrics.groves },
+    { target: 2, suffix: "", label: t.metrics.factories },
+  ] as const;
 
   useEffect(() => {
     const counters =
@@ -52,12 +42,12 @@ export default function Metrics() {
 
     counters.forEach((c) => counterIO.observe(c));
     return () => counterIO.disconnect();
-  }, []);
+  }, [t]);
 
   return (
     <section id="metrics">
       <div className="metrics-row reveal-stagger" ref={rowRef}>
-        {METRICS.map((m) => (
+        {metrics.map((m) => (
           <div className="metric" key={m.label}>
             <div className="metric-num">
               <span className="count" data-target={m.target}>

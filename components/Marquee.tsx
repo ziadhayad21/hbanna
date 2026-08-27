@@ -1,12 +1,15 @@
-const ITEMS = [
-  "Premium Quality",
-  "Global Export",
-  "Hand Selected",
-  "Est. 1992",
-] as const;
+"use client";
 
-function MarqueeGroup({ hidden }: { hidden?: boolean }) {
-  const doubled = [...ITEMS, ...ITEMS];
+import { useLanguage } from "@/contexts/LanguageProvider";
+
+function MarqueeGroup({
+  items,
+  hidden,
+}: {
+  items: string[];
+  hidden?: boolean;
+}) {
+  const doubled = [...items, ...items];
   return (
     <div className="marquee-group" aria-hidden={hidden ? true : undefined}>
       {doubled.map((text, i) => (
@@ -22,11 +25,14 @@ function MarqueeGroup({ hidden }: { hidden?: boolean }) {
 }
 
 export default function Marquee() {
+  const { t } = useLanguage();
+  const items = [t.marquee.q1, t.marquee.q2, t.marquee.q3, t.marquee.q4];
+
   return (
-    <div className="marquee" aria-label="Brand highlights">
+    <div className="marquee" aria-label={t.marquee.q1}>
       <div className="marquee-track">
-        <MarqueeGroup />
-        <MarqueeGroup hidden />
+        <MarqueeGroup items={items} />
+        <MarqueeGroup items={items} hidden />
       </div>
     </div>
   );

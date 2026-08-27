@@ -4,15 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
-
-const NAV_LINKS = [
-  { href: "/#about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/#journey", label: "Our Process" },
-  { href: "/#facilities", label: "Facilities" },
-  { href: "/#certifications", label: "Quality" },
-  { href: "/contact", label: "Contact" },
-] as const;
+import { useLanguage } from "@/contexts/LanguageProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type NavProps = {
   solidOnLoad?: boolean;
@@ -22,6 +15,16 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
   const [solid, setSolid] = useState(solidOnLoad);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { href: "/#about", label: t.nav.about },
+    { href: "/products", label: t.nav.products },
+    { href: "/#journey", label: t.nav.process },
+    { href: "/#facilities", label: t.nav.facilities },
+    { href: "/#certifications", label: t.nav.quality },
+    { href: "/contact", label: t.nav.contact },
+  ] as const;
 
   useEffect(() => {
     let navTicking = false;
@@ -48,28 +51,23 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
   const ariaLabel =
-    theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
-  const title = theme === "dark" ? "Light mode" : "Dark mode";
+    theme === "dark" ? t.nav.themeToLight : t.nav.themeToDark;
 
   return (
     <>
       <header className={`nav${solid ? " solid" : ""}`} id="nav">
-        <Link
-          href="/"
-          className="logo"
-          aria-label="HBanna Dates — Egyptian Export Center"
-        >
+        <Link href="/" className="logo" aria-label={t.nav.logoAlt}>
           <Image
             className="logo-img"
             src="/hbanna-logo.png"
-            alt="HBanna Dates — Egyptian Export Center"
-            width={164}
-            height={138}
+            alt={t.nav.logoAlt}
+            width={280}
+            height={140}
             priority
           />
         </Link>
         <nav className="nav-links">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link key={link.href} href={link.href}>
               {link.label}
             </Link>
@@ -81,7 +79,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
             className="theme-toggle"
             id="themeToggle"
             aria-label={ariaLabel}
-            title={title}
+            title={ariaLabel}
             onClick={toggleTheme}
           >
             <svg
@@ -118,15 +116,13 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
               />
             </svg>
           </button>
-          <Link href="/contact" className="nav-cta">
-            Partner With Us
-          </Link>
+          <LanguageSwitcher />
           <div
             className={`nav-toggle${drawerOpen ? " open" : ""}`}
             id="navToggle"
             role="button"
             tabIndex={0}
-            aria-label="Toggle menu"
+            aria-label={t.nav.toggleMenu}
             onClick={() => setDrawerOpen((o) => !o)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
@@ -146,7 +142,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
         className={`nav-drawer${drawerOpen ? " open" : ""}`}
         id="navDrawer"
       >
-        {NAV_LINKS.map((link) => (
+        {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
@@ -156,13 +152,9 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
             {link.label}
           </Link>
         ))}
-        <Link
-          href="/contact"
-          className="nav-cta-mobile"
-          onClick={closeDrawer}
-        >
-          Partner With Us
-        </Link>
+        <div className="nav-drawer-lang" onClick={(e) => e.stopPropagation()}>
+          <LanguageSwitcher />
+        </div>
       </div>
     </>
   );

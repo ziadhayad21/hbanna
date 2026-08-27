@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 const COUNTRIES = [
   "Egypt",
@@ -29,32 +30,21 @@ const COUNTRIES = [
   "Other",
 ] as const;
 
-const INQUIRY_TYPES = [
-  "Product Inquiry",
-  "Export Partnership",
-  "Logistics Information",
-  "Quality Assurance",
-  "General Inquiry",
-] as const;
-
-function syncFieldValue(field: HTMLElement) {
-  const input = field.querySelector(
-    "input, select, textarea"
-  ) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
-  if (!input) return;
-  const filled =
-    input.tagName === "SELECT"
-      ? !!input.value
-      : input.value.trim().length > 0;
-  field.classList.toggle("has-value", filled);
-}
-
 export default function ContactForm() {
+  const { t } = useLanguage();
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const inquiryTypes = [
+    t.form.inq1,
+    t.form.inq2,
+    t.form.inq3,
+    t.form.inq4,
+    t.form.inq5,
+  ];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -76,43 +66,6 @@ export default function ContactForm() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const form = formRef.current;
-    if (!form) return;
-
-    const fields = form.querySelectorAll<HTMLElement>(".form-field");
-    const cleanups: Array<() => void> = [];
-
-    fields.forEach((field) => {
-      const input = field.querySelector(
-        "input, select, textarea"
-      ) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
-      if (!input) return;
-
-      const onFocus = () => field.classList.add("is-active");
-      const onBlur = () => {
-        field.classList.remove("is-active");
-        syncFieldValue(field);
-      };
-      const onInput = () => syncFieldValue(field);
-
-      input.addEventListener("focus", onFocus);
-      input.addEventListener("blur", onBlur);
-      input.addEventListener("input", onInput);
-      input.addEventListener("change", onInput);
-      syncFieldValue(field);
-
-      cleanups.push(() => {
-        input.removeEventListener("focus", onFocus);
-        input.removeEventListener("blur", onBlur);
-        input.removeEventListener("input", onInput);
-        input.removeEventListener("change", onInput);
-      });
-    });
-
-    return () => cleanups.forEach((fn) => fn());
-  }, []);
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = formRef.current;
@@ -124,15 +77,18 @@ export default function ContactForm() {
       const firstInvalid = form.querySelector(":invalid") as HTMLElement | null;
       if (firstInvalid) {
         const wrap = firstInvalid.closest(".form-field");
-        if (wrap) wrap.classList.add("is-active");
+        if (wrap) wrap.classList.add("is-invalid");
         firstInvalid.focus();
       }
       return;
     }
 
+    form.querySelectorAll<HTMLElement>(".form-field").forEach((field) => {
+      field.classList.remove("is-invalid");
+    });
+
     setIsSubmitting(true);
 
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       if (success) {
@@ -142,27 +98,21 @@ export default function ContactForm() {
       }
 
       form.reset();
-      form.querySelectorAll<HTMLElement>(".form-field").forEach((field) => {
-        field.classList.remove("has-value", "is-active");
-      });
     }, 1500);
   };
 
   return (
-    <div 
+    <div
       ref={sectionRef}
       className={`contact-form-wrapper ${inView ? "in-view" : ""}`}
     >
-      <div className="contact-form-header">
-        <span className="eyebrow">Send a Message</span>
-        <h2 className="serif">Start Your Inquiry.</h2>
-        <p className="form-intro">
-          Fill out the form below and our export team will get back to you 
-          with product availability, pricing, and logistics options.
-        </p>
-      </div>
-
       <div className="contact-form-panel">
+        <div className="contact-form-accent" aria-hidden="true" />
+        <div className="contact-form-header">
+          <h2 className="serif contact-form-title">{t.form.title}</h2>
+          <p className="form-intro">{t.form.intro}</p>
+        </div>
+
         <form
           className="contact-form"
           id="contactForm"
@@ -172,7 +122,7 @@ export default function ContactForm() {
         >
           <div className="form-field">
             <label htmlFor="contactName">
-              Full Name<span className="req">*</span>
+              {t.form.name}<span className="req">*</span>
             </label>
             <input
               id="contactName"
@@ -180,13 +130,13 @@ export default function ContactForm() {
               type="text"
               required
               autoComplete="name"
-              placeholder=" "
+              placeholder={t.form.phName}
             />
           </div>
 
           <div className="form-field">
             <label htmlFor="contactCompany">
-              Company Name<span className="req">*</span>
+              {t.form.company}<span className="req">*</span>
             </label>
             <input
               id="contactCompany"
@@ -194,13 +144,13 @@ export default function ContactForm() {
               type="text"
               required
               autoComplete="organization"
-              placeholder=" "
+              placeholder={t.form.phCompany}
             />
           </div>
 
           <div className="form-field">
             <label htmlFor="contactEmail">
-              Email Address<span className="req">*</span>
+              {t.form.email}<span className="req">*</span>
             </label>
             <input
               id="contactEmail"
@@ -208,13 +158,13 @@ export default function ContactForm() {
               type="email"
               required
               autoComplete="email"
-              placeholder=" "
+              placeholder={t.form.phEmail}
             />
           </div>
 
           <div className="form-field">
             <label htmlFor="contactPhone">
-              Phone Number<span className="req">*</span>
+              {t.form.phone}<span className="req">*</span>
             </label>
             <input
               id="contactPhone"
@@ -222,16 +172,18 @@ export default function ContactForm() {
               type="tel"
               required
               autoComplete="tel"
-              placeholder=" "
+              placeholder={t.form.phPhone}
             />
           </div>
 
           <div className="form-field">
             <label htmlFor="contactCountry">
-              Country<span className="req">*</span>
+              {t.form.country}<span className="req">*</span>
             </label>
             <select id="contactCountry" name="country" required defaultValue="">
-              <option value="" disabled></option>
+              <option value="" disabled>
+                {t.form.selectCountry}
+              </option>
               {COUNTRIES.map((c) => (
                 <option key={c} value={c}>
                   {c}
@@ -242,11 +194,13 @@ export default function ContactForm() {
 
           <div className="form-field">
             <label htmlFor="contactInquiry">
-              Inquiry Type<span className="req">*</span>
+              {t.form.inquiry}<span className="req">*</span>
             </label>
             <select id="contactInquiry" name="inquiry" required defaultValue="">
-              <option value="" disabled></option>
-              {INQUIRY_TYPES.map((type) => (
+              <option value="" disabled>
+                {t.form.selectInquiry}
+              </option>
+              {inquiryTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -256,30 +210,37 @@ export default function ContactForm() {
 
           <div className="form-field form-field-full">
             <label htmlFor="contactMessage">
-              Your Message<span className="req">*</span>
+              {t.form.message}<span className="req">*</span>
             </label>
             <textarea
               id="contactMessage"
               name="message"
               required
-              placeholder=" "
+              placeholder={t.form.phMessage}
               rows={5}
-            ></textarea>
+            />
           </div>
 
-          <div className="form-field form-field-full">
-            <button 
-              type="submit" 
+          <div className="form-actions form-field-full">
+            <button
+              type="submit"
               className="contact-submit"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <>
-                  <span>Sending...</span>
-                  <svg className="spinner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <circle 
-                      cx="12" cy="12" r="10" 
-                      stroke="currentColor" 
+                  <span>{t.form.sending}</span>
+                  <svg
+                    className="spinner"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
                       strokeWidth="2"
                       strokeDasharray="60"
                       strokeDashoffset="20"
@@ -288,7 +249,7 @@ export default function ContactForm() {
                 </>
               ) : (
                 <>
-                  Send Message
+                  {t.form.submit}
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path
                       d="M5 12h14M13 6l6 6-6 6"
@@ -301,11 +262,8 @@ export default function ContactForm() {
                 </>
               )}
             </button>
-            
-            <p className="form-note">
-              <span className="form-note-dot" aria-hidden="true"></span>
-              We typically respond within 1–2 business days
-            </p>
+
+            <p className="form-note">{t.form.note}</p>
 
             <div
               className="form-success"
@@ -325,7 +283,7 @@ export default function ContactForm() {
                   />
                 </svg>
               </span>
-              Thank you. Your inquiry has been received — we will be in touch shortly.
+              {t.form.success}
             </div>
           </div>
         </form>

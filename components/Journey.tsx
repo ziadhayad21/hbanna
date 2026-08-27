@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 export default function Journey() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -64,16 +66,12 @@ export default function Journey() {
     <section id="journey" ref={sectionRef}>
       <div className="process-inner">
         <header className="process-header">
-          <span className="process-eyebrow">From Grove to Global Market</span>
+          <span className="process-eyebrow">{t.journey.eyebrow}</span>
           <h2 className="process-title">
-            <span className="line-ink">Fully Traced,</span>
-            <span className="line-accent">Farm to Port</span>
+            <span className="line-ink">{t.journey.title}</span>
           </h2>
           <div className="process-rule" aria-hidden="true"></div>
-          <p className="process-lead">
-            Every shipment is tracked from our Egyptian groves through harvest,
-            packing, and certified quality control to the export dock.
-          </p>
+          <p className="process-lead">{t.journey.lead}</p>
         </header>
 
         <div className="process-scroll">
