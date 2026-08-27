@@ -1631,15 +1631,16 @@ html[data-locale="zh"] body{
 }
 
 .facilities-showcase {
-  width: 100%;
-  margin: 0;
+  width: calc(100% - 64px);
+  max-width: 1440px;
+  margin: 0 auto 64px auto;
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.7fr);
   min-height: min(82vh, 860px);
-  border-radius: 0;
+  border-radius: 24px;
   overflow: hidden;
   background: #1a120c;
-  box-shadow: none;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
 }
 
 .facilities-stage {
@@ -1923,7 +1924,9 @@ html[data-locale="zh"] body{
   }
 
   .facilities-showcase {
-    border-radius: 0;
+    width: calc(100% - 32px);
+    margin: 0 auto 32px auto;
+    border-radius: 16px;
   }
 
   .facilities-stage {
