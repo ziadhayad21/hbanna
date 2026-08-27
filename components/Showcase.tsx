@@ -1,13 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SignatureHarvestScene, {
-  preloadHarvestModels,
-  type HarvestIntro,
-} from "@/components/SignatureHarvestScene";
+import type { HarvestIntro } from "@/components/SignatureHarvestScene";
 import { useLanguage } from "@/contexts/LanguageProvider";
+
+const SignatureHarvestScene = dynamic(
+  () => import("@/components/SignatureHarvestScene"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="harvest-loader harvest-loader--placeholder">
+        Preparing harvest…
+      </div>
+    ),
+  }
+);
 
 export default function Showcase() {
   const { t } = useLanguage();
@@ -15,6 +25,7 @@ export default function Showcase() {
   const introRef = useRef<HarvestIntro>({ t: 0, rotating: false });
   const [mobile, setMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [mountScene, setMountScene] = useState(false);
 
   const FEATURES = [
     { id: "tl", zone: "tl", kicker: t.showcase.f1k, title: t.showcase.f1t },
@@ -24,10 +35,6 @@ export default function Showcase() {
     { id: "bl", zone: "bl", kicker: t.showcase.f5k, title: t.showcase.f5t },
     { id: "br", zone: "br", kicker: t.showcase.f6k, title: t.showcase.f6t },
   ] as const;
-
-  useEffect(() => {
-    preloadHarvestModels();
-  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 860px)");
@@ -42,6 +49,32 @@ export default function Showcase() {
       mq.removeEventListener("change", sync);
       rm.removeEventListener("change", syncRm);
     };
+  }, []);
+
+  // Warm the GLB only as the section approaches — never on first paint.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      setMountScene(true);
+      return;
+    }
+
+    let preloaded = false;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setMountScene(true);
+        if (!preloaded) {
+          preloaded = true;
+          void import("@/components/SignatureHarvestScene").then((mod) => {
+            mod.preloadHarvestModels();
+          });
+        }
+      },
+      { root: null, rootMargin: "480px 0px", threshold: 0 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -81,7 +114,6 @@ export default function Showcase() {
       const play = () => {
         if (played) return;
         played = true;
-        preloadHarvestModels();
 
         tl = gsap.timeline({
           defaults: { ease: "power3.out" },
@@ -90,7 +122,6 @@ export default function Showcase() {
           },
         });
 
-        // 1 — Copy (slow)
         tl.to(
           ".harvest-intro-copy > *",
           {
@@ -102,7 +133,6 @@ export default function Showcase() {
           0
         );
 
-        // 2 — Orange entrance (slow + readable)
         tl.to(
           ".harvest-orbit-inner",
           {
@@ -129,7 +159,6 @@ export default function Showcase() {
           0.35
         );
 
-        // 3 — Labels after orange has mostly landed
         tl.to(
           ".harvest-feature",
           {
@@ -154,7 +183,6 @@ export default function Showcase() {
         );
       };
 
-      // Start only when the 3D stage itself enters view — not early
       ScrollTrigger.create({
         trigger: ".harvest-stage-board",
         start: "top 62%",
@@ -222,11 +250,17 @@ export default function Showcase() {
 
           <div className="harvest-orbit">
             <div className="harvest-orbit-inner">
-              <SignatureHarvestScene
-                introRef={introRef}
-                reducedMotion={reducedMotion}
-                mobile={mobile}
-              />
+              {mountScene ? (
+                <SignatureHarvestScene
+                  introRef={introRef}
+                  reducedMotion={reducedMotion}
+                  mobile={mobile}
+                />
+              ) : (
+                <div className="harvest-loader harvest-loader--placeholder">
+                  Preparing harvest…
+                </div>
+              )}
             </div>
           </div>
         </div>

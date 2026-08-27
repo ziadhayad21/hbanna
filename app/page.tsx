@@ -11,13 +11,11 @@ import Metrics from "@/components/Metrics";
 import Nav from "@/components/Nav";
 import RevealObserver from "@/components/RevealObserver";
 import Showcase from "@/components/Showcase";
-import PreloadHarvest from "@/components/PreloadHarvest";
 import SvgDefs from "@/components/SvgDefs";
 
 export default function HomePage() {
   return (
     <>
-      <PreloadHarvest />
       <SvgDefs />
       <Nav />
       <Hero />

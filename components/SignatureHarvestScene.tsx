@@ -12,7 +12,6 @@ import {
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   ContactShadows,
-  Environment,
   Html,
   OrbitControls,
   useGLTF,
@@ -20,7 +19,9 @@ import {
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
 
-const OPEN_SRC = "/models/orange_cut_half_orange_fruit.glb";
+/** Draco-compressed, mesh-simplified citrus splash (~9MB vs ~79MB source). */
+const OPEN_SRC = "/models/citrus-splash.glb";
+const USE_DRACO = true as const;
 
 export type HarvestIntro = {
   /** 0–1 entrance progress driven by GSAP */
@@ -36,7 +37,7 @@ type SceneProps = {
 };
 
 function prepareOpenFruit(root: THREE.Object3D, mobile: boolean) {
-  const anisotropy = mobile ? 4 : 8;
+  const anisotropy = mobile ? 2 : 4;
   root.traverse((child) => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
@@ -53,17 +54,16 @@ function prepareOpenFruit(root: THREE.Object3D, mobile: boolean) {
         m.map.needsUpdate = true;
       }
       if (m.normalMap) {
-        m.normalScale?.set(0.75, 0.75);
+        m.normalScale?.set(0.85, 0.85);
         m.normalMap.needsUpdate = true;
       }
-      // Warm, readable pulp — not blown-out white
-      if (m.color) m.color.set("#edd8c0");
-      if ("metalness" in m) m.metalness = 0.015;
+      // Keep Meshy baked albedo; only gently normalize PBR response
+      if ("metalness" in m) m.metalness = Math.min(m.metalness ?? 0, 0.08);
       if ("roughness" in m) {
         const r = m.roughness ?? 0.55;
-        m.roughness = THREE.MathUtils.clamp(r < 0.35 ? 0.6 : r, 0.52, 0.78);
+        m.roughness = THREE.MathUtils.clamp(r, 0.35, 0.85);
       }
-      if ("envMapIntensity" in m) m.envMapIntensity = 0.14;
+      if ("envMapIntensity" in m) m.envMapIntensity = 0.22;
       m.transparent = false;
       m.opacity = 1;
       m.depthWrite = true;
@@ -90,7 +90,7 @@ function fitToSize(object: THREE.Object3D, targetSize: number) {
 }
 
 function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
-  const gltf = useGLTF(OPEN_SRC);
+  const gltf = useGLTF(OPEN_SRC, USE_DRACO);
   const groupRef = useRef<THREE.Group>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const spinRef = useRef(0.28);
@@ -150,7 +150,6 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
     g.scale.setScalar(THREE.MathUtils.lerp(0.78, 1, e));
     g.visible = true;
 
-    // Keep a readable product tilt; orbit is via camera controls
     g.rotation.x = 0.18;
     g.rotation.z = 0.03;
 
@@ -173,32 +172,33 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
     <>
       <directionalLight
         position={[3.2, 5.4, 4.0]}
-        intensity={1.2}
+        intensity={1.35}
         color="#fff6ea"
       />
       <directionalLight
         position={[-2.8, 1.8, -2.4]}
-        intensity={0.42}
+        intensity={0.5}
         color="#ffd7a0"
       />
-      <ambientLight intensity={0.48} color="#fff9f0" />
-      <hemisphereLight args={["#fffaf4", "#d2c0a6", 0.36]} />
-
-      <Environment preset="studio" environmentIntensity={0.18} frames={1} />
+      <ambientLight intensity={0.55} color="#fff9f0" />
+      <hemisphereLight args={["#fffaf4", "#d2c0a6", 0.4]} />
 
       <group ref={groupRef}>
         <primitive object={scene} />
       </group>
 
-      <ContactShadows
-        position={[0, shadowY, 0]}
-        opacity={0.3}
-        scale={5.2}
-        blur={3.2}
-        far={3.4}
-        resolution={256}
-        color="#4a311c"
-      />
+      {!mobile && (
+        <ContactShadows
+          position={[0, shadowY, 0]}
+          opacity={0.28}
+          scale={5.2}
+          blur={2.6}
+          far={3.4}
+          resolution={128}
+          color="#4a311c"
+          frames={1}
+        />
+      )}
 
       <OrbitControls
         ref={controlsRef}
@@ -224,17 +224,27 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
 
 export default function SignatureHarvestScene(props: SceneProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [frameloop, setFrameloop] = useState<"always" | "never">("always");
-  const maxDpr = props.mobile ? 1.25 : 1.5;
+  const [frameloop, setFrameloop] = useState<"always" | "never">("never");
+  const [active, setActive] = useState(false);
+  const maxDpr = props.mobile ? 1 : 1.25;
 
   useEffect(() => {
     const el = wrapRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setActive(true);
+      setFrameloop("always");
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
-        setFrameloop(entry.isIntersecting ? "always" : "never");
+        if (entry.isIntersecting) {
+          setActive(true);
+          setFrameloop("always");
+        } else {
+          setFrameloop("never");
+        }
       },
-      { root: null, rootMargin: "140px 0px", threshold: 0 }
+      { root: null, rootMargin: "220px 0px", threshold: 0 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -246,55 +256,59 @@ export default function SignatureHarvestScene(props: SceneProps) {
       className="harvest-canvas-wrap"
       style={{ width: "100%", height: "100%", position: "relative" }}
     >
-      <Canvas
-        dpr={[1, maxDpr]}
-        frameloop={frameloop}
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: "high-performance",
-          stencil: false,
-          depth: true,
-          outputColorSpace: THREE.SRGBColorSpace,
-          toneMapping: THREE.ACESFilmicToneMapping,
-        }}
-        camera={{
-          position: [0, props.mobile ? 0.22 : 0.28, props.mobile ? 5.2 : 5.5],
-          fov: props.mobile ? 34 : 28,
-          near: 0.1,
-          far: 40,
-        }}
-        style={{
-          background: "transparent",
-          width: "100%",
-          height: "100%",
-          display: "block",
-          touchAction: "none",
-          cursor: "grab",
-        }}
-        onCreated={({ gl }) => {
-          gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
-          gl.setClearColor(0x000000, 0);
-          gl.setClearAlpha(0);
-          gl.toneMappingExposure = 1.05;
-        }}
-      >
-        <Suspense
-          fallback={
-            <Html center>
-              <div className="harvest-loader">Preparing harvest…</div>
-            </Html>
-          }
+      {active ? (
+        <Canvas
+          dpr={[1, maxDpr]}
+          frameloop={frameloop}
+          gl={{
+            antialias: !props.mobile,
+            alpha: true,
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: true,
+            outputColorSpace: THREE.SRGBColorSpace,
+            toneMapping: THREE.ACESFilmicToneMapping,
+          }}
+          camera={{
+            position: [0, props.mobile ? 0.22 : 0.28, props.mobile ? 5.2 : 5.5],
+            fov: props.mobile ? 34 : 28,
+            near: 0.1,
+            far: 40,
+          }}
+          style={{
+            background: "transparent",
+            width: "100%",
+            height: "100%",
+            display: "block",
+            touchAction: "none",
+            cursor: "grab",
+          }}
+          onCreated={({ gl }) => {
+            gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
+            gl.setClearColor(0x000000, 0);
+            gl.setClearAlpha(0);
+            gl.toneMappingExposure = 1.05;
+          }}
         >
-          <OpenOrangeHero {...props} />
-        </Suspense>
-      </Canvas>
+          <Suspense
+            fallback={
+              <Html center>
+                <div className="harvest-loader">Preparing harvest…</div>
+              </Html>
+            }
+          >
+            <OpenOrangeHero {...props} />
+          </Suspense>
+        </Canvas>
+      ) : (
+        <div className="harvest-loader harvest-loader--placeholder">
+          Preparing harvest…
+        </div>
+      )}
     </div>
   );
 }
 
-useGLTF.preload(OPEN_SRC);
-
 export function preloadHarvestModels() {
-  useGLTF.preload(OPEN_SRC);
+  useGLTF.preload(OPEN_SRC, USE_DRACO);
 }

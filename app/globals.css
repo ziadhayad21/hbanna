@@ -1330,6 +1330,14 @@ html[data-locale="zh"] body{
   color:var(--muted-soft);
   white-space:nowrap;
 }
+.harvest-loader--placeholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
 
 .harvest-connectors{
   position:absolute;

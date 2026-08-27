@@ -117,7 +117,7 @@ export default function Hero() {
           </div>
         </div>
         <div className="hero-stage" id="heroStage" ref={stageRef}>
-          {FLOAT_ITEMS.map((item) => (
+          {FLOAT_ITEMS.map((item, index) => (
             <div
               key={item.src}
               className={item.className}
@@ -128,7 +128,9 @@ export default function Hero() {
                 alt=""
                 width={item.width}
                 height={item.height}
-                priority
+                priority={index < 2}
+                loading={index < 2 ? "eager" : "lazy"}
+                sizes={`${item.width}px`}
               />
             </div>
           ))}
