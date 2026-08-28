@@ -12,21 +12,22 @@ import {
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   ContactShadows,
+  Environment,
   Html,
+  Lightformer,
   OrbitControls,
   useGLTF,
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
 
-/** Draco-compressed, mesh-simplified citrus splash (~9MB vs ~79MB source). */
-const OPEN_SRC = "/models/citrus-splash.glb";
-const USE_DRACO = true as const;
+/** Premium Egyptian dates product GLB. */
+const OPEN_SRC = "/models/dates.glb";
+const USE_DRACO = false as const;
+const CINEMATIC_EXPOSURE = 1.22;
 
 export type HarvestIntro = {
-  /** 0–1 entrance progress driven by GSAP */
   t: number;
-  /** Start slow spin after entrance */
   rotating: boolean;
 };
 
@@ -36,8 +37,8 @@ type SceneProps = {
   mobile: boolean;
 };
 
-function prepareOpenFruit(root: THREE.Object3D, mobile: boolean) {
-  const anisotropy = mobile ? 2 : 4;
+function prepareDates(root: THREE.Object3D, mobile: boolean) {
+  const anisotropy = mobile ? 6 : 12;
   root.traverse((child) => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
@@ -54,16 +55,12 @@ function prepareOpenFruit(root: THREE.Object3D, mobile: boolean) {
         m.map.needsUpdate = true;
       }
       if (m.normalMap) {
-        m.normalScale?.set(0.85, 0.85);
+        m.normalMap.anisotropy = anisotropy;
         m.normalMap.needsUpdate = true;
       }
-      // Keep Meshy baked albedo; only gently normalize PBR response
-      if ("metalness" in m) m.metalness = Math.min(m.metalness ?? 0, 0.08);
-      if ("roughness" in m) {
-        const r = m.roughness ?? 0.55;
-        m.roughness = THREE.MathUtils.clamp(r, 0.35, 0.85);
+      if ("envMapIntensity" in m) {
+        m.envMapIntensity = mobile ? 0.62 : 0.78;
       }
-      if ("envMapIntensity" in m) m.envMapIntensity = 0.22;
       m.transparent = false;
       m.opacity = 1;
       m.depthWrite = true;
@@ -89,17 +86,17 @@ function fitToSize(object: THREE.Object3D, targetSize: number) {
   object.position.sub(center2);
 }
 
-function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
+function DatesHero({ introRef, reducedMotion, mobile }: SceneProps) {
   const gltf = useGLTF(OPEN_SRC, USE_DRACO);
   const groupRef = useRef<THREE.Group>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
-  const spinRef = useRef(0.28);
+  const spinRef = useRef(0.22);
   const { gl, camera } = useThree();
 
   const scene = useMemo(() => {
     const cloned = gltf.scene.clone(true);
-    prepareOpenFruit(cloned, mobile);
-    fitToSize(cloned, mobile ? 2.15 : 2.45);
+    prepareDates(cloned, mobile);
+    fitToSize(cloned, mobile ? 2.35 : 2.65);
     return cloned;
   }, [gltf.scene, mobile]);
 
@@ -108,14 +105,17 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
     gl.setClearAlpha(0);
     gl.outputColorSpace = THREE.SRGBColorSpace;
     gl.toneMapping = THREE.ACESFilmicToneMapping;
-    gl.toneMappingExposure = 1.05;
+    gl.toneMappingExposure = CINEMATIC_EXPOSURE;
   }, [gl]);
 
   useEffect(() => {
     camera.near = 0.1;
     camera.far = 40;
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = mobile ? 28 : 23;
+    }
     camera.updateProjectionMatrix();
-  }, [camera]);
+  }, [camera, mobile]);
 
   useEffect(() => {
     const el = gl.domElement;
@@ -145,16 +145,16 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
     const e = t * t * (3 - 2 * t);
     const canOrbit = reducedMotion || intro.rotating || t >= 0.98;
 
-    const restY = mobile ? 0.08 : 0.1;
-    g.position.set(0, restY + (1 - e) * -0.45, 0);
-    g.scale.setScalar(THREE.MathUtils.lerp(0.78, 1, e));
+    const restY = mobile ? 0.02 : 0.04;
+    g.position.set(0, restY + (1 - e) * -0.38, 0);
+    g.scale.setScalar(THREE.MathUtils.lerp(0.82, 1, e));
     g.visible = true;
 
-    g.rotation.x = 0.18;
-    g.rotation.z = 0.03;
+    g.rotation.x = 0.12;
+    g.rotation.z = 0.02;
 
     if (!canOrbit) {
-      spinRef.current = THREE.MathUtils.lerp(0.12, 0.28, e);
+      spinRef.current = THREE.MathUtils.lerp(0.08, 0.22, e);
     }
     g.rotation.y = spinRef.current;
 
@@ -165,23 +165,54 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
     }
   });
 
-  const shadowY = mobile ? -1.05 : -1.12;
-  const restY = mobile ? 0.08 : 0.1;
+  const shadowY = mobile ? -1.02 : -1.08;
+  const restY = mobile ? 0.02 : 0.04;
 
   return (
     <>
       <directionalLight
-        position={[3.2, 5.4, 4.0]}
-        intensity={1.35}
-        color="#fff6ea"
+        position={[5.8, 7.6, 6.4]}
+        intensity={mobile ? 2.1 : 2.75}
+        color="#fff0d6"
       />
       <directionalLight
-        position={[-2.8, 1.8, -2.4]}
-        intensity={0.5}
-        color="#ffd7a0"
+        position={[-5.2, 3.2, 4.8]}
+        intensity={mobile ? 0.35 : 0.5}
+        color="#b8d8c8"
       />
-      <ambientLight intensity={0.55} color="#fff9f0" />
-      <hemisphereLight args={["#fffaf4", "#d2c0a6", 0.4]} />
+      <directionalLight
+        position={[-1.6, 5.4, -7.4]}
+        intensity={mobile ? 0.85 : 1.25}
+        color="#ffab55"
+      />
+      <spotLight
+        position={[1, 10, 4]}
+        angle={0.38}
+        penumbra={0.9}
+        intensity={mobile ? 0.6 : 0.95}
+        color="#fffaf2"
+        distance={20}
+      />
+      <ambientLight intensity={0.07} color="#fff8f0" />
+      <hemisphereLight args={["#fff6eb", "#1c1208", mobile ? 0.26 : 0.36]} />
+      <Environment resolution={mobile ? 256 : 512} frames={1} blur={0.75}>
+        <Lightformer
+          form="rect"
+          intensity={2.2}
+          color="#fff4e6"
+          rotation={[0, 0, 0]}
+          position={[0, 4, 5]}
+          scale={[10, 4, 1]}
+        />
+        <Lightformer
+          form="rect"
+          intensity={0.9}
+          color="#ffd099"
+          rotation={[0, Math.PI / 2, 0]}
+          position={[-6, 2.5, 0]}
+          scale={[5, 2.5, 1]}
+        />
+      </Environment>
 
       <group ref={groupRef}>
         <primitive object={scene} />
@@ -190,12 +221,12 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
       {!mobile && (
         <ContactShadows
           position={[0, shadowY, 0]}
-          opacity={0.28}
-          scale={5.2}
-          blur={2.6}
-          far={3.4}
-          resolution={128}
-          color="#4a311c"
+          opacity={0.42}
+          scale={5.8}
+          blur={2.8}
+          far={3.6}
+          resolution={256}
+          color="#120a04"
           frames={1}
         />
       )}
@@ -209,13 +240,13 @@ function OpenOrangeHero({ introRef, reducedMotion, mobile }: SceneProps) {
         enableDamping
         dampingFactor={0.06}
         autoRotate
-        autoRotateSpeed={1.35}
-        rotateSpeed={0.7}
-        zoomSpeed={0.5}
-        minDistance={mobile ? 3.4 : 3.8}
-        maxDistance={mobile ? 7.2 : 7.8}
-        minPolarAngle={Math.PI * 0.28}
-        maxPolarAngle={Math.PI * 0.72}
+        autoRotateSpeed={1.1}
+        rotateSpeed={0.65}
+        zoomSpeed={0.48}
+        minDistance={mobile ? 3.2 : 3.6}
+        maxDistance={mobile ? 6.8 : 7.4}
+        minPolarAngle={Math.PI * 0.32}
+        maxPolarAngle={Math.PI * 0.68}
         target={[0, restY, 0]}
       />
     </>
@@ -270,8 +301,8 @@ export default function SignatureHarvestScene(props: SceneProps) {
             toneMapping: THREE.ACESFilmicToneMapping,
           }}
           camera={{
-            position: [0, props.mobile ? 0.22 : 0.28, props.mobile ? 5.2 : 5.5],
-            fov: props.mobile ? 34 : 28,
+            position: [0, props.mobile ? 0.18 : 0.22, props.mobile ? 5.0 : 5.35],
+            fov: props.mobile ? 28 : 23,
             near: 0.1,
             far: 40,
           }}
@@ -287,7 +318,7 @@ export default function SignatureHarvestScene(props: SceneProps) {
             gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
             gl.setClearColor(0x000000, 0);
             gl.setClearAlpha(0);
-            gl.toneMappingExposure = 1.05;
+            gl.toneMappingExposure = CINEMATIC_EXPOSURE;
           }}
         >
           <Suspense
@@ -297,7 +328,7 @@ export default function SignatureHarvestScene(props: SceneProps) {
               </Html>
             }
           >
-            <OpenOrangeHero {...props} />
+            <DatesHero {...props} />
           </Suspense>
         </Canvas>
       ) : (

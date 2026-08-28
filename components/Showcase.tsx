@@ -84,6 +84,7 @@ export default function Showcase() {
 
     let played = false;
     let tl: gsap.core.Timeline | null = null;
+    let fallbackTimer: number | undefined;
     const proxy = { t: 0 };
 
     const ctx = gsap.context(() => {
@@ -189,9 +190,20 @@ export default function Showcase() {
         once: true,
         onEnter: play,
       });
+
+      fallbackTimer = window.setTimeout(() => {
+        if (played) return;
+        played = true;
+        gsap.set(".harvest-intro-copy > *", { opacity: 1, y: 0 });
+        gsap.set(".harvest-orbit-inner", { opacity: 1, y: 0, scale: 1 });
+        gsap.set(".harvest-feature", { opacity: 1, y: 0 });
+        gsap.set(".harvest-connector, .harvest-connector-dot", { opacity: 0.45 });
+        introRef.current = { t: 1, rotating: true };
+      }, 2800);
     }, section);
 
     return () => {
+      if (fallbackTimer) window.clearTimeout(fallbackTimer);
       tl?.kill();
       ctx.revert();
     };
@@ -199,7 +211,13 @@ export default function Showcase() {
 
   return (
     <section id="showcase" className="harvest" ref={sectionRef}>
-      <div className="harvest-bg" aria-hidden="true" />
+      <div className="harvest-cine-set" aria-hidden="true">
+        <div className="harvest-cine-base" />
+        <div className="harvest-cine-spot" />
+        <div className="harvest-cine-horizon" />
+        <div className="harvest-cine-accent" />
+        <div className="harvest-cine-vignette" />
+      </div>
 
       <div className="harvest-showcase">
         <header className="harvest-intro-copy">
@@ -214,7 +232,7 @@ export default function Showcase() {
 
         <div
           className="harvest-stage-board"
-          aria-label="Open orange product showcase"
+          aria-label="Premium dates product showcase"
         >
           <div className="harvest-glow" aria-hidden="true" />
 
@@ -243,8 +261,10 @@ export default function Showcase() {
               key={f.id}
               className={`harvest-feature harvest-feature--${f.zone}`}
             >
-              <span className="harvest-feature-kicker">{f.kicker}</span>
-              <strong className="harvest-feature-title serif">{f.title}</strong>
+              <div className="harvest-feature-body">
+                <span className="harvest-feature-kicker">{f.kicker}</span>
+                <strong className="harvest-feature-title serif">{f.title}</strong>
+              </div>
             </article>
           ))}
 
