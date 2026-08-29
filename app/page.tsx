@@ -1,6 +1,7 @@
 import About from "@/components/About";
 import Categories from "@/components/Categories";
 import Certifications from "@/components/Certifications";
+import Contact from "@/components/Contact";
 import Cta from "@/components/Cta";
 import Facilities from "@/components/Facilities";
 import Footer from "@/components/Footer";
@@ -35,6 +36,7 @@ export default function HomePage() {
       <Journey />
       <About />
       <Cta />
+      <Contact />
       <Footer />
       <RevealObserver />
     </>
