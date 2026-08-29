@@ -23,7 +23,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
     { href: "/#journey", label: t.nav.process },
     { href: "/#facilities", label: t.nav.facilities },
     { href: "/#certifications", label: t.nav.quality },
-    { href: "/contact", label: t.nav.contact },
+    { href: "/contact", label: "Request a Quote" },
   ] as const;
 
   useEffect(() => {

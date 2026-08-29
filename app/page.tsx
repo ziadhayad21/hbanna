@@ -13,20 +13,27 @@ import RevealObserver from "@/components/RevealObserver";
 import Showcase from "@/components/Showcase";
 import SvgDefs from "@/components/SvgDefs";
 
+import TrustBar from "@/components/TrustBar";
+import SeasonalityCalendar from "@/components/SeasonalityCalendar";
+import GlobalMarkets from "@/components/GlobalMarkets";
+
 export default function HomePage() {
   return (
     <>
       <SvgDefs />
       <Nav />
       <Hero />
+      <TrustBar />
       <Marquee />
       <Metrics />
-      <About />
-      <Categories />
       <Showcase />
-      <Journey />
+      <Categories />
+      <SeasonalityCalendar />
       <Facilities />
+      <GlobalMarkets />
       <Certifications />
+      <Journey />
+      <About />
       <Cta />
       <Footer />
       <RevealObserver />

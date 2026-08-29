@@ -144,7 +144,7 @@ export default function Contact() {
 
       <div className="contact-inner">
         <header className="contact-header">
-          <span className="eyebrow">Contact Us</span>
+          <span className="eyebrow">Request a Quote</span>
           <h2 className="serif">
             Let&apos;s talk <em>export.</em>
           </h2>
@@ -210,68 +210,115 @@ export default function Contact() {
               ref={formRef}
               onSubmit={onSubmit}
             >
-              <div className="form-field">
-                <label htmlFor="companyName">
-                  Company Name<span className="req">*</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                <div className="form-field">
+                  <label htmlFor="quoteProduct">
+                    Product<span className="req">*</span>
+                  </label>
+                  <input
+                    id="quoteProduct"
+                    name="product"
+                    type="text"
+                    required
+                    placeholder="e.g., Navel Oranges, Medjool Dates"
+                  />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="quoteQuantity">
+                    Quantity<span className="req">*</span>
+                  </label>
+                  <input
+                    id="quoteQuantity"
+                    name="quantity"
+                    type="text"
+                    required
+                    placeholder="e.g., 2 Containers (40ft)"
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }}>
+                <div className="form-field">
+                  <label htmlFor="quoteDestination">
+                    Destination<span className="req">*</span>
+                  </label>
+                  <select id="quoteDestination" name="destination" required defaultValue="">
+                    <option value="" disabled></option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-field">
+                  <label htmlFor="quoteShipping">
+                    Expected Shipping Date
+                  </label>
+                  <input
+                    id="quoteShipping"
+                    name="shipping"
+                    type="text"
+                    placeholder="e.g., End of November"
+                  />
+                </div>
+              </div>
+
+              <div className="form-field form-field-full" style={{ marginTop: '24px' }}>
+                <label htmlFor="quotePackaging">
+                  Packaging
                 </label>
                 <input
-                  id="companyName"
-                  name="company"
+                  id="quotePackaging"
+                  name="packaging"
                   type="text"
-                  required
-                  autoComplete="organization"
+                  placeholder="e.g., 15kg Telescopic Cartons"
                 />
               </div>
-              <div className="form-field">
-                <label htmlFor="contactEmail">
-                  Email<span className="req">*</span>
-                </label>
-                <input
-                  id="contactEmail"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                />
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }}>
+                <div className="form-field">
+                  <label htmlFor="quoteCompany">
+                    Company<span className="req">*</span>
+                  </label>
+                  <input
+                    id="quoteCompany"
+                    name="company"
+                    type="text"
+                    required
+                    autoComplete="organization"
+                  />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="quoteEmail">
+                    Email<span className="req">*</span>
+                  </label>
+                  <input
+                    id="quoteEmail"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                  />
+                </div>
               </div>
-              <div className="form-field">
-                <label htmlFor="contactPhone">
-                  Phone Number<span className="req">*</span>
+
+              <div className="form-field form-field-full" style={{ marginTop: '24px' }}>
+                <label htmlFor="quoteWhatsapp">
+                  WhatsApp Number<span className="req">*</span>
                 </label>
                 <input
-                  id="contactPhone"
-                  name="phone"
+                  id="quoteWhatsapp"
+                  name="whatsapp"
                   type="tel"
                   required
-                  autoComplete="tel"
+                  placeholder="+20 100 000 0000"
                 />
               </div>
-              <div className="form-field">
-                <label htmlFor="contactCountry">
-                  Country<span className="req">*</span>
-                </label>
-                <select id="contactCountry" name="country" required defaultValue="">
-                  <option value="" disabled></option>
-                  {COUNTRIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-field form-field-full">
-                <label htmlFor="contactDescription">
-                  Description<span className="req">*</span>
-                </label>
-                <textarea
-                  id="contactDescription"
-                  name="description"
-                  required
-                ></textarea>
-              </div>
-              <div className="form-field form-field-full">
+
+              <div className="form-field form-field-full" style={{ marginTop: '40px' }}>
                 <button type="submit" className="contact-submit">
-                  Send Message
+                  Request Quote
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path
                       d="M5 12h14M13 6l6 6-6 6"

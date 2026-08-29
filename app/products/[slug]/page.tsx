@@ -61,6 +61,7 @@ export default function ProductCategoryPage({ params }: PageProps) {
           <CategoryProductGrid
             summary={category.summary}
             products={category.products}
+            categorySlug={category.slug}
           />
           <div className="category-detail-actions category-detail-actions-below">
             <Link href="/#contact" className="btn btn-primary">

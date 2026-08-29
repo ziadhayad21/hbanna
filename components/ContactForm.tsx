@@ -4,30 +4,10 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageProvider";
 
 const COUNTRIES = [
-  "Egypt",
-  "United Arab Emirates",
-  "Saudi Arabia",
-  "Kuwait",
-  "Qatar",
-  "Bahrain",
-  "Oman",
-  "Jordan",
-  "Lebanon",
-  "Turkey",
-  "United Kingdom",
-  "Germany",
-  "Netherlands",
-  "France",
-  "Italy",
-  "Spain",
-  "Russia",
-  "India",
-  "China",
-  "Malaysia",
-  "Indonesia",
-  "United States",
-  "Canada",
-  "Other",
+  "Egypt", "United Arab Emirates", "Saudi Arabia", "Kuwait", "Qatar", "Bahrain",
+  "Oman", "Jordan", "Lebanon", "Turkey", "United Kingdom", "Germany", "Netherlands",
+  "France", "Italy", "Spain", "Russia", "India", "China", "Malaysia", "Indonesia",
+  "United States", "Canada", "Other",
 ] as const;
 
 export default function ContactForm() {
@@ -37,14 +17,6 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-
-  const inquiryTypes = [
-    t.form.inq1,
-    t.form.inq2,
-    t.form.inq3,
-    t.form.inq4,
-    t.form.inq5,
-  ];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -102,185 +74,100 @@ export default function ContactForm() {
   };
 
   return (
-    <div
-      ref={sectionRef}
-      className={`contact-form-wrapper ${inView ? "in-view" : ""}`}
-    >
+    <div ref={sectionRef} className={`contact-form-wrapper ${inView ? "in-view" : ""}`}>
       <div className="contact-form-panel">
         <div className="contact-form-accent" aria-hidden="true" />
         <div className="contact-form-header">
-          <h2 className="serif contact-form-title">{t.form.title}</h2>
-          <p className="form-intro">{t.form.intro}</p>
+          <h2 className="serif contact-form-title">Request a Quote</h2>
+          <p className="form-intro">
+            Provide details about your requirements and our export desk will respond with availability, specs, and pricing within 1-2 business days.
+          </p>
         </div>
 
-        <form
-          className="contact-form"
-          id="contactForm"
-          noValidate
-          ref={formRef}
-          onSubmit={onSubmit}
-        >
-          <div className="form-field">
-            <label htmlFor="contactName">
-              {t.form.name}<span className="req">*</span>
-            </label>
-            <input
-              id="contactName"
-              name="name"
-              type="text"
-              required
-              autoComplete="name"
-              placeholder={t.form.phName}
-            />
+        <form className="contact-form" id="contactForm" noValidate ref={formRef} onSubmit={onSubmit}>
+          
+          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            <div className="form-field">
+              <label htmlFor="quoteProduct">Product of Interest<span className="req">*</span></label>
+              <input id="quoteProduct" name="product" type="text" required placeholder="e.g., Navel Oranges, Medjool Dates" />
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="quoteQuantity">Estimated Quantity<span className="req">*</span></label>
+              <input id="quoteQuantity" name="quantity" type="text" required placeholder="e.g., 2 Containers / 40 FT" />
+            </div>
+          </div>
+
+          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            <div className="form-field">
+              <label htmlFor="quoteDestination">Destination Country<span className="req">*</span></label>
+              <div className="select-wrap">
+                <select id="quoteDestination" name="destination" required defaultValue="">
+                  <option value="" disabled>Select destination</option>
+                  {COUNTRIES.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+                <div className="select-arrow">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="quoteShipping">Expected Shipping Date</label>
+              <input id="quoteShipping" name="shipping" type="text" placeholder="e.g., End of November" />
+            </div>
           </div>
 
           <div className="form-field">
-            <label htmlFor="contactCompany">
-              {t.form.company}<span className="req">*</span>
-            </label>
-            <input
-              id="contactCompany"
-              name="company"
-              type="text"
-              required
-              autoComplete="organization"
-              placeholder={t.form.phCompany}
-            />
+            <label htmlFor="quotePackaging">Packaging Requirements</label>
+            <input id="quotePackaging" name="packaging" type="text" placeholder="e.g., 15kg Telescopic Cartons" />
+          </div>
+
+          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+            <div className="form-field">
+              <label htmlFor="contactCompany">{t.form.company}<span className="req">*</span></label>
+              <input id="contactCompany" name="company" type="text" required autoComplete="organization" placeholder={t.form.phCompany} />
+            </div>
+            
+            <div className="form-field">
+              <label htmlFor="contactEmail">{t.form.email}<span className="req">*</span></label>
+              <input id="contactEmail" name="email" type="email" required autoComplete="email" placeholder={t.form.phEmail} />
+            </div>
           </div>
 
           <div className="form-field">
-            <label htmlFor="contactEmail">
-              {t.form.email}<span className="req">*</span>
-            </label>
-            <input
-              id="contactEmail"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder={t.form.phEmail}
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="contactPhone">
-              {t.form.phone}<span className="req">*</span>
-            </label>
-            <input
-              id="contactPhone"
-              name="phone"
-              type="tel"
-              required
-              autoComplete="tel"
-              placeholder={t.form.phPhone}
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="contactCountry">
-              {t.form.country}<span className="req">*</span>
-            </label>
-            <select id="contactCountry" name="country" required defaultValue="">
-              <option value="" disabled>
-                {t.form.selectCountry}
-              </option>
-              {COUNTRIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="contactInquiry">
-              {t.form.inquiry}<span className="req">*</span>
-            </label>
-            <select id="contactInquiry" name="inquiry" required defaultValue="">
-              <option value="" disabled>
-                {t.form.selectInquiry}
-              </option>
-              {inquiryTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-field form-field-full">
-            <label htmlFor="contactMessage">
-              {t.form.message}<span className="req">*</span>
-            </label>
-            <textarea
-              id="contactMessage"
-              name="message"
-              required
-              placeholder={t.form.phMessage}
-              rows={5}
-            />
+            <label htmlFor="contactWhatsApp">WhatsApp Number<span className="req">*</span></label>
+            <input id="contactWhatsApp" name="whatsapp" type="tel" required autoComplete="tel" placeholder="+20 100 000 0000" />
           </div>
 
           <div className="form-actions form-field-full">
-            <button
-              type="submit"
-              className="contact-submit"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="contact-submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <span>{t.form.sending}</span>
-                  <svg
-                    className="spinner"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeDasharray="60"
-                      strokeDashoffset="20"
-                    />
+                  <svg className="spinner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="60" strokeDashoffset="20" />
                   </svg>
                 </>
               ) : (
                 <>
-                  {t.form.submit}
+                  Request Quote
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path
-                      d="M5 12h14M13 6l6 6-6 6"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </>
               )}
             </button>
-
             <p className="form-note">{t.form.note}</p>
 
-            <div
-              className="form-success"
-              id="contactSuccess"
-              role="status"
-              aria-live="polite"
-              ref={successRef}
-            >
+            <div className="form-success" id="contactSuccess" role="status" aria-live="polite" ref={successRef}>
               <span className="form-success-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M5 12.5l5 5 9-10"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M5 12.5l5 5 9-10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
               {t.form.success}

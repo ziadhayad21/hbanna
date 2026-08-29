@@ -31,7 +31,7 @@ export default function Cta() {
       <p className="reveal">{t.cta.body}</p>
       <div className="cta-actions reveal">
         <a href="/contact" className="btn btn-primary">
-          {t.cta.getInTouch}
+          Request a Quote
         </a>
         <a href="#" className="btn btn-ghost">
           {t.cta.download}

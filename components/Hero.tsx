@@ -45,7 +45,7 @@ const FLOAT_ITEMS = [
 export default function Hero() {
   const stageRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
-  const titleAfterLines = t.hero.titleAfter.split("\n");
+  const titleAfterLines = t.hero.titleAfter ? t.hero.titleAfter.split("\n") : [];
 
   useEffect(() => {
     const heroStage = stageRef.current;
@@ -98,10 +98,9 @@ export default function Hero() {
           <h1 className="serif">
             {t.hero.titleBefore}
             <em>{t.hero.titleEm}</em>
-            <br />
             {titleAfterLines.map((line, i) => (
               <span key={line}>
-                {i > 0 ? <br /> : null}
+                <br />
                 {line}
               </span>
             ))}

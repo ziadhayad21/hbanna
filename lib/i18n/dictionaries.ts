@@ -220,12 +220,12 @@ export const en: Messages = {
   },
   hero: {
     eyebrow: "Egyptian Grower · Producer · Exporter Since 1992",
-    titleBefore: "Growing ",
-    titleEm: "Excellence.",
-    titleAfter: "Delivering Trust\nSince 1992.",
-    lead: "A vertically integrated Egyptian agricultural house — from grove to global market.",
-    ctaProducts: "Explore Our Products",
-    ctaPartner: "Partner With Us",
+    titleBefore: "Egyptian Produce.",
+    titleEm: "Grown to Global Standards.",
+    titleAfter: "",
+    lead: "Premium Dates, Citrus & Fresh Produce from Egypt to the world.",
+    ctaProducts: "Explore Products",
+    ctaPartner: "Request a Quote",
     scroll: "Scroll",
   },
   marquee: {

@@ -4,9 +4,12 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { CategoryProduct } from "@/lib/products";
 
+import Link from "next/link";
+
 type Props = {
   summary: string;
   products: CategoryProduct[];
+  categorySlug: string;
 };
 
 function chunkProducts(items: CategoryProduct[], size: number) {
@@ -24,29 +27,34 @@ function getCardsPerSlide(): number {
   return 3;
 }
 
-function ProductCard({ product }: { product: CategoryProduct }) {
+function ProductCard({ product, categorySlug }: { product: CategoryProduct, categorySlug: string }) {
   return (
-    <article className="product-card">
-      <div className="product-card-media">
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={480}
-          height={360}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-      </div>
-      <div className="product-card-body">
-        <h3 className="serif">{product.name}</h3>
-        {product.info ? (
-          <p className="product-card-info">{product.info}</p>
-        ) : null}
-      </div>
-    </article>
+    <Link href={`/products/${categorySlug}/${product.slug}`} className="product-card" style={{ display: 'block', textDecoration: 'none' }}>
+      <article>
+        <div className="product-card-media">
+          <Image
+            src={product.image}
+            alt={product.name}
+            width={480}
+            height={360}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
+        <div className="product-card-body">
+          <h3 className="serif" style={{ color: 'var(--brown)', marginBottom: '8px' }}>{product.name}</h3>
+          {product.info ? (
+            <p className="product-card-info" style={{ color: 'var(--muted)', fontSize: '15px' }}>{product.info}</p>
+          ) : null}
+          <div style={{ marginTop: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            View Details &rarr;
+          </div>
+        </div>
+      </article>
+    </Link>
   );
 }
 
-export default function CategoryProductGrid({ summary, products }: Props) {
+export default function CategoryProductGrid({ summary, products, categorySlug }: Props) {
   const [cardsPerSlide, setCardsPerSlide] = useState(3);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -103,7 +111,7 @@ export default function CategoryProductGrid({ summary, products }: Props) {
                   }}
                 >
                   {slideProducts.map((product) => (
-                    <ProductCard key={product.name} product={product} />
+                    <ProductCard key={product.name} product={product} categorySlug={categorySlug} />
                   ))}
                 </div>
               </div>
