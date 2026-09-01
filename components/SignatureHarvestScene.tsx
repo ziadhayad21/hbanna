@@ -21,9 +21,10 @@ import {
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
 
-/** Premium Egyptian dates product GLB. */
+/** Premium Egyptian dates product GLB (webp textures + meshopt). */
 const OPEN_SRC = "/models/dates.glb";
 const USE_DRACO = false as const;
+const USE_MESHOPT = true as const;
 const CINEMATIC_EXPOSURE = 1.22;
 
 export type HarvestIntro = {
@@ -36,6 +37,23 @@ type SceneProps = {
   reducedMotion: boolean;
   mobile: boolean;
 };
+
+function HarvestModelPlaceholder() {
+  return (
+    <Html center>
+      <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
+        <img
+          src="/images/products/dates/medjool-dates.jpg"
+          alt=""
+          className="harvest-loader-image"
+          loading="eager"
+          decoding="async"
+        />
+        <span className="harvest-loader-label">Loading 3D view…</span>
+      </div>
+    </Html>
+  );
+}
 
 function prepareDates(root: THREE.Object3D, mobile: boolean) {
   const anisotropy = mobile ? 6 : 12;
@@ -87,7 +105,7 @@ function fitToSize(object: THREE.Object3D, targetSize: number) {
 }
 
 function DatesHero({ introRef, reducedMotion, mobile }: SceneProps) {
-  const gltf = useGLTF(OPEN_SRC, USE_DRACO);
+  const gltf = useGLTF(OPEN_SRC, USE_DRACO, USE_MESHOPT);
   const groupRef = useRef<THREE.Group>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const spinRef = useRef(0.22);
@@ -322,18 +340,21 @@ export default function SignatureHarvestScene(props: SceneProps) {
           }}
         >
           <Suspense
-            fallback={
-              <Html center>
-                <div className="harvest-loader">Preparing harvest…</div>
-              </Html>
-            }
+            fallback={<HarvestModelPlaceholder />}
           >
             <DatesHero {...props} />
           </Suspense>
         </Canvas>
       ) : (
-        <div className="harvest-loader harvest-loader--placeholder">
-          Preparing harvest…
+        <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
+          <img
+            src="/images/products/dates/medjool-dates.jpg"
+            alt=""
+            className="harvest-loader-image"
+            loading="eager"
+            decoding="async"
+          />
+          <span className="harvest-loader-label">Loading 3D view…</span>
         </div>
       )}
     </div>
@@ -341,5 +362,5 @@ export default function SignatureHarvestScene(props: SceneProps) {
 }
 
 export function preloadHarvestModels() {
-  useGLTF.preload(OPEN_SRC, USE_DRACO);
+  useGLTF.preload(OPEN_SRC, USE_DRACO, USE_MESHOPT);
 }

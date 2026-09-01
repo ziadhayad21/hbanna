@@ -33,6 +33,12 @@ export function useRevealOnScroll(enabled = true) {
       { threshold: 0.06, rootMargin: "0px 0px -4% 0px" }
     );
 
+    const revealAll = () => {
+      document.querySelectorAll(SELECTOR).forEach((el) => {
+        el.classList.add("in-view");
+      });
+    };
+
     const scan = () => {
       document.querySelectorAll(SELECTOR).forEach((el) => {
         if (el.classList.contains("in-view") || seen.has(el)) return;
@@ -47,14 +53,9 @@ export function useRevealOnScroll(enabled = true) {
 
     scan();
     const raf = requestAnimationFrame(scan);
-    const t1 = window.setTimeout(scan, 120);
-    const t2 = window.setTimeout(scan, 600);
-
-    const fallback = window.setTimeout(() => {
-      document.querySelectorAll(SELECTOR).forEach((el) => {
-        el.classList.add("in-view");
-      });
-    }, 2200);
+    const t1 = window.setTimeout(scan, 80);
+    const t2 = window.setTimeout(scan, 400);
+    const fallback = window.setTimeout(revealAll, 1200);
 
     return () => {
       cancelAnimationFrame(raf);

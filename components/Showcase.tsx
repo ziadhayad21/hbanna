@@ -6,18 +6,30 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { HarvestIntro } from "@/components/SignatureHarvestScene";
 import { useLanguage } from "@/contexts/LanguageProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const SignatureHarvestScene = dynamic(
   () => import("@/components/SignatureHarvestScene"),
   {
     ssr: false,
-    loading: () => (
-      <div className="harvest-loader harvest-loader--placeholder">
-        Preparing harvest…
-      </div>
-    ),
+    loading: () => <HarvestModelPlaceholder />,
   }
 );
+
+function HarvestModelPlaceholder() {
+  return (
+    <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
+      <img
+        src="/images/products/dates/medjool-dates.jpg"
+        alt=""
+        className="harvest-loader-image"
+        loading="eager"
+        decoding="async"
+      />
+      <span className="harvest-loader-label">Loading 3D view…</span>
+    </div>
+  );
+}
 
 export default function Showcase() {
   const { t } = useLanguage();
@@ -51,7 +63,33 @@ export default function Showcase() {
     };
   }, []);
 
-  // Warm the GLB only as the section approaches — never on first paint.
+  // Warm the GLB early so it is cached before the user reaches the showcase.
+  useEffect(() => {
+    let cancelled = false;
+
+    const warm = () => {
+      if (cancelled) return;
+      void import("@/components/SignatureHarvestScene").then((mod) => {
+        mod.preloadHarvestModels();
+      });
+    };
+
+    const idleCallback = window.requestIdleCallback;
+    if (typeof idleCallback === "function") {
+      const idleId = idleCallback(warm, { timeout: 2500 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(idleId);
+      };
+    }
+
+    const timerId = window.setTimeout(warm, 1200);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timerId);
+    };
+  }, []);
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || typeof IntersectionObserver === "undefined") {
@@ -59,17 +97,9 @@ export default function Showcase() {
       return;
     }
 
-    let preloaded = false;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setMountScene(true);
-        if (!preloaded) {
-          preloaded = true;
-          void import("@/components/SignatureHarvestScene").then((mod) => {
-            mod.preloadHarvestModels();
-          });
-        }
+        if (entry.isIntersecting) setMountScene(true);
       },
       { root: null, rootMargin: "480px 0px", threshold: 0 }
     );
@@ -271,15 +301,15 @@ export default function Showcase() {
           <div className="harvest-orbit">
             <div className="harvest-orbit-inner">
               {mountScene ? (
-                <SignatureHarvestScene
-                  introRef={introRef}
-                  reducedMotion={reducedMotion}
-                  mobile={mobile}
-                />
+                <ErrorBoundary fallback={<HarvestModelPlaceholder />}>
+                  <SignatureHarvestScene
+                    introRef={introRef}
+                    reducedMotion={reducedMotion}
+                    mobile={mobile}
+                  />
+                </ErrorBoundary>
               ) : (
-                <div className="harvest-loader harvest-loader--placeholder">
-                  Preparing harvest…
-                </div>
+                <HarvestModelPlaceholder />
               )}
             </div>
           </div>

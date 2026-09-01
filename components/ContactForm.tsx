@@ -35,7 +35,12 @@ export default function ContactForm() {
     );
 
     observer.observe(section);
-    return () => observer.disconnect();
+    const fallback = window.setTimeout(() => setInView(true), 1500);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {

@@ -60,10 +60,16 @@ export default function Contact() {
           }
         });
       },
-      { threshold: 0.18 }
+      { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
     );
     contactIO.observe(section);
-    return () => contactIO.disconnect();
+
+    const fallback = window.setTimeout(() => setInView(true), 1500);
+
+    return () => {
+      contactIO.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   useEffect(() => {
