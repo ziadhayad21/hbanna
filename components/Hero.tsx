@@ -47,17 +47,17 @@ export default function Hero() {
       <div className="hero-grid hero-grid--video">
         <div className="hero-copy reveal-stagger in-view">
           <h1 className="serif">
-            {t.hero.headlineBefore}
+            {t.hero.titleBefore ?? t.hero.headlineBefore}
             <br />
-            <em>{t.hero.headlineEm}</em>
+            <em>{t.hero.titleEm ?? t.hero.headlineEm}</em>
           </h1>
-          <p>{t.hero.subtitle}</p>
+          <p>{t.hero.lead ?? t.hero.subtitle}</p>
           <div className="hero-actions">
             <a href="/products" className="btn btn-primary">
               {t.hero.ctaProducts}
             </a>
             <a href="/contact" className="btn btn-ghost hero-btn-ghost">
-              {t.hero.ctaQuote}
+              {t.hero.ctaPartner ?? t.hero.ctaQuote}
             </a>
           </div>
         </div>

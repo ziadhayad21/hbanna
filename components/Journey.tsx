@@ -15,8 +15,8 @@ export default function Journey() {
       { dept: t.journey.s3dept, title: t.journey.s3title, desc: t.journey.s3desc },
       { dept: t.journey.s4dept, title: t.journey.s4title, desc: t.journey.s4desc },
       { dept: t.journey.s5dept, title: t.journey.s5title, desc: t.journey.s5desc },
-      { dept: t.journey.s6dept, title: t.journey.s6title, desc: t.journey.s6desc },
-      { dept: t.journey.s7dept, title: t.journey.s7title, desc: t.journey.s7desc },
+      { dept: t.journey.s6dept ?? "06 — Cooling", title: t.journey.s6title ?? "Cold Chain", desc: t.journey.s6desc ?? "Temperature-controlled storage and logistics preserving peak freshness." },
+      { dept: t.journey.s7dept ?? "07 — Dispatch", title: t.journey.s7title ?? "Global Export", desc: t.journey.s7desc ?? "Coordinated sea and air shipping delivering reliably to world markets." },
     ],
     [t.journey]
   );

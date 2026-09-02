@@ -23,6 +23,10 @@ export type Messages = {
     ctaProducts: string;
     ctaPartner: string;
     scroll: string;
+    headlineBefore?: string;
+    headlineEm?: string;
+    subtitle?: string;
+    ctaQuote?: string;
   };
   marquee: {
     q1: string;
@@ -89,6 +93,12 @@ export type Messages = {
     s5dept: string;
     s5title: string;
     s5desc: string;
+    s6dept?: string;
+    s6title?: string;
+    s6desc?: string;
+    s7dept?: string;
+    s7title?: string;
+    s7desc?: string;
   };
   facilities: {
     eyebrow: string;
@@ -295,6 +305,12 @@ export const en: Messages = {
     s5dept: "05 — Dispatch",
     s5title: "Export",
     s5desc: "Cold-chain logistics coordinated for reliable global delivery.",
+    s6dept: "06 — Cooling",
+    s6title: "Cold Chain",
+    s6desc: "Temperature-controlled storage and logistics preserving peak freshness.",
+    s7dept: "07 — Dispatch",
+    s7title: "Global Export",
+    s7desc: "Direct sea and air freight coordination to world markets.",
   },
   facilities: {
     eyebrow: "Our Infrastructure",
@@ -511,6 +527,12 @@ export const de: Messages = {
     s5dept: "05 — Versand",
     s5title: "Export",
     s5desc: "Kühlkettenlogistik für zuverlässige globale Lieferung.",
+    s6dept: "06 — Kühlung",
+    s6title: "Kühlkette",
+    s6desc: "Temperaturkontrollierte Lagerung und Logistik für maximale Frische.",
+    s7dept: "07 — Versand",
+    s7title: "Export",
+    s7desc: "Koordinierte See- und Luftfracht für zuverlässige weltweite Lieferung.",
   },
   facilities: {
     eyebrow: "Unsere Infrastruktur",
@@ -727,6 +749,12 @@ export const zh: Messages = {
     s5dept: "05 — 发运",
     s5title: "出口",
     s5desc: "冷链物流协调，确保可靠的全球交付。",
+    s6dept: "06 — 冷链",
+    s6title: "温控保鲜",
+    s6desc: "全程温控仓储与物流，锁住最佳新鲜度。",
+    s7dept: "07 — 发运",
+    s7title: "全球出口",
+    s7desc: "海运与空运高效协同，准时送达世界各大市场。",
   },
   facilities: {
     eyebrow: "我们的基础设施",
