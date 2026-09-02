@@ -8,6 +8,7 @@ import ProductModal from "@/components/ProductModal";
 type Props = {
   summary: string;
   products: CategoryProduct[];
+  categorySlug?: string;
 };
 
 function chunkProducts(items: CategoryProduct[], size: number) {
