@@ -1,7 +1,7 @@
+import dynamic from "next/dynamic";
 import About from "@/components/About";
 import Categories from "@/components/Categories";
 import Certifications from "@/components/Certifications";
-import Contact from "@/components/Contact";
 import Cta from "@/components/Cta";
 import Facilities from "@/components/Facilities";
 import Footer from "@/components/Footer";
@@ -11,30 +11,31 @@ import Marquee from "@/components/Marquee";
 import Metrics from "@/components/Metrics";
 import Nav from "@/components/Nav";
 import RevealObserver from "@/components/RevealObserver";
-import Showcase from "@/components/Showcase";
 import SvgDefs from "@/components/SvgDefs";
 
-import TrustBar from "@/components/TrustBar";
-import SeasonalityCalendar from "@/components/SeasonalityCalendar";
-import GlobalMarkets from "@/components/GlobalMarkets";
+const Showcase = dynamic(() => import("@/components/Showcase"));
+const GlobalMarkets = dynamic(() => import("@/components/GlobalMarkets"));
+const SeasonalityCalendar = dynamic(
+  () => import("@/components/SeasonalityCalendar")
+);
+const Contact = dynamic(() => import("@/components/Contact"));
 
 export default function HomePage() {
   return (
     <>
       <SvgDefs />
-      <Nav />
+      <Nav isHome />
       <Hero />
-      <TrustBar />
       <Marquee />
       <Metrics />
-      <Showcase />
-      <Categories />
-      <SeasonalityCalendar />
-      <Facilities />
-      <GlobalMarkets />
-      <Certifications />
-      <Journey />
       <About />
+      <Categories />
+      <Showcase />
+      <Journey />
+      <Facilities />
+      <Certifications />
+      <GlobalMarkets />
+      <SeasonalityCalendar />
       <Cta />
       <Contact />
       <Footer />

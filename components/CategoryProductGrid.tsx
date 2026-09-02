@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { CategoryProduct } from "@/lib/products";
-
-import Link from "next/link";
+import ProductModal from "@/components/ProductModal";
 
 type Props = {
   summary: string;
   products: CategoryProduct[];
-  categorySlug: string;
 };
 
 function chunkProducts(items: CategoryProduct[], size: number) {
@@ -21,42 +19,64 @@ function chunkProducts(items: CategoryProduct[], size: number) {
 }
 
 function getCardsPerSlide(): number {
-  if (typeof window === 'undefined') return 3;
+  if (typeof window === "undefined") return 3;
   if (window.innerWidth <= 640) return 1;
   if (window.innerWidth <= 1024) return 2;
   return 3;
 }
 
-function ProductCard({ product, categorySlug }: { product: CategoryProduct, categorySlug: string }) {
+function ProductCard({
+  product,
+  onClick,
+}: {
+  product: CategoryProduct;
+  onClick: (product: CategoryProduct) => void;
+}) {
   return (
-    <Link href={`/products/${categorySlug}/${product.slug}`} className="product-card" style={{ display: 'block', textDecoration: 'none' }}>
-      <article>
-        <div className="product-card-media">
-          <Image
-            src={product.image}
-            alt={product.name}
-            width={480}
-            height={360}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
+    <article
+      className="product-card product-card--clickable"
+      onClick={() => onClick(product)}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${product.name}`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick(product);
+        }
+      }}
+    >
+      <div className="product-card-media">
+        <Image
+          src={product.image}
+          alt={product.name}
+          width={480}
+          height={360}
+          sizes="(max-width: 768px) 78vw, (max-width: 1024px) 50vw, 33vw"
+        />
+        <div className="product-card-hover-hint">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="9" cy="9" r="7.2" />
+            <path d="M9 6v6M6 9h6" />
+          </svg>
+          <span>View Details</span>
         </div>
-        <div className="product-card-body">
-          <h3 className="serif" style={{ color: 'var(--brown)', marginBottom: '8px' }}>{product.name}</h3>
-          {product.info ? (
-            <p className="product-card-info" style={{ color: 'var(--muted)', fontSize: '15px' }}>{product.info}</p>
-          ) : null}
-          <div style={{ marginTop: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            View Details &rarr;
-          </div>
-        </div>
-      </article>
-    </Link>
+      </div>
+      <div className="product-card-body">
+        <h3 className="serif">{product.name}</h3>
+        {product.info ? (
+          <p className="product-card-info">{product.info}</p>
+        ) : null}
+        <span className="product-card-cta">View Details →</span>
+      </div>
+    </article>
   );
 }
 
-export default function CategoryProductGrid({ summary, products, categorySlug }: Props) {
+export default function CategoryProductGrid({ summary, products }: Props) {
   const [cardsPerSlide, setCardsPerSlide] = useState(3);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState<CategoryProduct | null>(null);
 
   const slides = chunkProducts(products, cardsPerSlide);
   const slideCount = slides.length;
@@ -70,8 +90,8 @@ export default function CategoryProductGrid({ summary, products, categorySlug }:
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [products.length]);
 
   const goToSlide = useCallback(
@@ -89,64 +109,105 @@ export default function CategoryProductGrid({ summary, products, categorySlug }:
     goToSlide(activeSlide + 1);
   }, [activeSlide, goToSlide]);
 
+  const handleProductClick = useCallback((product: CategoryProduct) => {
+    setSelectedProduct(product);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setSelectedProduct(null);
+  }, []);
+
   return (
-    <div className="product-catalog">
-      <div className="product-catalog-carousel reveal">
-        <div className="product-catalog-viewport">
-          <div
-            className="product-catalog-track"
-            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
-            aria-live="polite"
-          >
-            {slides.map((slideProducts, slideIndex) => (
-              <div
-                key={slideProducts.map((item) => item.name).join("-")}
-                className="product-catalog-slide"
-                aria-hidden={slideIndex !== activeSlide}
-              >
-                <div 
-                  className="product-catalog-grid"
-                  style={{ 
-                    gridTemplateColumns: `repeat(${cardsPerSlide}, minmax(0, 1fr))` 
-                  }}
+    <>
+      <div className="product-catalog">
+        {/* Desktop carousel (>768px) */}
+        <div className="product-catalog-carousel product-desktop-carousel reveal">
+          <div className="product-catalog-viewport">
+            <div
+              className="product-catalog-track"
+              style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+              aria-live="polite"
+            >
+              {slides.map((slideProducts, slideIndex) => (
+                <div
+                  key={slideProducts.map((item) => item.name).join("-")}
+                  className="product-catalog-slide"
+                  aria-hidden={slideIndex !== activeSlide}
                 >
-                  {slideProducts.map((product) => (
-                    <ProductCard key={product.name} product={product} categorySlug={categorySlug} />
-                  ))}
+                  <div
+                    className="product-catalog-grid"
+                    style={{
+                      gridTemplateColumns: `repeat(${cardsPerSlide}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {slideProducts.map((product) => (
+                      <ProductCard
+                        key={product.name}
+                        product={product}
+                        onClick={handleProductClick}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {slideCount > 1 && (
+            <div className="product-catalog-nav-container">
+              <button
+                className="product-catalog-nav-btn product-catalog-nav-prev"
+                onClick={goPrev}
+                disabled={atStart}
+                aria-label="Previous slide"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <span className="product-catalog-nav-counter">
+                {activeSlide + 1} / {slideCount}
+              </span>
+              <button
+                className="product-catalog-nav-btn product-catalog-nav-next"
+                onClick={goNext}
+                disabled={atEnd}
+                aria-label="Next slide"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
 
-        {slideCount > 1 && (
-          <div className="product-catalog-nav-container">
-            <button
-              className="product-catalog-nav-btn product-catalog-nav-prev"
-              onClick={goPrev}
-              disabled={atStart}
-              aria-label="Previous slide"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            <span className="product-catalog-nav-counter">
-              {activeSlide + 1} / {slideCount}
-            </span>
-            <button
-              className="product-catalog-nav-btn product-catalog-nav-next"
-              onClick={goNext}
-              disabled={atEnd}
-              aria-label="Next slide"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
+        {/* Mobile horizontal scroll / swipe (<=768px) */}
+        <div className="product-mobile-scroll-wrap">
+          <div
+            className="product-mobile-scroll"
+            role="region"
+            aria-label="Products horizontal scroll"
+            tabIndex={0}
+          >
+            {products.map((product) => (
+              <ProductCard
+                key={product.name}
+                product={product}
+                onClick={handleProductClick}
+              />
+            ))}
           </div>
-        )}
+          <div className="product-mobile-swipe-hint" aria-hidden="true">
+            <span>Swipe to explore {products.length} products</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <ProductModal product={selectedProduct} onClose={handleModalClose} />
+    </>
   );
 }

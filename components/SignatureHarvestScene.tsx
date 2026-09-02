@@ -20,6 +20,7 @@ import {
 } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
+import Image from "next/image";
 
 /** Premium Egyptian dates product GLB (webp textures + meshopt). */
 const OPEN_SRC = "/models/dates.glb";
@@ -42,12 +43,12 @@ function HarvestModelPlaceholder() {
   return (
     <Html center>
       <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
-        <img
+        <Image
           src="/images/products/dates/medjool-dates.jpg"
-          alt=""
+          alt="Dates 3D model preview"
+          width={220}
+          height={220}
           className="harvest-loader-image"
-          loading="eager"
-          decoding="async"
         />
         <span className="harvest-loader-label">Loading 3D view…</span>
       </div>
@@ -347,12 +348,12 @@ export default function SignatureHarvestScene(props: SceneProps) {
         </Canvas>
       ) : (
         <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
-          <img
+          <Image
             src="/images/products/dates/medjool-dates.jpg"
-            alt=""
+            alt="Dates 3D model preview"
+            width={220}
+            height={220}
             className="harvest-loader-image"
-            loading="eager"
-            decoding="async"
           />
           <span className="harvest-loader-label">Loading 3D view…</span>
         </div>

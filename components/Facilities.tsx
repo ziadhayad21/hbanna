@@ -124,7 +124,7 @@ export default function Facilities() {
       tween.kill();
       if (progressTween.current === tween) progressTween.current = null;
     };
-  }, [currentIndex, nextSlide]);
+  }, [currentIndex, nextSlide, isPaused]);
 
   useEffect(() => {
     const tween = progressTween.current;

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,12 +20,12 @@ const SignatureHarvestScene = dynamic(
 function HarvestModelPlaceholder() {
   return (
     <div className="harvest-loader harvest-loader--placeholder" aria-hidden="true">
-      <img
+      <Image
         src="/images/products/dates/medjool-dates.jpg"
-        alt=""
+        alt="Dates 3D model preview"
+        width={220}
+        height={220}
         className="harvest-loader-image"
-        loading="eager"
-        decoding="async"
       />
       <span className="harvest-loader-label">Loading 3D view…</span>
     </div>
@@ -146,6 +147,12 @@ export default function Showcase() {
         if (played) return;
         played = true;
 
+        const isMob = mobile;
+        const mainDur = isMob ? 0.85 : 2.2;
+        const copyDur = isMob ? 0.6 : 1.1;
+        const featDur = isMob ? 0.5 : 0.9;
+        const featDelay = isMob ? 0.65 : 2.0;
+
         tl = gsap.timeline({
           defaults: { ease: "power3.out" },
           onUpdate: () => {
@@ -158,8 +165,8 @@ export default function Showcase() {
           {
             opacity: 1,
             y: 0,
-            duration: 1.1,
-            stagger: 0.14,
+            duration: copyDur,
+            stagger: isMob ? 0.08 : 0.14,
           },
           0
         );
@@ -170,24 +177,24 @@ export default function Showcase() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 2.2,
+            duration: mainDur,
             ease: "power2.out",
           },
-          0.35
+          isMob ? 0.1 : 0.35
         );
 
         tl.to(
           proxy,
           {
             t: 1,
-            duration: 2.2,
+            duration: mainDur,
             ease: "power2.out",
             onComplete: () => {
               introRef.current.t = 1;
               introRef.current.rotating = true;
             },
           },
-          0.35
+          isMob ? 0.1 : 0.35
         );
 
         tl.to(
@@ -195,23 +202,25 @@ export default function Showcase() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.9,
-            stagger: 0.14,
+            duration: featDur,
+            stagger: isMob ? 0.06 : 0.14,
             ease: "power3.out",
           },
-          2.0
+          featDelay
         );
 
-        tl.to(
-          ".harvest-connector, .harvest-connector-dot",
-          {
-            opacity: 0.45,
-            duration: 0.85,
-            stagger: 0.06,
-            ease: "power2.out",
-          },
-          2.15
-        );
+        if (!isMob) {
+          tl.to(
+            ".harvest-connector, .harvest-connector-dot",
+            {
+              opacity: 0.45,
+              duration: 0.85,
+              stagger: 0.06,
+              ease: "power2.out",
+            },
+            2.15
+          );
+        }
       };
 
       ScrollTrigger.create({
@@ -237,7 +246,7 @@ export default function Showcase() {
       tl?.kill();
       ctx.revert();
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, mobile]);
 
   return (
     <section id="showcase" className="harvest" ref={sectionRef}>

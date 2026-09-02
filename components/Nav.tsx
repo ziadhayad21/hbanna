@@ -9,9 +9,10 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type NavProps = {
   solidOnLoad?: boolean;
+  isHome?: boolean;
 };
 
-export default function Nav({ solidOnLoad = false }: NavProps) {
+export default function Nav({ solidOnLoad = false, isHome = false }: NavProps) {
   const [solid, setSolid] = useState(solidOnLoad);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -55,7 +56,7 @@ export default function Nav({ solidOnLoad = false }: NavProps) {
 
   return (
     <>
-      <header className={`nav${solid ? " solid" : ""}`} id="nav">
+      <header className={`nav${solid ? " solid" : ""}${isHome ? " nav--home" : ""}`} id="nav">
         <Link href="/" className="logo" aria-label={t.nav.logoAlt}>
           <Image
             className="logo-img"

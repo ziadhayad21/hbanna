@@ -20,6 +20,20 @@ export function useRevealOnScroll(enabled = true) {
   useEffect(() => {
     if (!enabled || typeof window === "undefined") return;
 
+    const revealAll = () => {
+      document.querySelectorAll(SELECTOR).forEach((el) => {
+        el.classList.add("in-view");
+      });
+    };
+
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      revealAll();
+      return;
+    }
+
     const seen = new WeakSet<Element>();
     const io = new IntersectionObserver(
       (entries) => {
@@ -32,12 +46,6 @@ export function useRevealOnScroll(enabled = true) {
       },
       { threshold: 0.06, rootMargin: "0px 0px -4% 0px" }
     );
-
-    const revealAll = () => {
-      document.querySelectorAll(SELECTOR).forEach((el) => {
-        el.classList.add("in-view");
-      });
-    };
 
     const scan = () => {
       document.querySelectorAll(SELECTOR).forEach((el) => {
@@ -53,9 +61,10 @@ export function useRevealOnScroll(enabled = true) {
 
     scan();
     const raf = requestAnimationFrame(scan);
-    const t1 = window.setTimeout(scan, 80);
-    const t2 = window.setTimeout(scan, 400);
-    const fallback = window.setTimeout(revealAll, 1200);
+    const t1 = window.setTimeout(scan, 120);
+    const t2 = window.setTimeout(scan, 600);
+    // Generous fallback to prevent hidden content on edge-case browser freezes
+    const fallback = window.setTimeout(revealAll, 5000);
 
     return () => {
       cancelAnimationFrame(raf);
