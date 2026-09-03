@@ -29,7 +29,7 @@ export default function HomePage() {
       <Journey />
       <Facilities />
       <Certifications />
-      <Cta />
+      <Cta secondaryLabel="Explore Products" secondaryHref="/products" />
       <Footer />
       <RevealObserver />
     </>

@@ -11,8 +11,8 @@ type CtaProps = {
 export default function Cta({ secondaryLabel, secondaryHref }: CtaProps = {}) {
   const { t } = useLanguage();
 
-  const secLabel = secondaryLabel ?? t.cta.download;
-  const secHref = secondaryHref ?? "#";
+  const secLabel = secondaryLabel ?? (t.hero.ctaProducts || "Explore Products");
+  const secHref = secondaryHref ?? "/products";
 
   return (
     <section id="cta">
