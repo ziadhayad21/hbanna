@@ -1,9 +1,18 @@
 "use client";
 
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageProvider";
 
-export default function Cta() {
+type CtaProps = {
+  secondaryLabel?: string;
+  secondaryHref?: string;
+};
+
+export default function Cta({ secondaryLabel, secondaryHref }: CtaProps = {}) {
   const { t } = useLanguage();
+
+  const secLabel = secondaryLabel ?? t.cta.download;
+  const secHref = secondaryHref ?? "#";
 
   return (
     <section id="cta">
@@ -30,12 +39,18 @@ export default function Cta() {
       <h2 className="serif reveal">{t.cta.title}</h2>
       <p className="reveal">{t.cta.body}</p>
       <div className="cta-actions reveal">
-        <a href="/contact" className="btn btn-primary">
+        <Link href="/contact" className="btn btn-primary">
           Request a Quote
-        </a>
-        <a href="#" className="btn btn-ghost">
-          {t.cta.download}
-        </a>
+        </Link>
+        {secHref.startsWith("/") ? (
+          <Link href={secHref} className="btn btn-ghost">
+            {secLabel}
+          </Link>
+        ) : (
+          <a href={secHref} className="btn btn-ghost">
+            {secLabel}
+          </a>
+        )}
       </div>
     </section>
   );

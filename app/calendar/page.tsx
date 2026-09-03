@@ -1,10 +1,15 @@
+import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import RevealObserver from "@/components/RevealObserver";
 import SvgDefs from "@/components/SvgDefs";
-import SeasonalityCalendar from "@/components/SeasonalityCalendar";
 import Cta from "@/components/Cta";
+
+const SeasonalityCalendar = dynamic(
+  () => import("@/components/SeasonalityCalendar"),
+  { ssr: false }
+);
 
 export const metadata: Metadata = {
   title: "Seasonal Availability & Harvest Calendar — Egyptian Export Center (HBanna)",
@@ -19,7 +24,7 @@ export default function CalendarPage() {
       <Nav solidOnLoad />
       <main className="subpage calendar-page">
         <SeasonalityCalendar />
-        <Cta />
+        <Cta secondaryLabel="Explore Products" secondaryHref="/products" />
       </main>
       <Footer />
       <RevealObserver />
