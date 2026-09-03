@@ -29,6 +29,7 @@ export default function Footer() {
                 alt={t.nav.logoAlt}
                 width={280}
                 height={140}
+                sizes="280px"
               />
             </Link>
           </div>

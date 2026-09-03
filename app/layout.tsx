@@ -56,6 +56,22 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Preload critical above-fold images so they don't wait for JS hydration */}
+        <link
+          rel="preload"
+          as="image"
+          href="/hbanna-logo.png"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore — fetchpriority is valid HTML but not yet in React types
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/hero-poster.webp"
+          // @ts-ignore
+          fetchpriority="high"
+        />
       </head>
       <body className={manrope.className}>
         <InitialLoader />

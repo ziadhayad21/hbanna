@@ -12,42 +12,31 @@ export default function Facilities() {
   const facilities = useMemo(
     () => [
       {
-        image: "/images/farm.jpg",
-        eyebrow: "01 — Sourcing",
-        title: "Agricultural Farms",
-        description: "Extensive agricultural footprint across Egypt's most fertile regions, ensuring consistent year-round supply of premium produce.",
-        capacity: "10,000+ Acres Cultivated",
-      },
-      {
         image: "/images/dates-factory.jpg",
-        eyebrow: "02 — Processing",
-        title: "Dates Factories",
-        description: "State-of-the-art automated sorting, washing, and packing lines dedicated exclusively to premium dates.",
-        capacity: "50,000 Tons Annual Capacity",
+        eyebrow: t.facilities.s1eyebrow,
+        title: t.facilities.s1title,
+        description: t.facilities.s1desc,
       },
       {
         image: "/images/citrus-packing.jpg",
-        eyebrow: "03 — Processing",
-        title: "Citrus Packing Houses",
-        description: "Advanced optical sorting technology and automated sizing to meet exact international export standards.",
-        capacity: "80,000 Tons Annual Capacity",
+        eyebrow: t.facilities.s2eyebrow,
+        title: t.facilities.s2title,
+        description: t.facilities.s2desc,
       },
       {
-        image: "/images/grapes.jpg",
-        eyebrow: "04 — Preservation",
-        title: "Cold Storage",
-        description: "Massive unbroken cold chain infrastructure to preserve shelf life and maintain pristine condition before export.",
-        capacity: "15,000 SQM Temperature Controlled",
+        image: "/images/farm.jpg",
+        eyebrow: t.facilities.s3eyebrow,
+        title: t.facilities.s3title,
+        description: t.facilities.s3desc,
       },
       {
-        image: "/images/mango.jpg",
-        eyebrow: "05 — Export",
-        title: "Logistics Hub",
-        description: "In-house logistics handling container loading, customs clearance, and port dispatch for global destinations.",
-        capacity: "2,000+ Export Containers Annually",
+        image: "/images/orange.jpg",
+        eyebrow: t.facilities.s4eyebrow,
+        title: t.facilities.s4title,
+        description: t.facilities.s4desc,
       },
     ],
-    []
+    [t]
   );
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,11 +73,10 @@ export default function Facilities() {
     const eyebrow = copy.querySelector(".fac-slide-eyebrow");
     const title = copy.querySelector(".fac-slide-title");
     const desc = copy.querySelector(".fac-slide-desc");
-    const capacity = copy.querySelector(".fac-slide-capacity");
 
     const tl = gsap.timeline();
     tl.fromTo(
-      [eyebrow, title, desc, capacity],
+      [eyebrow, title, desc],
       { y: 22, opacity: 0 },
       {
         y: 0,
@@ -124,7 +112,7 @@ export default function Facilities() {
       tween.kill();
       if (progressTween.current === tween) progressTween.current = null;
     };
-  }, [currentIndex, nextSlide, isPaused]);
+  }, [currentIndex, nextSlide]);
 
   useEffect(() => {
     const tween = progressTween.current;
@@ -161,6 +149,7 @@ export default function Facilities() {
                 sizes="(max-width: 980px) 100vw, 70vw"
                 className="facilities-media-img"
                 priority={index === 0}
+                {...(index === 0 ? {} : { loading: "eager" })}
               />
             </div>
           ))}
@@ -176,10 +165,6 @@ export default function Facilities() {
             <span className="fac-slide-eyebrow">{active.eyebrow}</span>
             <h3 className="serif fac-slide-title">{active.title}</h3>
             <p className="fac-slide-desc">{active.description}</p>
-            <div className="fac-slide-capacity" style={{ marginTop: '24px', padding: '16px', background: 'var(--orange-light)', borderRadius: '8px', borderLeft: '4px solid var(--orange)' }}>
-              <strong style={{ display: 'block', fontSize: '12px', textTransform: 'uppercase', color: 'var(--orange)', letterSpacing: '0.1em', marginBottom: '4px' }}>Verified Capacity</strong>
-              <span style={{ fontSize: '16px', color: 'var(--brown)', fontWeight: 600 }}>{active.capacity}</span>
-            </div>
           </div>
 
           <div className="facilities-controls">

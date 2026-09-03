@@ -32,7 +32,7 @@ export default function CategoryGrid({
       <span className={`eyebrow${reveal}`}>{t.categories.eyebrow}</span>
       <h2 className={`serif${reveal}`}>{t.categories.title}</h2>
       <div className={`cat-grid${stagger}`}>
-        {productCategories.map((cat) => {
+        {productCategories.map((cat, idx) => {
           const key = CAT_KEY[cat.slug];
           return (
             <Link
@@ -42,7 +42,14 @@ export default function CategoryGrid({
             >
               <span className="cat-num">{cat.num}</span>
               <div className="cat-visual">
-                <Image src={cat.image} alt={cat.alt} width={400} height={140} />
+                <Image
+                  src={cat.image}
+                  alt={cat.alt}
+                  width={400}
+                  height={140}
+                  sizes="(max-width: 600px) 90vw, (max-width: 1024px) 45vw, 320px"
+                  priority={idx < 2}
+                />
               </div>
               <h3>{key ? t.cats[key] : cat.title}</h3>
               <p>{cat.summary}</p>

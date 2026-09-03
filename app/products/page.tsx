@@ -34,7 +34,7 @@ export default function ProductsPage() {
 
         <section className="section-pad products-index">
           <div className="products-index-grid reveal-stagger">
-            {productCategories.map((cat) => (
+            {productCategories.map((cat, idx) => (
               <Link
                 key={cat.slug}
                 href={`/products/${cat.slug}`}
@@ -46,6 +46,8 @@ export default function ProductsPage() {
                     alt={cat.alt}
                     width={640}
                     height={420}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
+                    priority={idx < 2}
                   />
                 </div>
                 <div className="product-index-body">

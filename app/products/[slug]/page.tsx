@@ -84,7 +84,13 @@ export default function ProductCategoryPage({ params }: PageProps) {
                 className="related-card"
               >
                 <div className="related-card-media">
-                  <Image src={cat.image} alt={cat.alt} width={320} height={200} />
+                  <Image
+                    src={cat.image}
+                    alt={cat.alt}
+                    width={320}
+                    height={200}
+                    sizes="(max-width: 640px) 100vw, 320px"
+                  />
                 </div>
                 <div className="related-card-body">
                   <span>{cat.num}</span>
