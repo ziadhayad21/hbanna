@@ -44,6 +44,11 @@ export default function Facilities() {
   const copyRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const progressTween = useRef<gsap.core.Tween | null>(null);
+  const isPausedRef = useRef(isPaused);
+
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
   const goToSlide = useCallback(
     (index: number) => {
@@ -103,7 +108,7 @@ export default function Facilities() {
       scaleX: 1,
       duration: SLIDE_MS / 1000,
       ease: "none",
-      paused: isPaused,
+      paused: isPausedRef.current,
       onComplete: nextSlide,
     });
     progressTween.current = tween;

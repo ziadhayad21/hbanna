@@ -61,16 +61,13 @@ export default function RootLayout({
           rel="preload"
           as="image"
           href="/hbanna-logo.png"
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore — fetchpriority is valid HTML but not yet in React types
-          fetchpriority="high"
+          {...({ fetchPriority: "high" } as Record<string, string>)}
         />
         <link
           rel="preload"
           as="image"
           href="/hero-poster.webp"
-          // @ts-ignore
-          fetchpriority="high"
+          {...({ fetchPriority: "high" } as Record<string, string>)}
         />
       </head>
       <body className={manrope.className}>
