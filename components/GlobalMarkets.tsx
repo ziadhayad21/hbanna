@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import {
   ComposableMap,
@@ -10,19 +10,17 @@ import {
   Line,
 } from "react-simple-maps";
 
-/* ─────────────────────────────────────────────
-   MARKET DATA  –  only verified export markets
-   [lng, lat] geographic coordinates
-───────────────────────────────────────────── */
-type Market = {
+/* ─────────────────────────────────────────────────────────────
+   VERIFIED EXPORT DESTINATIONS DATA (Preserved Exactly)
+   [longitude, latitude]
+───────────────────────────────────────────────────────────── */
+export type Market = {
   id: string;
   label: string;
   region: string;
-  coordinates: [number, number]; // [longitude, latitude]
+  coordinates: [number, number];
   tagline: string;
-  /** Adjust label anchor to avoid overlap: "start"|"middle"|"end" */
   labelAnchor?: "start" | "middle" | "end";
-  /** dy offset for label in px */
   labelDy?: number;
 };
 
@@ -34,7 +32,7 @@ const MARKETS: Market[] = [
     coordinates: [13.4, 51.2],
     tagline: "Premium fresh produce for EU retail & wholesale channels.",
     labelAnchor: "middle",
-    labelDy: 14,
+    labelDy: -12,
   },
   {
     id: "russia",
@@ -43,7 +41,7 @@ const MARKETS: Market[] = [
     coordinates: [60.0, 55.8],
     tagline: "Citrus, fresh fruits and vegetables for Russian distributors.",
     labelAnchor: "middle",
-    labelDy: 14,
+    labelDy: -12,
   },
   {
     id: "morocco",
@@ -51,7 +49,7 @@ const MARKETS: Market[] = [
     region: "Africa",
     coordinates: [-7.1, 31.8],
     tagline: "Egyptian citrus and fresh produce to North African markets.",
-    labelAnchor: "middle",
+    labelAnchor: "end",
     labelDy: 14,
   },
   {
@@ -60,7 +58,7 @@ const MARKETS: Market[] = [
     region: "Africa",
     coordinates: [-14.5, 14.5],
     tagline: "Fresh agricultural produce for West African markets.",
-    labelAnchor: "middle",
+    labelAnchor: "end",
     labelDy: 14,
   },
   {
@@ -69,7 +67,7 @@ const MARKETS: Market[] = [
     region: "Africa",
     coordinates: [40.5, 9.1],
     tagline: "Grains, pulses and fresh produce for Ethiopian buyers.",
-    labelAnchor: "middle",
+    labelAnchor: "start",
     labelDy: 14,
   },
   {
@@ -78,7 +76,7 @@ const MARKETS: Market[] = [
     region: "Africa",
     coordinates: [37.9, 0.0],
     tagline: "Fresh produce and dates for East African buyers.",
-    labelAnchor: "middle",
+    labelAnchor: "start",
     labelDy: 14,
   },
   {
@@ -96,7 +94,7 @@ const MARKETS: Market[] = [
     region: "Africa",
     coordinates: [24.0, -4.3],
     tagline: "Premium Egyptian exports to Central African trade partners.",
-    labelAnchor: "middle",
+    labelAnchor: "end",
     labelDy: 14,
   },
   {
@@ -106,7 +104,7 @@ const MARKETS: Market[] = [
     coordinates: [25.1, -29.0],
     tagline: "Dates and dried products to South African importers.",
     labelAnchor: "middle",
-    labelDy: 14,
+    labelDy: 16,
   },
   {
     id: "comoros",
@@ -133,7 +131,7 @@ const MARKETS: Market[] = [
     coordinates: [104.2, 35.9],
     tagline: "Premium agricultural commodities for the Chinese market.",
     labelAnchor: "middle",
-    labelDy: 14,
+    labelDy: -12,
   },
   {
     id: "maldives",
@@ -165,66 +163,68 @@ const MARKETS: Market[] = [
 ];
 
 const EGYPT_COORDS: [number, number] = [30.8, 26.8];
-
-const REGION_COLORS: Record<string, string> = {
-  Europe: "#EC7914",
-  Asia: "#D4630C",
-  "Latin America": "#F4A04A",
-  "Australia & Oceania": "#C05A0A",
-  Eurasia: "#E08020",
-  Africa: "#EC7914",
-};
-
-/* ─── TopoJSON world map (Natural Earth 110m) hosted locally with caching ─── */
 const TOPO_URL = "/data/countries-110m.json";
 
-/* ─────────────────────────────────────────────────────────────────
-   Inner map component — loaded client-side only
-───────────────────────────────────────────────────────────────── */
-function WorldMap({
+const REGIONS = [
+  "All",
+  "Africa",
+  "Europe",
+  "Asia",
+  "Eurasia",
+  "Latin America",
+  "Australia & Oceania",
+] as const;
+
+/* ─────────────────────────────────────────────────────────────
+   INNER MAP COMPONENT (Subtle, realistic, high-precision)
+───────────────────────────────────────────────────────────── */
+function WorldMapInner({
   activeId,
   hoveredId,
+  selectedRegion,
   onMarketClick,
   onMarketHover,
 }: {
   activeId: string | null;
   hoveredId: string | null;
+  selectedRegion: string;
   onMarketClick: (m: Market) => void;
   onMarketHover: (id: string | null) => void;
 }) {
   return (
     <ComposableMap
-      projectionConfig={{ scale: 147, center: [20, 10] }}
+      projectionConfig={{ scale: 152, center: [22, 12] }}
       width={960}
-      height={480}
+      height={490}
       style={{ width: "100%", height: "auto", display: "block" }}
     >
-      {/* Subtle graticule */}
       <defs>
-        <pattern id="grat" patternUnits="userSpaceOnUse" width="40" height="40">
+        {/* Subtle architectural coordinate grid pattern */}
+        <pattern id="gm-geo-grid" patternUnits="userSpaceOnUse" width="48" height="48">
           <path
-            d="M 40 0 L 0 0 0 40"
+            d="M 48 0 L 0 0 0 48"
             fill="none"
-            stroke="rgba(87,48,18,0.04)"
+            stroke="currentColor"
             strokeWidth="0.5"
+            className="gm-grid-line"
           />
         </pattern>
       </defs>
-      <rect width="960" height="480" fill="url(#grat)" />
 
-      {/* Country shapes */}
+      {/* Subtle coordinate backdrop */}
+      <rect width={960} height={490} fill="url(#gm-geo-grid)" className="gm-grid-rect" />
+
+      {/* Global Countries & Continents */}
       <Geographies geography={TOPO_URL}>
         {({ geographies }: { geographies: { rsmKey: string }[] }) =>
           geographies.map((geo) => (
             <Geography
               key={(geo as { rsmKey: string }).rsmKey}
               geography={geo}
-              fill="rgba(87,48,18,0.08)"
-              stroke="rgba(87,48,18,0.18)"
-              strokeWidth={0.5}
+              className="gm-land-mass"
               style={{
                 default: { outline: "none" },
-                hover: { outline: "none", fill: "rgba(87,48,18,0.11)" },
+                hover: { outline: "none" },
                 pressed: { outline: "none" },
               }}
             />
@@ -232,21 +232,16 @@ function WorldMap({
         }
       </Geographies>
 
-      {/* Egypt highlight */}
+      {/* Egypt Origin Country Highlight */}
       <Geographies geography={TOPO_URL}>
         {({ geographies }: { geographies: { rsmKey: string; properties: { name: string } }[] }) =>
           geographies
-            .filter(
-              (geo) =>
-                (geo as { properties: { name: string } }).properties.name === "Egypt"
-            )
+            .filter((geo) => (geo as { properties: { name: string } }).properties.name === "Egypt")
             .map((geo) => (
               <Geography
                 key={(geo as { rsmKey: string }).rsmKey}
                 geography={geo}
-                fill="rgba(236,121,20,0.22)"
-                stroke="rgba(236,121,20,0.55)"
-                strokeWidth={0.8}
+                className="gm-egypt-highlight"
                 style={{
                   default: { outline: "none" },
                   hover: { outline: "none" },
@@ -257,66 +252,44 @@ function WorldMap({
         }
       </Geographies>
 
-      {/* Connection lines Egypt → each market */}
+      {/* Maritime Shipping Corridors (Egypt → Destination) */}
       {MARKETS.map((m) => {
-        const isActive = activeId === m.id || hoveredId === m.id;
+        const isTarget = activeId === m.id || hoveredId === m.id;
+        const isRegionMatch = selectedRegion === "All" || m.region === selectedRegion;
+
         return (
           <Line
-            key={`line-${m.id}`}
+            key={`route-${m.id}`}
             from={EGYPT_COORDS}
             to={m.coordinates}
-            stroke={
-              isActive
-                ? REGION_COLORS[m.region] ?? "#EC7914"
-                : "rgba(236,121,20,0.18)"
-            }
-            strokeWidth={isActive ? 1.2 : 0.7}
-            strokeDasharray={isActive ? "5 4" : "3 6"}
+            className={`gm-shipping-lane ${isTarget ? "is-active" : ""} ${
+              isRegionMatch ? "is-visible" : "is-muted"
+            }`}
             strokeLinecap="round"
-            style={{ transition: "stroke 0.35s, stroke-width 0.35s" }}
           />
         );
       })}
 
-      {/* Egypt origin marker */}
+      {/* Egypt Origin Hub Pin */}
       <Marker coordinates={EGYPT_COORDS}>
-        <g>
-          {/* pulse rings */}
-          <circle r={14} fill="rgba(236,121,20,0.12)" className="gm-origin-pulse-r1" />
-          <circle r={9} fill="rgba(236,121,20,0.18)" className="gm-origin-pulse-r2" />
-          {/* core dot */}
-          <circle
-            r={5}
-            fill="#EC7914"
-            stroke="#fff"
-            strokeWidth={1.5}
-            style={{ filter: "drop-shadow(0 0 5px rgba(236,121,20,0.7))" }}
-          />
-          <text
-            textAnchor="middle"
-            y={-11}
-            style={{
-              fontFamily: "var(--font-fraunces, 'Fraunces', serif)",
-              fontSize: "6.5px",
-              fontWeight: 700,
-              fill: "#EC7914",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-            }}
-          >
-            EGYPT
+        <g className="gm-origin-group">
+          <circle r={12} className="gm-origin-ring" />
+          <circle r={7} className="gm-origin-mid" />
+          <circle r={3.5} className="gm-origin-core" />
+          <text textAnchor="middle" y={-14} className="gm-origin-text">
+            CAIRO / ALEXANDRIA HUB
           </text>
         </g>
       </Marker>
 
-      {/* Market markers */}
+      {/* Destination Markers */}
       {MARKETS.map((m) => {
         const isActive = activeId === m.id;
         const isHov = hoveredId === m.id;
-        const color = REGION_COLORS[m.region] ?? "#EC7914";
+        const isRegionMatch = selectedRegion === "All" || m.region === selectedRegion;
         const anchor = m.labelAnchor ?? "middle";
         const dy = m.labelDy ?? 14;
-        const labelX = anchor === "start" ? 8 : anchor === "end" ? -8 : 0;
+        const labelX = anchor === "start" ? 7 : anchor === "end" ? -7 : 0;
 
         return (
           <Marker
@@ -327,45 +300,20 @@ function WorldMap({
             onMouseLeave={() => onMarketHover(null)}
             style={{ cursor: "pointer" }}
           >
-            <g>
-              {/* ripple when hovered / active */}
-              {(isActive || isHov) && (
-                <circle
-                  r={10}
-                  fill={color}
-                  opacity={0.15}
-                  style={{ pointerEvents: "none" }}
-                />
-              )}
-              {/* marker dot */}
-              <circle
-                r={isActive ? 5.5 : isHov ? 5 : 4}
-                fill={isActive ? "#fff" : color}
-                stroke={color}
-                strokeWidth={isActive ? 2 : 1.2}
-                style={{
-                  transition: "r 0.25s, fill 0.25s",
-                  filter:
-                    isActive || isHov
-                      ? `drop-shadow(0 0 5px ${color}99)`
-                      : "none",
-                }}
-              />
-              {/* label */}
+            <g className={`gm-marker-group ${isActive ? "is-active" : ""} ${isHov ? "is-hovered" : ""} ${
+              isRegionMatch ? "is-in-region" : "is-out-region"
+            }`}>
+              {/* Outer accent ring when selected or hovered */}
+              <circle r={isActive ? 11 : isHov ? 9 : 7} className="gm-marker-halo" />
+              {/* Core destination pin */}
+              <circle r={isActive ? 4.5 : isHov ? 4 : 3} className="gm-marker-dot" />
+
+              {/* Destination typography label */}
               <text
                 textAnchor={anchor}
                 x={labelX}
                 y={dy}
-                style={{
-                  fontFamily: "var(--font-manrope, 'Manrope', sans-serif)",
-                  fontSize: "5.5px",
-                  fontWeight: isActive || isHov ? 700 : 600,
-                  fill: isActive || isHov ? color : "rgba(87,48,18,0.72)",
-                  letterSpacing: "0.03em",
-                  transition: "fill 0.25s, font-weight 0.25s",
-                  pointerEvents: "none",
-                  userSelect: "none",
-                }}
+                className="gm-marker-label"
               >
                 {m.label}
               </text>
@@ -377,139 +325,309 @@ function WorldMap({
   );
 }
 
-/* ─── Dynamic import with SSR disabled ─── */
 const DynamicWorldMap = dynamic(
-  () => Promise.resolve(WorldMap),
-  { ssr: false, loading: () => <div className="gm-map-loading">Loading map…</div> }
+  () => Promise.resolve(WorldMapInner),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="gm-map-skeleton">
+        <div className="gm-map-skeleton-spinner" />
+        <span>Loading International Freight Cartography…</span>
+      </div>
+    ),
+  }
 );
 
-/* ─────────────────────────────────────────────────────────────────
-   MAIN SECTION
-───────────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   MAIN SECTION COMPONENT
+───────────────────────────────────────────────────────────── */
 export default function GlobalMarkets() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [active, setActive] = useState<Market | null>(null);
-  const [hovered, setHovered] = useState<string | null>(null);
   const [inView, setInView] = useState(false);
+  const [activeMarketId, setActiveMarketId] = useState<string>("europe");
+  const [hoveredMarketId, setHoveredMarketId] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<string>("All");
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          obs.disconnect();
+        }
+      },
       { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  const handleMarketClick = (m: Market) => {
-    setActive((prev) => (prev?.id === m.id ? null : m));
-  };
+  const activeMarket = useMemo(
+    () => MARKETS.find((m) => m.id === activeMarketId) || MARKETS[0],
+    [activeMarketId]
+  );
 
-  /* group sidebar list by region */
-  const regionGroups: Record<string, Market[]> = {};
-  MARKETS.forEach((m) => {
-    if (!regionGroups[m.region]) regionGroups[m.region] = [];
-    regionGroups[m.region].push(m);
-  });
+  const filteredMarkets = useMemo(() => {
+    if (selectedRegion === "All") return MARKETS;
+    return MARKETS.filter((m) => m.region === selectedRegion);
+  }, [selectedRegion]);
+
+  const handleMarketSelect = useCallback((m: Market) => {
+    setActiveMarketId(m.id);
+  }, []);
+
+  // Inquiry quote CTA: scrolls to #contact (or redirects to /contact)
+  const handleInquireClick = useCallback((marketLabel: string) => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+      const destinationSelect = document.getElementById("quoteDestination") as HTMLSelectElement | null;
+      if (destinationSelect) {
+        // Find matching or similar option
+        const options = Array.from(destinationSelect.options);
+        const match = options.find((opt) =>
+          opt.value.toLowerCase().includes(marketLabel.toLowerCase()) ||
+          marketLabel.toLowerCase().includes(opt.value.toLowerCase())
+        );
+        if (match) {
+          destinationSelect.value = match.value;
+          destinationSelect.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+      }
+    } else {
+      window.location.href = `/contact?destination=${encodeURIComponent(marketLabel)}`;
+    }
+  }, []);
 
   return (
     <section
       id="global-markets"
       ref={sectionRef}
       className="gm-section"
-      aria-label="Global Markets"
+      aria-label="Export Destinations & Global Trade Network"
     >
-      {/* Background orbs */}
-      <div className="gm-orb gm-orb-a" aria-hidden="true" />
-      <div className="gm-orb gm-orb-b" aria-hidden="true" />
+      <div className="gm-container">
+        {/* ── Editorial Header ── */}
+        <div className={`gm-header ${inView ? "in-view" : ""}`}>
+          <div className="gm-eyebrow-row">
+            <span className="gm-eyebrow-pip" aria-hidden="true" />
+            <span className="eyebrow">Verified Global Footprint</span>
+          </div>
 
-      {/* Header */}
-      <div className={`gm-header${inView ? " in-view" : ""}`}>
-        <span className="eyebrow">Global Reach</span>
-        <h2 className="serif gm-title">From Egypt to the&nbsp;World</h2>
-        <p className="gm-lead">
-          HBanna exports premium Egyptian agricultural products to international
-          markets across Europe, Asia, Africa, Latin America, and beyond.
-        </p>
-      </div>
+          <h2 className="serif gm-title">
+            Export Destinations <span className="gm-title-accent">& Trade Corridors</span>
+          </h2>
 
-      {/* Map + Sidebar */}
-      <div className={`gm-body${inView ? " in-view" : ""}`}>
-        {/* MAP */}
-        <div className="gm-map-wrap" role="img" aria-label="World map showing HBanna export markets">
-          <DynamicWorldMap
-            activeId={active?.id ?? null}
-            hoveredId={hovered}
-            onMarketClick={handleMarketClick}
-            onMarketHover={setHovered}
-          />
+          <p className="gm-lead">
+            Strategically connecting Egyptian agricultural harvests to tier-one international importers,
+            wholesalers, and retail networks across Europe, Africa, Asia, and the Americas.
+          </p>
+
+          {/* Institutional Trade Metrics Bar */}
+          <div className="gm-stats-ribbon">
+            <div className="gm-stat-item">
+              <span className="gm-stat-number">15+</span>
+              <span className="gm-stat-label">Active Trade Corridors</span>
+            </div>
+            <div className="gm-stat-divider" aria-hidden="true" />
+            <div className="gm-stat-item">
+              <span className="gm-stat-number">4</span>
+              <span className="gm-stat-label">Continents Served</span>
+            </div>
+            <div className="gm-stat-divider" aria-hidden="true" />
+            <div className="gm-stat-item">
+              <span className="gm-stat-number">Direct Origin</span>
+              <span className="gm-stat-label">Alexandria & Damietta Sea Ports</span>
+            </div>
+          </div>
         </div>
 
-        {/* SIDEBAR */}
-        <aside className="gm-sidebar">
-          {/* Info panel */}
-          <div className={`gm-info-panel${active ? " is-visible" : ""}`}>
-            {active ? (
-              <>
-                <span className="gm-info-region">{active.region}</span>
-                <h3 className="gm-info-title serif">{active.label}</h3>
-                <p className="gm-info-tagline">{active.tagline}</p>
+        {/* ── Main Composition: Interactive Atlas + Executive Dossier ── */}
+        <div className={`gm-layout ${inView ? "in-view" : ""}`}>
+          {/* Left / Centerpiece: The World Map Card */}
+          <div className="gm-map-canvas-card">
+            {/* Top Toolbar: Geographic Region Filter */}
+            <div className="gm-map-toolbar">
+              <div className="gm-toolbar-left">
+                <span className="gm-toolbar-label">Active Corridor Filter:</span>
+                <div className="gm-region-pills" role="tablist" aria-label="Filter export corridors by continent">
+                  {REGIONS.map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      role="tab"
+                      aria-selected={selectedRegion === r}
+                      className={`gm-region-pill ${selectedRegion === r ? "is-active" : ""}`}
+                      onClick={() => setSelectedRegion(r)}
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="gm-toolbar-right">
+                <span className="gm-legend-indicator">
+                  <span className="gm-dot-live" aria-hidden="true" />
+                  Direct Sea & Air Cargo
+                </span>
+              </div>
+            </div>
+
+            {/* Map Frame */}
+            <div className="gm-map-viewport" role="img" aria-label="Interactive world map showing HBanna export trade lanes">
+              <DynamicWorldMap
+                activeId={activeMarketId}
+                hoveredId={hoveredMarketId}
+                selectedRegion={selectedRegion}
+                onMarketClick={handleMarketSelect}
+                onMarketHover={setHoveredMarketId}
+              />
+            </div>
+
+            {/* Bottom Map Status Bar */}
+            <div className="gm-map-footer">
+              <div className="gm-map-footer-origin">
+                <span className="gm-footer-dot" aria-hidden="true" />
+                <span>Primary Loading: <strong>Port of Alexandria</strong> & <strong>Port of Damietta</strong> (Egypt)</span>
+              </div>
+              <div className="gm-map-footer-hint">
+                <span>Click any route or market to inspect trade details</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Destination Dossier & Trade Corridor Directory */}
+          <aside className="gm-dossier-panel">
+            {/* Active Destination Dossier Card */}
+            <div className="gm-active-dossier">
+              <div className="gm-dossier-header">
+                <div className="gm-dossier-meta">
+                  <span className="gm-dossier-badge">{activeMarket.region} Corridor</span>
+                  <span className="gm-dossier-coords">
+                    {Math.abs(activeMarket.coordinates[1]).toFixed(1)}°{activeMarket.coordinates[1] >= 0 ? "N" : "S"},{" "}
+                    {Math.abs(activeMarket.coordinates[0]).toFixed(1)}°{activeMarket.coordinates[0] >= 0 ? "E" : "W"}
+                  </span>
+                </div>
+                <h3 className="serif gm-dossier-title">{activeMarket.label}</h3>
+              </div>
+
+              <div className="gm-dossier-body">
+                <div className="gm-dossier-row">
+                  <span className="gm-dossier-label">Commercial Scope</span>
+                  <p className="gm-dossier-tagline">{activeMarket.tagline}</p>
+                </div>
+
+                <div className="gm-dossier-specs">
+                  <div className="gm-spec-cell">
+                    <span className="gm-spec-lbl">Export Origin</span>
+                    <strong className="gm-spec-val">Egypt (Direct)</strong>
+                  </div>
+                  <div className="gm-spec-cell">
+                    <span className="gm-spec-lbl">Modality</span>
+                    <strong className="gm-spec-val">Reefer Container / Air</strong>
+                  </div>
+                  <div className="gm-spec-cell">
+                    <span className="gm-spec-lbl">Quality Protocol</span>
+                    <strong className="gm-spec-val">Global GAP & ISO</strong>
+                  </div>
+                  <div className="gm-spec-cell">
+                    <span className="gm-spec-lbl">Documentation</span>
+                    <strong className="gm-spec-val">EUR.1 / Phytosanitary</strong>
+                  </div>
+                </div>
+
                 <button
                   type="button"
-                  className="gm-info-close"
-                  onClick={() => setActive(null)}
-                  aria-label="Deselect market"
+                  className="gm-dossier-cta"
+                  onClick={() => handleInquireClick(activeMarket.label)}
                 >
-                  ✕ Deselect
+                  <span>Request Allocation for {activeMarket.label}</span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M2 6h8M7 3l3 3-3 3" />
+                  </svg>
                 </button>
-              </>
-            ) : (
-              <p className="gm-info-placeholder">
-                Select a market on the map to learn more.
-              </p>
-            )}
-          </div>
-
-          {/* Region list */}
-          <div className="gm-region-list">
-            {Object.entries(regionGroups).map(([region, markets]) => (
-              <div key={region} className="gm-region-group">
-                <span className="gm-region-heading">{region}</span>
-                <ul className="gm-region-markets">
-                  {markets.map((m) => (
-                    <li key={m.id}>
-                      <button
-                        type="button"
-                        className={`gm-region-btn${active?.id === m.id ? " is-active" : ""}`}
-                        onClick={() => handleMarketClick(m)}
-                        onMouseEnter={() => setHovered(m.id)}
-                        onMouseLeave={() => setHovered(null)}
-                        aria-pressed={active?.id === m.id}
-                      >
-                        <span
-                          className="gm-region-dot"
-                          style={{
-                            background:
-                              REGION_COLORS[region] ?? "#EC7914",
-                          }}
-                        />
-                        {m.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
               </div>
-            ))}
-          </div>
-        </aside>
-      </div>
+            </div>
 
-      {/* Footnote */}
-      <p className="gm-footnote">
-        HBanna exports from Egypt — our international reach continues to grow.
-      </p>
+            {/* Corridor Directory Index */}
+            <div className="gm-directory-card">
+              <div className="gm-directory-header">
+                <h4 className="gm-directory-heading">Commercial Corridors ({filteredMarkets.length})</h4>
+                <span className="gm-directory-sub">Click to spotlight on map</span>
+              </div>
+
+              <div className="gm-directory-list">
+                {filteredMarkets.map((m) => {
+                  const isCurrent = activeMarketId === m.id;
+                  const isHover = hoveredMarketId === m.id;
+
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      className={`gm-corridor-item ${isCurrent ? "is-active" : ""} ${isHover ? "is-hovered" : ""}`}
+                      onClick={() => handleMarketSelect(m)}
+                      onMouseEnter={() => setHoveredMarketId(m.id)}
+                      onMouseLeave={() => setHoveredMarketId(null)}
+                    >
+                      <div className="gm-corridor-indicator" aria-hidden="true" />
+                      <div className="gm-corridor-info">
+                        <span className="gm-corridor-name">{m.label}</span>
+                        <span className="gm-corridor-reg">{m.region}</span>
+                      </div>
+                      <svg
+                        className="gm-corridor-arrow"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        aria-hidden="true"
+                      >
+                        <path d="M3 6h6M6 3l3 3-3 3" />
+                      </svg>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* ── Mobile-Dedicated Scannable Corridor Strip ── */}
+        <div className={`gm-mobile-corridors ${inView ? "in-view" : ""}`}>
+          <div className="gm-mobile-header">
+            <span>Explore All 15 Export Corridors:</span>
+          </div>
+          <div className="gm-mobile-chips-scroll">
+            {MARKETS.map((m) => {
+              const isSelected = activeMarketId === m.id;
+              return (
+                <button
+                  key={`mob-${m.id}`}
+                  type="button"
+                  className={`gm-mobile-chip ${isSelected ? "is-active" : ""}`}
+                  onClick={() => handleMarketSelect(m)}
+                >
+                  <span className="gm-mobile-chip-dot" aria-hidden="true" />
+                  <span>{m.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Editorial Assurance Note ── */}
+        <div className={`gm-footnote-box ${inView ? "in-view" : ""}`}>
+          <p>
+            <strong>Port Operations & Forward Logistics:</strong> HBanna operates seamless cold-chain logistics from our centralized packhouses directly to major Mediterranean and Red Sea container terminals. For custom forward-booking, CIF delivery terms, or new regional market inquiries, contact our Alexandria export desk.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

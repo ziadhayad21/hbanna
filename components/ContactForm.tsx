@@ -43,6 +43,38 @@ export default function ContactForm() {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const prod = params.get("product");
+      const dest = params.get("destination");
+      if (prod) {
+        const prodInput = document.getElementById("quoteProduct") as HTMLInputElement | null;
+        if (prodInput) {
+          prodInput.value = prod;
+          prodInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      }
+      if (dest) {
+        const destSelect = document.getElementById("quoteDestination") as HTMLSelectElement | null;
+        if (destSelect) {
+          const match = Array.from(destSelect.options).find(
+            (opt) =>
+              opt.value.toLowerCase().includes(dest.toLowerCase()) ||
+              dest.toLowerCase().includes(opt.value.toLowerCase())
+          );
+          if (match) {
+            destSelect.value = match.value;
+            destSelect.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = formRef.current;
@@ -90,65 +122,124 @@ export default function ContactForm() {
         </div>
 
         <form className="contact-form" id="contactForm" noValidate ref={formRef} onSubmit={onSubmit}>
-          
-          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            <div className="form-field">
-              <label htmlFor="quoteProduct">Product of Interest<span className="req">*</span></label>
-              <input id="quoteProduct" name="product" type="text" required placeholder="e.g., Navel Oranges, Medjool Dates" />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="quoteQuantity">Estimated Quantity<span className="req">*</span></label>
-              <input id="quoteQuantity" name="quantity" type="text" required placeholder="e.g., 2 Containers / 40 FT" />
-            </div>
+          {/* Row 1: Product & Quantity */}
+          <div className="form-field">
+            <label htmlFor="quoteProduct">
+              <span>Product of Interest</span>
+              <span className="req">*</span>
+            </label>
+            <input
+              id="quoteProduct"
+              name="product"
+              type="text"
+              required
+              placeholder="e.g., Navel Oranges, Medjool Dates"
+            />
           </div>
 
-          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            <div className="form-field">
-              <label htmlFor="quoteDestination">Destination Country<span className="req">*</span></label>
-              <div className="select-wrap">
-                <select id="quoteDestination" name="destination" required defaultValue="">
-                  <option value="" disabled>Select destination</option>
-                  {COUNTRIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-                <div className="select-arrow">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+          <div className="form-field">
+            <label htmlFor="quoteQuantity">
+              <span>Estimated Quantity</span>
+              <span className="req">*</span>
+            </label>
+            <input
+              id="quoteQuantity"
+              name="quantity"
+              type="text"
+              required
+              placeholder="e.g., 2 Containers / 40 FT"
+            />
+          </div>
 
-            <div className="form-field">
-              <label htmlFor="quoteShipping">Expected Shipping Date</label>
-              <input id="quoteShipping" name="shipping" type="text" placeholder="e.g., End of November" />
+          {/* Row 2: Destination & Shipping Date */}
+          <div className="form-field">
+            <label htmlFor="quoteDestination">
+              <span>Destination Country</span>
+              <span className="req">*</span>
+            </label>
+            <div className="select-wrap">
+              <select id="quoteDestination" name="destination" required defaultValue="">
+                <option value="" disabled>Select destination country</option>
+                {COUNTRIES.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
             </div>
           </div>
 
           <div className="form-field">
-            <label htmlFor="quotePackaging">Packaging Requirements</label>
-            <input id="quotePackaging" name="packaging" type="text" placeholder="e.g., 15kg Telescopic Cartons" />
+            <label htmlFor="quoteShipping">
+              <span>Expected Shipping Date</span>
+            </label>
+            <input
+              id="quoteShipping"
+              name="shipping"
+              type="text"
+              placeholder="e.g., End of November"
+            />
           </div>
 
-          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            <div className="form-field">
-              <label htmlFor="contactCompany">{t.form.company}<span className="req">*</span></label>
-              <input id="contactCompany" name="company" type="text" required autoComplete="organization" placeholder={t.form.phCompany} />
-            </div>
-            
-            <div className="form-field">
-              <label htmlFor="contactEmail">{t.form.email}<span className="req">*</span></label>
-              <input id="contactEmail" name="email" type="email" required autoComplete="email" placeholder={t.form.phEmail} />
-            </div>
+          {/* Row 3: Packaging (Full Width) */}
+          <div className="form-field form-field-full">
+            <label htmlFor="quotePackaging">
+              <span>Packaging Requirements</span>
+            </label>
+            <input
+              id="quotePackaging"
+              name="packaging"
+              type="text"
+              placeholder="e.g., 15kg Telescopic Cartons, 5kg Loose Box, Custom Pallets"
+            />
+          </div>
+
+          {/* Row 4: Company & Email */}
+          <div className="form-field">
+            <label htmlFor="contactCompany">
+              <span>{t.form.company}</span>
+              <span className="req">*</span>
+            </label>
+            <input
+              id="contactCompany"
+              name="company"
+              type="text"
+              required
+              autoComplete="organization"
+              placeholder={t.form.phCompany || "Your Company Name"}
+            />
           </div>
 
           <div className="form-field">
-            <label htmlFor="contactWhatsApp">WhatsApp Number<span className="req">*</span></label>
-            <input id="contactWhatsApp" name="whatsapp" type="tel" required autoComplete="tel" placeholder="+20 100 000 0000" />
+            <label htmlFor="contactEmail">
+              <span>{t.form.email}</span>
+              <span className="req">*</span>
+            </label>
+            <input
+              id="contactEmail"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder={t.form.phEmail || "buyer@company.com"}
+            />
           </div>
 
+          {/* Row 5: WhatsApp / Phone (Full Width) */}
+          <div className="form-field form-field-full">
+            <label htmlFor="contactWhatsApp">
+              <span>WhatsApp / Direct Phone Number</span>
+              <span className="req">*</span>
+            </label>
+            <input
+              id="contactWhatsApp"
+              name="whatsapp"
+              type="tel"
+              required
+              autoComplete="tel"
+              placeholder="+20 100 000 0000"
+            />
+          </div>
+
+          {/* Row 6: Submit Button & Messages */}
           <div className="form-actions form-field-full">
             <button type="submit" className="contact-submit" disabled={isSubmitting}>
               {isSubmitting ? (
@@ -160,14 +251,17 @@ export default function ContactForm() {
                 </>
               ) : (
                 <>
-                  Request Quote
+                  <span>Request Official Quotation</span>
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </>
               )}
             </button>
-            <p className="form-note">{t.form.note}</p>
+            <p className="form-note">
+              <span className="form-note-dot" aria-hidden="true" />
+              {t.form.note || "Direct response from HBanna export desk within 1-2 business days."}
+            </p>
 
             <div className="form-success" id="contactSuccess" role="status" aria-live="polite" ref={successRef}>
               <span className="form-success-icon" aria-hidden="true">
@@ -175,7 +269,7 @@ export default function ContactForm() {
                   <path d="M5 12.5l5 5 9-10" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              {t.form.success}
+              <span>{t.form.success}</span>
             </div>
           </div>
         </form>

@@ -2,8 +2,11 @@ import type { Locale } from "./config";
 
 export type Messages = {
   nav: {
+    home: string;
     about: string;
     products: string;
+    countries: string;
+    calendar: string;
     process: string;
     facilities: string;
     quality: string;
@@ -216,12 +219,15 @@ export type Messages = {
 
 export const en: Messages = {
   nav: {
+    home: "Home",
     about: "About",
     products: "Products",
+    countries: "Export Countries",
+    calendar: "Calendar",
     process: "Our Process",
     facilities: "Facilities",
     quality: "Quality",
-    contact: "Contact",
+    contact: "Contact Us",
     logoAlt: "HBanna Dates — Egyptian Export Center",
     toggleMenu: "Toggle menu",
     themeToLight: "Switch to light mode",
@@ -438,8 +444,11 @@ export const en: Messages = {
 
 export const de: Messages = {
   nav: {
+    home: "Startseite",
     about: "Über uns",
     products: "Produkte",
+    countries: "Exportländer",
+    calendar: "Kalender",
     process: "Unser Prozess",
     facilities: "Anlagen",
     quality: "Qualität",
@@ -660,12 +669,15 @@ export const de: Messages = {
 
 export const zh: Messages = {
   nav: {
+    home: "首页",
     about: "关于我们",
     products: "产品",
+    countries: "出口国家",
+    calendar: "供应日历",
     process: "我们的流程",
     facilities: "设施",
     quality: "品质",
-    contact: "联系",
+    contact: "联系我们",
     logoAlt: "HBanna Dates — 埃及出口中心",
     toggleMenu: "打开菜单",
     themeToLight: "切换到浅色模式",

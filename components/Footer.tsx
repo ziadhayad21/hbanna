@@ -60,6 +60,12 @@ export default function Footer() {
               <Link href="/products">{t.footer.allProducts}</Link>
             </li>
             <li>
+              <Link href="/countries">Export Countries</Link>
+            </li>
+            <li>
+              <Link href="/calendar">Sourcing Calendar</Link>
+            </li>
+            <li>
               <Link href="/#journey">{t.footer.process}</Link>
             </li>
             <li>

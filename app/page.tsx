@@ -14,11 +14,6 @@ import RevealObserver from "@/components/RevealObserver";
 import SvgDefs from "@/components/SvgDefs";
 
 const Showcase = dynamic(() => import("@/components/Showcase"));
-const GlobalMarkets = dynamic(() => import("@/components/GlobalMarkets"));
-const SeasonalityCalendar = dynamic(
-  () => import("@/components/SeasonalityCalendar")
-);
-const Contact = dynamic(() => import("@/components/Contact"));
 
 export default function HomePage() {
   return (
@@ -34,10 +29,7 @@ export default function HomePage() {
       <Journey />
       <Facilities />
       <Certifications />
-      <GlobalMarkets />
-      <SeasonalityCalendar />
       <Cta />
-      <Contact />
       <Footer />
       <RevealObserver />
     </>

@@ -66,7 +66,7 @@ export default function ProductsPage() {
             <span className="eyebrow">Trade Inquiries</span>
             <h2 className="serif">Need volumes, specs, or shipping options?</h2>
             <div className="cta-actions">
-              <Link href="/#contact" className="btn btn-primary">
+              <Link href="/contact" className="btn btn-primary">
                 Contact Export Desk
               </Link>
               <Link href="/#about" className="btn btn-ghost">

@@ -19,13 +19,13 @@ export default function Nav({ solidOnLoad = false, isHome = false }: NavProps) {
   const { t } = useLanguage();
 
   const navLinks = [
-    { href: "/#about", label: t.nav.about },
+    { href: "/", label: t.nav.home },
     { href: "/products", label: t.nav.products },
-    { href: "/#journey", label: t.nav.process },
-    { href: "/#facilities", label: t.nav.facilities },
-    { href: "/#certifications", label: t.nav.quality },
-    { href: "/contact", label: "Request a Quote" },
-  ] as const;
+    { href: "/#about", label: t.nav.about },
+    { href: "/countries", label: t.nav.countries },
+    { href: "/calendar", label: t.nav.calendar },
+    { href: "/contact", label: t.nav.contact },
+  ];
 
   useEffect(() => {
     let navTicking = false;

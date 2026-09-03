@@ -42,7 +42,7 @@ export default function ProductModal({ product, onClose }: Props) {
     if (e.target === overlayRef.current) onClose();
   };
 
-  const quoteHref = "/#contact";
+  const quoteHref = product ? `/contact?product=${encodeURIComponent(product.name)}` : "/contact";
 
   return (
     <div

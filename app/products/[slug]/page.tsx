@@ -64,7 +64,7 @@ export default function ProductCategoryPage({ params }: PageProps) {
             categorySlug={category.slug}
           />
           <div className="category-detail-actions category-detail-actions-below">
-            <Link href="/#contact" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary">
               Request Availability
             </Link>
             <Link href="/products" className="btn btn-ghost">
