@@ -5,6 +5,12 @@ export type CategoryProduct = {
   // Rich modal fields
   description?: string;
   harvestMonths?: number[]; // 1=Jan ... 12=Dec
+  // Commercial enrichment fields
+  sugarBrix?: string;       // e.g. "10° Brix min." or "10.5–12° Brix"
+  varieties?: string[];     // named cultivars, e.g. ["Eureka", "Adalia"]
+  sizes?: string;           // commercial size codes or diameter range, e.g. "48, 56, 64"
+  packing?: string;         // packaging spec, e.g. "15 kg carton"
+  productClass?: string;    // e.g. "First Class"
 };
 
 export type ProductCategory = {
@@ -45,97 +51,93 @@ export const productCategories: ProductCategory[] = [
         name: "Navel Oranges",
         image: "/images/products/citrus/navel-oranges.jpg",
         info: "Classic navel oranges with excellent color and export-grade sizing.",
-        description:
-          "Sourced from the fertile, nutrient-rich soils of Egypt's Nile Delta, our premium Navel Oranges are renowned for their exceptional natural sweetness, vibrant colouration, and consistent sizing. Carefully cultivated without seeds, these oranges offer an outstanding yield and robust shelf life, making them the optimal choice for high-end retail displays and extensive wholesale programs across Europe, the Gulf, and Asia. Strict quality controls ensure every shipment meets rigorous international export standards.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
+        description: "The navel oranges are the earliest maturing of orange varieties, producing the seedless fruit of larger size with deep orange easily peeled rinds and sweet & pleasant flavor.",
+        harvestMonths: [11, 12, 1, 2],
+        varieties: ["Navel"],
+        sugarBrix: "12.5 to 14.5 (Acid level: 0.0)",
+        sizes: "36 - 40 - 42 - 48 - 56 - 64 - 72 - 80 - 88 - 100 - 113",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW, Open Top cartons 15 KG NW, Cartons for Arab country 8 KG"
+      },
+      {
+        name: "Late Lane Navel Orange",
+        image: "/images/products/citrus/Late Lane Navel Orange.jpg",
+        info: "Late Lane Navel oranges with deep orange skin and sweet flavor.",
+        description: "Late Lane Navel oranges are the earliest maturing of orange varieties, producing the seedless fruit of larger size with deep orange easily peeled rinds and sweet & pleasant flavor.",
+        harvestMonths: [12, 1, 2],
+        varieties: ["Late Lane Navel"],
+        sugarBrix: "12.5 to 14.5",
+        sizes: "36 - 40 - 42 - 48 - 56 - 64 - 72 - 80 - 88 - 100 - 113",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW, Open Top cartons 15 KG NW, Cartons for Arab country 8 KG"
       },
       {
         name: "Valencia Oranges",
         image: "/images/products/citrus/valencia-oranges.jpg",
         info: "Juicy Valencia oranges ideal for fresh consumption and juicing.",
-        description:
-          "Recognized as Egypt's premier juicing orange, our Valencia Oranges are prized for their exceptionally high juice content, deep golden-orange hue, and extended late-season availability. Grown across the Nile Delta and Upper Egypt, they deliver a perfectly balanced sweet-tart flavour profile that remains stable during processing. This makes them an indispensable commodity for both fresh-market distribution and the global food-service and beverage manufacturing sectors.",
-        harvestMonths: [3, 4, 5, 6],
+        description: "Valencia oranges are very sweet and a distinctive bright colored juice that other citrus fruits don't have.",
+        harvestMonths: [1, 2, 3, 4, 5],
+        varieties: ["Valencia"],
+        sugarBrix: "11.3 to 12.5",
+        sizes: "48 - 56 - 64 - 72 - 80 - 88 - 100 - 113",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW, Cartons for Arab country 8 KG"
       },
       {
         name: "Baladi Oranges",
         image: "/images/products/citrus/baladi-oranges.jpg",
         info: "Traditional Egyptian baladi oranges with rich, authentic flavor.",
-        description:
-          "Representing Egypt's rich agricultural heritage, Baladi Oranges are cultivated using time-honoured farming traditions in the Beheira and Giza regions. They offer a highly complex, intensely aromatic flavour profile that is deeply beloved in regional markets. These oranges cater directly to discerning international buyers and specialty importers seeking authentic, robust citrus with a distinct geographic identity.",
-        harvestMonths: [12, 1, 2, 3],
+        description: "Egyptian Baladi Oranges are the most popular variety, similar to Valencia oranges which is used for juice and the taste is the same as Valencia, but the brix level is higher.",
+        harvestMonths: [12, 1],
+        varieties: ["Baladi"],
+        sugarBrix: "11.6 to 12.7",
+        sizes: "56 - 64 - 72 - 80 - 88 - 100 - 113 - 125 - 136",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW, Cartons for Arab country 8 KG"
       },
       {
-        name: "Sweet Oranges",
+        name: "Sukkari Orange",
         image: "/images/products/citrus/sweet-oranges.jpg",
         info: "Naturally sweet oranges packed for retail and wholesale programs.",
-        description:
-          "Our Sweet Oranges are meticulously selected to guarantee natural Brix levels consistently above 10°, delivering outstanding sweetness with minimal acidity. Cultivated in the Nile Delta, they are packed under rigorous export protocols to preserve their firm texture and vibrant appearance. These oranges are highly sought after by retail, food-service, and wholesale buyers across multiple international markets for their universal consumer appeal.",
-        harvestMonths: [11, 12, 1, 2],
-      },
-      {
-        name: "Shamouti",
-        image: "/images/products/citrus/shamouti.jpg",
-        info: "Premium Shamouti oranges prized for balance and shelf life.",
-        description:
-          "A premium niche citrus variety, the Shamouti orange is celebrated globally for its deeply aromatic peel, perfectly balanced sweetness, and exceptional post-harvest shelf life. Grown in Northern Egypt, it features a distinctive oval shape and near-seedless interior. The Shamouti commands premium positioning in specialist retail, boutique groceries, and gourmet food channels requiring superior visual and sensory characteristics.",
-        harvestMonths: [1, 2, 3, 4],
-      },
-      {
-        name: "Blood Oranges",
-        image: "/images/products/citrus/blood-oranges.jpg",
-        info: "Deep-hued blood oranges with distinctive flavor and visual appeal.",
-        description:
-          "Grown in the cooler micro-climates of Upper Egypt, our Blood Oranges develop intense anthocyanin pigmentation, resulting in their signature ruby-red interior and complex, berry-like flavour notes. These highly visual, premium fruits are expertly sorted and packed to maintain their striking appearance, making them ideal for high-end retail, luxury hospitality, and specialty food buyers seeking differentiated citrus offerings.",
-        harvestMonths: [12, 1, 2, 3],
+        description: "Sukkari oranges have a bright orange skin that is relatively thin and may vary in color. The flesh is juicy, sweet, with a low acidity level that makes it sweeter than other citrus fruits. They are a good source of vitamin C and dietary fiber as well.",
+        harvestMonths: [12, 1],
+        varieties: ["Sukkari"],
+        sugarBrix: "11.6 to 12.6",
+        sizes: "64 - 72 - 80 - 88 - 100 - 113",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW, Cartons for Arab country 8 KG"
       },
       {
         name: "Mandarins",
         image: "/images/products/citrus/mandarins.jpg",
         info: "Easy-to-peel mandarins selected for sweetness and uniform grade.",
-        description:
-          "Our Egyptian Mandarins are hand-selected for uniform calibre, vibrant orange colouration, and an effortless easy-peel skin. Sourced from the Nile Delta, they are highly regarded for their juicy, seedless segments and kid-friendly appeal. Packed and cooled swiftly to maintain peak freshness, they are the cornerstone of retail snacking programs and widespread wholesale distribution networks across the Gulf, Europe, and Asia.",
-        harvestMonths: [10, 11, 12, 1],
-      },
-      {
-        name: "Murcott Mandarins",
-        image: "/images/products/citrus/murcott-mandarins.jpg",
-        info: "Murcott mandarins with rich flavor and smooth, thin skin.",
-        description:
-          "The Murcott Mandarin is a premium, late-season variety renowned for its remarkably thin, deep-orange skin and a rich, intensely sweet flavour profile that surpasses standard mandarins. Cultivated with precision in the Nile Delta, this variety is increasingly demanded by upscale European and Gulf retail buyers looking to extend their high-quality citrus offerings well into the spring season.",
-        harvestMonths: [1, 2, 3],
-      },
-      {
-        name: "Easy Peelers",
-        image: "/images/products/citrus/easy-peelers.jpg",
-        info: "Convenient easy-peel citrus varieties for retail-ready packs.",
-        description:
-          "Representing a category of consumer-favourite, primarily seedless citrus, our Easy Peelers are designed specifically for on-the-go snacking and maximum retail shelf impact. Grown in the Nile Delta, they are meticulously graded for size and skin integrity. We supply these in various retail-ready formats to minimise store-level handling, providing European and Scandinavian supermarkets with a highly reliable, high-turnover commodity.",
-        harvestMonths: [10, 11, 12],
+        description: "Fremont are small to medium-sized with a thin, easy-to-peel skin that is bright orange in color. They have a sweet and juicy flesh that is low in acid and has a rich and distinctive flavor.",
+        harvestMonths: [12, 1, 2],
+        varieties: ["Murcott", "Clementine", "Fremont", "Mirav", "Minneola"],
+        sizes: "36 - 42 - 48 - 54 - 60",
+        productClass: "First Class",
+        packing: "Cartons 8 KG, or as per customer's desire"
       },
       {
         name: "Lemons",
         image: "/images/products/citrus/lemons.jpg",
         info: "Bright Egyptian lemons with high juice content and firm peel.",
-        description:
-          "Egyptian Lemons are highly prized on the global market for their exceptional juice yield, robustly firm texture, and bright, unblemished yellow skin. Cultivated in Ismailia and the Nile Delta, they offer a sharp, classic acidity that is essential for culinary applications. They are widely distributed to the food manufacturing, fresh market, and hospitality sectors across Europe and the Gulf, boasting an extended shelf life.",
-        harvestMonths: [10, 11, 12, 1, 2, 3, 4, 5, 6],
-      },
-      {
-        name: "Limes",
-        image: "/images/products/citrus/limes.jpg",
-        info: "Vibrant limes supplied for fresh market and food-service use.",
-        description:
-          "Our premium Egyptian Limes deliver excellent, piercing acidity, vibrant green colouration, and highly consistent sizing. Carefully harvested to avoid skin damage, they are an indispensable ingredient for the global food-service industry and fresh markets. Their high juice content and aromatic zest make them a preferred choice for food manufacturing customers and beverage producers requiring superior citrus inputs.",
-        harvestMonths: [6, 7, 8, 9, 10],
+        description: "Lemon are high in vitamin C, and various beneficial plant compounds. A single glass does not seem to provide a lot of nutrients, lemon water is a health beverage that can boost a person's vitamin C intake.",
+        harvestMonths: [10, 11, 12, 1, 2],
+        varieties: ["Eureka", "Adlaia", "Verna"],
+        sizes: "72 - 80 - 88 - 100 - 113 - 125 - 138",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW"
       },
       {
         name: "Grapefruit",
         image: "/images/products/citrus/grapefruit.jpg",
         info: "Large, firm grapefruits packed for long-distance export.",
-        description:
-          "Grown under optimal climatic conditions in the Nile Delta, our Egyptian Grapefruit delivers a consistently large calibre, exceptionally firm texture, and a beautiful blush or pale interior depending on the variety. They are expertly packed to ensure excellent shelf life and structural integrity, making them perfectly suited to rigorous, long-haul export programs destined for demanding markets in Europe, Russia, and the Gulf.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
+        description: "Grapefruit is pink and red varieties, colors that refer to the flesh of the fruit. It is an excellent source of vitamin A, and C, potassium, and has significant antioxidants. It is an important source of a healthy diet, in addition to lowering blood pressure and playing a role in the formation of collagen, the main support system of the skin.",
+        harvestMonths: [11, 12, 1],
+        varieties: ["Star Ruby", "Dark Red"],
+        sizes: "30 - 36 - 40 - 42 - 48 - 56 - 64",
+        packing: "15 Kg - Net Weight - Open Top Carton, 15 Kg plastic box"
       },
       {
         name: "Other seasonal citrus varieties",
@@ -165,7 +167,10 @@ export const productCategories: ProductCategory[] = [
         info: "Semi-dry dates processed for balanced moisture and extended shelf life.",
         description:
           "Sourced from the fertile regions of Upper Egypt and the Delta, our Semi-Dry Dates are meticulously processed in our modern, climate-controlled factories. We achieve the ideal moisture balance to deliver an exceptional, chewy texture, deep flavour, and outstanding shelf stability. These dates are a highly versatile commodity, perfectly suited for both premium retail packaging and large-scale wholesale distribution across global markets.",
-        harvestMonths: [8, 9, 10],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Siwi", "Saidi"],
+        sizes: "Medium to Large",
+        packing: "1 kg, 5 kg, 10 kg cartons",
       },
       {
         name: "Dry Dates",
@@ -173,7 +178,10 @@ export const productCategories: ProductCategory[] = [
         info: "Fully dried dates ideal for snacking, baking, and industrial use.",
         description:
           "Fully dehydrated and processed to rigorous international food-grade standards, our Dry Dates offer unparalleled shelf life and commercial versatility. They maintain a robust, concentrated sweetness that is highly valued by the food manufacturing industry. These dates are the ideal ingredient for commercial baking, confectionery, energy bars, and as a staple dried fruit for long-distance export and retail snacking programs.",
-        harvestMonths: [9, 10, 11],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Bartamoda", "Sakkoty", "Malkaby", "Shamia"],
+        sizes: "Standard Commercial Grades",
+        packing: "10 kg, 25 kg woven sacks or cartons",
       },
       {
         name: "Medjool Dates",
@@ -181,7 +189,10 @@ export const productCategories: ProductCategory[] = [
         info: "Large, premium Medjool dates with soft texture and rich sweetness.",
         description:
           "Internationally recognized as the 'king of dates,' our Medjool Dates are cultivated in Southern Egypt under strict agronomic protocols. They are hand-sorted to guarantee exceptional jumbo sizing, a soft, melt-in-the-mouth caramel texture, and rich natural sweetness. Positioned as a luxury agricultural product, they are the definitive choice for premium retail, exclusive gifting sectors, and high-end hospitality buyers.",
-        harvestMonths: [9, 10],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Medjool"],
+        sizes: "Jumbo (20–25g+), Large (15–20g), Medium",
+        packing: "1 kg, 5 kg premium cartons",
       },
       {
         name: "Fresh Barhi Dates",
@@ -189,7 +200,10 @@ export const productCategories: ProductCategory[] = [
         info: "Fresh Barhi dates harvested at peak ripeness from our own factories.",
         description:
           "A highly anticipated seasonal delicacy, our Fresh Barhi Dates are harvested precisely at the Khalal (yellow, crunchy) stage or the fully ripe Tamar stage. Processed directly in our own facilities to ensure immediate cold-chain integrity, they offer a unique buttery, crisp sweetness. They are supplied in limited, highly sought-after quantities directly to premium importers in the Gulf and Europe.",
-        harvestMonths: [8, 9],
+        harvestMonths: [8, 9, 10],
+        varieties: ["Barhi"],
+        sizes: "On branches",
+        packing: "4.5 kg, 5 kg open-top or telescopic cartons",
       },
       {
         name: "Fresh Dates",
@@ -198,6 +212,8 @@ export const productCategories: ProductCategory[] = [
         description:
           "Freshly harvested Egyptian dates are packed with meticulous care to cater to markets that specifically demand soft, moist, and highly flavourful fruit. With multiple regional varieties available across the harvest season, we provide tailored sorting and rapid cold-chain logistics to ensure the fruit arrives at international destinations maintaining its delicate texture and peak freshness.",
         harvestMonths: [8, 9, 10, 11],
+        varieties: ["Zaghloul", "Hayany", "Samany", "Amhat"],
+        packing: "2 kg, 4.5 kg, 5 kg cartons",
       },
       {
         name: "Premium Egyptian date varieties",
@@ -205,7 +221,7 @@ export const productCategories: ProductCategory[] = [
         info: "A curated range of premium Egyptian date cultivars for export.",
         description:
           "Capitalizing on Egypt's extraordinary diversity of date cultivars, we curate and export a highly specialized selection of premium, heritage varieties. These unique dates offer distinct flavour profiles, textures, and appearances, catering to discerning buyers, boutique brands, and specialty importers who seek to differentiate their product lines beyond the standard mainstream date offerings.",
-        harvestMonths: [8, 9, 10, 11],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       },
       {
         name: "Date-based products",
@@ -213,7 +229,17 @@ export const productCategories: ProductCategory[] = [
         info: "Value-added date products processed to customer specifications.",
         description:
           "Our comprehensive range of value-added date products—including pure date paste, rich date syrup, date powder, and precision-chopped dates—is processed entirely within our own Egyptian factories. Adhering to the strictest international food-grade standards (BRC, HACCP), these products serve as premium, natural sweetening and texturizing ingredients for the global food manufacturing, baking, and foodservice industries.",
-        harvestMonths: [8, 9, 10, 11, 12],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        packing: "Bulk 10 kg / 20 kg blocks (paste), Drums (syrup)",
+      },
+      {
+        name: "Dates Protein Bar",
+        image: "/images/products/dates/dates-protein-bar.jpg",
+        info: "Premium date-based protein bar produced in our own Egyptian factories.",
+        description:
+          "Manufactured in our modern, certified Egyptian production facilities, our Dates Protein Bar is a premium, clean-label energy and protein snack built on a foundation of high-quality Egyptian dates. Combining the natural sweetness and nutritional density of our own date varieties with carefully selected complementary ingredients, it delivers a wholesome, convenient format that meets the growing international demand for natural, plant-forward functional snacks. Available for private-label and co-manufacturing programs, it is supplied in bulk and retail-ready formats to health-food distributors, supermarket chains, and the food-service sector across Europe, the Gulf, and Asia.",
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        packing: "Retail flow-wraps, wholesale display boxes",
       },
     ],
   },
@@ -230,12 +256,86 @@ export const productCategories: ProductCategory[] = [
       "Seasonal Egyptian fruits selected at peak ripeness — table grapes, pomegranates, mangoes, berries, stone fruit, melons, and more for international buyers.",
     products: [
       {
-        name: "Grapes",
-        image: "/images/products/fresh-fruits/grapes.jpg",
-        info: "Table grapes selected at peak ripeness for export markets.",
+        name: "Superior Grapes",
+        image: "/images/products/fresh-fruits/Superior Grapes.jpg",
+        info: "Superior seedless table grapes selected at peak ripeness.",
         description:
-          "Cultivated in the established vineyards of Beheira and Fayoum, Egypt's table grapes are globally celebrated for their exceptionally large berry size, crisp, snappy texture, and perfectly balanced sweetness. Harvested at peak maturity, they undergo rapid pre-cooling and are packed utilizing advanced SO₂ padding to ensure maximum shelf life and strict compliance with European and Asian phytosanitary import standards.",
-        harvestMonths: [6, 7, 8, 9],
+          "Cultivated in the established vineyards of Beheira and Fayoum, our Superior seedless grapes are celebrated for their crisp, snappy texture and perfectly balanced sweetness. Harvested at peak maturity, they undergo rapid pre-cooling and are packed utilizing advanced SO₂ padding to ensure maximum shelf life and strict compliance with European and Asian phytosanitary import standards.",
+        harvestMonths: [5, 6, 7, 8],
+        varieties: ["Superior Seedless"],
+        sugarBrix: "14+ Brix",
+        sizes: "16 - 22 mm",
+        packing: "Plastic bag Carton: 5 Kg N.W Carton contains 10 plastic bags X 500 Gm (3400 Cartons / 20 Pallets - Each Pallet 170 Cartons)",
+      },
+      {
+        name: "Crimson Grapes",
+        image: "/images/products/fresh-fruits/Crimson Grapes.jpg",
+        info: "Crimson seedless table grapes selected at peak ripeness.",
+        description:
+          "Crimson seedless table grapes are known for their striking red color, firm crisp berries, and excellent shelf life. Harvested at peak maturity, they undergo rapid pre-cooling and are packed utilizing advanced SO₂ padding to ensure strict compliance with European and Asian phytosanitary import standards.",
+        harvestMonths: [7, 8, 9, 10],
+        varieties: ["Crimson Seedless"],
+        sizes: "14 - 22 mm",
+        packing: "5 Kg Carton contains 8-9 plastic bags X 500 Gm, 5 Kg Carton contains 10 punnet X 500 Gm",
+      },
+      {
+        name: "Red Globe Grapes",
+        image: "/images/products/fresh-fruits/Red Globe Grapes.jpg",
+        info: "Large Red Globe seeded table grapes.",
+        description:
+          "Red Globe grapes are famously large, seeded berries with a sweet flavor and firm, crunchy texture. They boast excellent storage capabilities and are perfectly suited for long-distance export to European and Asian markets.",
+        harvestMonths: [7, 8, 9, 10],
+        varieties: ["Red Globe"],
+        sugarBrix: "18+ Brix",
+        sizes: "22 - 30 mm",
+        packing: "5 Kg Carton contains 8-9 plastic bags X 500 Gm, 5 Kg Carton contains 10 punnet X 500 Gm",
+      },
+      {
+        name: "Flame Grapes",
+        image: "/images/products/fresh-fruits/Flame Grapes.jpg",
+        info: "Sweet and crisp Flame seedless table grapes.",
+        description:
+          "Flame seedless grapes offer a vibrant red color and an intensely sweet, tart flavor profile. They are an early-season favorite for fresh markets across Europe and the Gulf, undergoing rapid pre-cooling post-harvest.",
+        harvestMonths: [5, 6],
+        varieties: ["Flame Seedless"],
+        sizes: "15 - 24 mm",
+        packing: "5 Kg Carton contains 8-9 plastic bags X 500 Gm, 5 Kg Carton contains 10 punnet X 500 Gm",
+      },
+      {
+        name: "Autumn Royal Grapes",
+        image: "/images/products/fresh-fruits/Autumn Royal Grapes.jpg",
+        info: "Dark, sweet Autumn Royal seedless table grapes.",
+        description:
+          "Autumn Royal grapes are prized for their large, dark purple-to-black berries and exceptional sweetness. They offer a firm crunch and serve as a premium late-season export variety.",
+        harvestMonths: [8, 9, 10],
+        varieties: ["Autumn Royal"],
+        sugarBrix: "20+ Brix",
+        sizes: "22 - 24 mm",
+        packing: "5 Kg N.W Carton contains 10 plastic bags X 500 Gm (3400 Cartons / 20 Pallets - Each Pallet 170 Cartons), 5 Kg N.W Carton contains 10 punnets X 500 Gm (3600 Cartons / 20 Pallets - Each Pallet 180 Cartons)",
+      },
+      {
+        name: "Thompson Grapes",
+        image: "/images/products/fresh-fruits/Thompson Grapes.jpg",
+        info: "Classic Thompson seedless table grapes.",
+        description:
+          "Thompson seedless grapes are a globally recognized light-green variety known for their elongated shape, sweet flavor, and tender skin. They are carefully handled and packed with SO₂ padding to maintain premium quality during transit.",
+        harvestMonths: [8, 9, 10],
+        varieties: ["Thompson Seedless"],
+        sugarBrix: "20+ Brix",
+        sizes: "22 - 24 mm",
+        packing: "5 Kg N.W Carton contains 10 plastic bags X 500 Gm (3400 Cartons / 20 Pallets - Each Pallet 170 Cartons), 5 Kg N.W Carton contains 10 punnets X 500 Gm (3600 Cartons / 20 Pallets - Each Pallet 180 Cartons)",
+      },
+      {
+        name: "Early Sweet Grapes",
+        image: "/images/products/fresh-fruits/Early Sweet Grapes.jpg",
+        info: "Early Sweet seedless table grapes with high natural sugars.",
+        description:
+          "The Early Sweet grape is a premium white seedless variety harvested early in the Egyptian season. Characterized by its creamy color, excellent crunch, and high natural sugar levels, it is highly demanded by international buyers.",
+        harvestMonths: [5, 6, 7],
+        varieties: ["Early Sweet"],
+        sugarBrix: "16+ Brix",
+        sizes: "18 - 22 mm",
+        packing: "Plastic bag Carton: 5 Kg N.W Carton contains 10 plastic bags X 500 Gm (3400 Cartons / 20 Pallets), Punnet Carton: 5 Kg N.W Carton contains 10 punnets X 500 Gm (3600 Cartons / 20 Pallets)",
       },
       {
         name: "Pomegranates",
@@ -244,6 +344,10 @@ export const productCategories: ProductCategory[] = [
         description:
           "Grown in the sun-drenched regions of Minya and Sohag, our Egyptian Pomegranates are prized for their deep ruby-red arils, exceptionally high juice yield, and remarkable post-harvest durability. Hand-picked and meticulously graded, they represent a premium export commodity, highly valued by international supermarkets and wholesale distributors for their stunning visual appeal and robust transit performance.",
         harvestMonths: [9, 10, 11, 12],
+        varieties: ["Wonderful", "Manfaluti", "Baladi", "Early 116"],
+        sugarBrix: "approx. 15° Brix min.",
+        sizes: "6, 7, 8, 9, 10, 11, 12, 13, 14",
+        packing: "4.50 Kg N.W carton (label & tray), 4.50 Kg N.W carton (label & tray & P.bag), 4.50 Kg Plastic Tray (label & tray), 5 Kg Plastic Tray (label & tray)",
       },
       {
         name: "Mangoes",
@@ -251,7 +355,7 @@ export const productCategories: ProductCategory[] = [
         info: "A seasonal signature — sweet, aromatic Egyptian mangoes.",
         description:
           "A true hallmark of the Egyptian summer, our Mangoes are cultivated along the fertile Nile corridor. They are fiercely sought after for their fibre-free, buttery flesh, intense tropical aroma, and extraordinary natural sweetness. Harvested at precise maturity indices, they are expertly handled to prevent bruising, ensuring they arrive at premium European and Gulf markets in flawless, ready-to-eat condition.",
-        harvestMonths: [6, 7, 8, 9],
+        harvestMonths: [7, 8, 9, 10, 11],
       },
       {
         name: "Strawberries",
@@ -267,7 +371,10 @@ export const productCategories: ProductCategory[] = [
         info: "Juicy stone fruit harvested at optimal maturity.",
         description:
           "Cultivated in Egypt's temperate growing zones, our Peaches deliver incredibly juicy flesh, a vibrant blush skin colour, and a deeply characteristic stone-fruit aroma. They are expertly harvested at the optimal firmness to withstand long-distance transit while still allowing for perfect ripening upon arrival. They are a highly reliable and visually appealing product for early-season retail programs.",
-        harvestMonths: [4, 5, 6, 7],
+        harvestMonths: [5, 6, 7, 8],
+        varieties: ["Florida", "Desert", "Sugary"],
+        sizes: "12, 15, 18 Pieces Per Carton",
+        packing: "3 KG & 5 KG Standard carton",
       },
       {
         name: "Apricots",
@@ -309,6 +416,17 @@ export const productCategories: ProductCategory[] = [
           "Complementing our core fruit portfolio, HBanna expertly sources a broad spectrum of specialty seasonal Egyptian fruits, including fresh figs, prickly pears, and loquats. Leveraging our extensive grower network, we tailor our procurement to meet specific, bespoke buyer requirements, providing flexible volume, precise scheduling, and stringent quality control for niche and exotic market segments.",
         harvestMonths: [4, 5, 6, 7, 8, 9, 10],
       },
+      {
+        name: "Prickly Pear",
+        image: "/images/products/fresh-fruits/prickly-pear.jpg",
+        info: "Sweet Egyptian cactus pear harvested at peak ripeness for export.",
+        description:
+          "Known internationally as the Cactus Pear, Egyptian Prickly Pear is a prized seasonal delicacy harvested from the fertile agro-zones of the Nile Delta and Upper Egypt. Celebrated for its vibrant red-to-golden flesh, high natural sugar content, and unique flavour profile, it is experiencing rapidly growing demand from European specialty retailers, Gulf importers, and premium foodservice operators. Our fruit is hand-harvested at optimal maturity, carefully de-spined and graded for size uniformity, and packed under strict cold-chain protocols to preserve its delicate texture and vivid appearance during export. Available in green and red-skinned varieties depending on the season, it represents a high-value, differentiated exotic offering for buyers seeking to expand their fresh fruit portfolio with distinctive Egyptian produce.",
+        harvestMonths: [7, 8, 9, 10],
+        varieties: ["Green", "Red"],
+        sizes: "12, 15, 18 Pieces Per Carton",
+        packing: "3 KG & 5 KG Standard carton",
+      },
     ],
   },
   {
@@ -324,60 +442,110 @@ export const productCategories: ProductCategory[] = [
       "A broad vegetable program packed for freshness — onions, garlic, roots, tomatoes, peppers, crucifers, and a wide range of seasonal Egyptian vegetables.",
     products: [
       {
-        name: "Red & Yellow Onions",
-        image: "/images/products/fresh-vegetables/onions.jpg",
-        info: "Red and yellow onions graded and packed for long shelf life.",
+        name: "Onion",
+        image: "/images/products/fresh-vegetables/onionss.jpg",
+        info: "Yellow and Italian Red onions graded and packed for long shelf life.",
         description:
           "As one of the world's leading exporters, Egypt produces onions of unparalleled quality. Grown in the nutrient-dense soils of the Nile Delta and Upper Egypt, our Red and Yellow Onions are properly cured, machine-graded to precise specifications, and packed to ensure maximum shelf life and absolute minimal spoilage. They are a staple, high-volume commodity relied upon by major importers, wholesalers, and food processors globally.",
-        harvestMonths: [2, 3, 4, 5, 6],
+        harvestMonths: [4, 5, 6, 7, 8, 9],
+        varieties: ["Yellow", "Italian Red Onion"],
+        sizes: "40/60, 50/70, 70/90, 80/120 mm",
+        productClass: "First class",
+        packing: "Mesh bag 10 KG, Mesh bag 25 KG, Wooden box 500 KG, Jumbo bag 1250 KG, Or as client request",
       },
       {
         name: "Garlic",
-        image: "/images/products/fresh-vegetables/garlic.jpg",
+        image: "/images/products/fresh-vegetables/garlicc.jpg",
         info: "Fresh Egyptian garlic with firm bulbs and strong aroma.",
         description:
           "Renowned globally for its exceptionally pungent aroma, high essential oil content, and firm, bright white bulbs, Egyptian Garlic is a highly sought-after commodity. Cultivated in Upper Egypt, it possesses outstanding keeping quality. We export it in both fresh (green) and properly cured dried formats, meeting the stringent standards of supermarkets, wholesale distributors, and the spice processing industry across Europe and Asia.",
         harvestMonths: [3, 4, 5, 6],
+        varieties: ["White Garlic", "Balady Garlic", "Red Garlic", "Chinese Garlic"],
+        sizes: "40–50 mm, 50–60 mm, 60+ mm",
       },
       {
         name: "Potatoes",
-        image: "/images/products/fresh-vegetables/potatoes.jpg",
+        image: "/images/products/fresh-vegetables/potatoess.jpg",
         info: "Clean, uniform potatoes supplied for retail and food-service.",
         description:
           "Leveraging Egypt's two annual potato crops, we provide international buyers with a highly reliable, extended year-round supply window. Our potatoes are cultivated in pest-free zones, meticulously machine-washed, and optically graded for absolute uniformity. They are supplied in exact specifications tailored for premium retail displays, the demanding food-service sector, and large-scale industrial crisping and processing markets.",
-        harvestMonths: [2, 3, 4, 5, 10, 11],
+        harvestMonths: [2, 3, 4, 5],
+        varieties: ["Spunta", "Kara", "Diamante", "Hermes", "Rosetta", "Nicola"],
+        sizes: "35-38/45, 45-55, 55/75, 75+ (50-100g, 100-150g, 150-250g, 200g and up)",
+        productClass: "First class",
+        packing: "Mesh bag or plastic box (5kg, 10kg, 15kg), Jumbo Bags or New PP Bags Net (1.250 or 2.5kg), Jumbo Bags or New PP Bags (25 or 1,000pcs), Jumbo Bags or New PP Bags (1 or 50pcs) the pallets, Or open client's request",
       },
       {
         name: "Sweet Potatoes",
         image: "/images/products/fresh-vegetables/sweet-potatoes.jpg",
         info: "Orange-fleshed sweet potatoes packed for freshness and consistency.",
         description:
-          "Egyptian Sweet Potatoes are distinguished by their deep-orange, nutrient-rich flesh, high natural sweetness, and exceptionally consistent sizing. Grown in Upper Egypt and Ismailia, they are meticulously cured and washed. They meet the surging demand in European health-food channels and mainstream retail, providing a highly profitable, reliable root crop available in both conventional and certified organic programs.",
-        harvestMonths: [9, 10, 11, 12, 1, 2],
+          "Egyptian Sweet Potatoes are distinguished by their deep-orange, nutrient-rich flesh, high natural sweetness, and exceptionally consistent sizing. Firm, crisp, oval or elongated tubers free from foreign smells. Grown in Upper Egypt and Ismailia, they are meticulously cured and washed. They meet the surging demand in European health-food channels and mainstream retail, providing a highly profitable, reliable root crop available in both conventional and certified organic programs.",
+        harvestMonths: [8, 9, 10, 11, 12, 1, 2, 3],
+        varieties: ["Egyptian sweet Potatoes (Baladi)"],
+        sizes: "300 gm - 600 gm",
+        productClass: "First class",
+        packing: "CARTON 5KG, CARTON 6KG, mesh BAGS 10 KG, Or according to client request",
       },
       {
-        name: "Tomatoes",
+        name: "Tomato",
         image: "/images/products/fresh-vegetables/tomatoes.jpg",
         info: "Vine-ripened tomatoes with vibrant color and firm texture.",
         description:
-          "Cultivated in the rich agricultural hubs of Beheira and Ismailia, Egyptian Tomatoes are selected for their vibrant red colour, consistent sizing, and highly firm flesh, making them highly resilient to long-distance export transport. Available across a broad seasonal window, we supply multiple varieties—including beefsteak, cherry, and plum—tailored specifically for demanding retail programs, wholesale distribution, and industrial food processing.",
-        harvestMonths: [11, 12, 1, 2, 3, 4, 5],
+          "Cultivated in the rich agricultural hubs of Beheira and Ismailia, Egyptian Tomatoes are selected for their vibrant red colour, consistent sizing, and highly firm flesh, making them highly resilient to long-distance export transport. Available across a broad seasonal window, we supply multiple varieties tailored specifically for demanding retail programs, wholesale distribution, and industrial food processing.",
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Cherry Tomatoes", "Cherry Tomatoes on the Vine", "Sun gold Tomatoes", "Baby Plum Tomatoes", "Bar 84", "Vine Ripened Tomatoes", "Plum tomatoes", "Beef Tomatoes", "Silica Tomatoes", "Midi Plum Tomatoes", "R196"],
+        sizes: "Length 3 - 8 CM",
+        productClass: "First class",
+        packing: "Plastic box: 3.5 KG, 7 KG, Carton: 2 KG, 3.5 KG, 5 KG, Or according to client request",
       },
       {
-        name: "Peppers",
-        image: "/images/products/fresh-vegetables/peppers.jpg",
+        name: "Cherry Tomato",
+        image: "/images/products/fresh-vegetables/Cherry Tomato.jpg",
+        info: "Small, sweet cherry tomatoes packed for retail and snacking.",
+        description:
+          "A specialized offering of small, high-sugar tomatoes grown in Egypt's mild climate. Harvested precisely for vibrant red color and maximum sweetness. Perfect for retail snacking packs and catering.",
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Organic", "Common", "Bar 84", "Cherry Tomatoes"],
+        sizes: "3 - 6 CM",
+        productClass: "First class",
+        packing: "Plastic box: 2 KG / 2.5 KG, Carton: 2 KG / 3.5 KG, Or as per customer's desire",
+      },
+      {
+        name: "Capsicum (Bell Peppers)",
+        image: "/images/products/fresh-vegetables/Capsicum .jpg",
         info: "Colorful peppers in multiple varieties for export programs.",
         description:
-          "Grown utilizing advanced protective covers and strategic open-field programs, our Egyptian Peppers deliver brilliant, uniform colouration, thick, crisp walls, and standardized sizing. This ensures a highly reliable, premium year-round supply. They are expertly packed to maintain their firmness and visual appeal, serving as a cornerstone product for major European and Gulf retail supermarket chains.",
-        harvestMonths: [11, 12, 1, 2, 3, 4, 5],
+          "Grown utilizing advanced protective covers and strategic open-field programs, our Egyptian Peppers deliver brilliant, uniform colouration (Green, Yellow, Orange, Red), thick, crisp walls, and standardized sizing. This ensures a highly reliable, premium year-round supply. They are expertly packed to maintain their firmness and visual appeal, serving as a cornerstone product for major European and Gulf retail supermarket chains.",
+        harvestMonths: [1, 2, 3, 4],
+        varieties: ["Pencil Type", "Fat Type"],
+        sizes: "Small, Medium, Large (Length: 5 - 10 CM)",
+        productClass: "First class",
+        packing: "Carton 5 KG, Bulk pack 8 KG, Carton 2.50 KG, Or as per customer's desire",
       },
       {
-        name: "Cucumbers",
+        name: "Egyptian Hot Chili",
+        image: "/images/products/fresh-vegetables/Egyptian Hot Chili.jpg",
+        info: "Vibrant hot chili peppers for fresh markets and processing.",
+        description:
+          "Our Egyptian hot chilies are selected for their distinct heat profile, vibrant color, and firm texture. Cultivated for consistent pungency, they are a staple in global spice manufacturing, food service, and fresh retail markets.",
+        harvestMonths: [11, 12, 1, 2, 3, 4, 5, 6],
+        varieties: ["Green Chili (F60)", "Red Chili"],
+        sizes: "Length 8 - 13 CM",
+        productClass: "First class",
+        packing: "N.W Carton 2.50 KG, Or as per customer's desire",
+      },
+      {
+        name: "Egyptian Cucumber",
         image: "/images/products/fresh-vegetables/cucumbers.jpg",
-        info: "Crisp cucumbers harvested fresh and packed for cold-chain delivery.",
+        info: "Crisp dark green cucumbers packed for cold-chain delivery.",
         description:
           "Thriving in Egypt's mild winter climate, our Cucumbers offer a remarkably crisp texture, vibrant dark-green skin, and perfectly uniform cylindrical sizing. Because they are highly sensitive to temperature fluctuations, we employ a strict, rapid cold-chain protocol from field harvesting directly to the pack house, ensuring absolute freshness and crispness upon arrival at international destinations.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Dark Green"],
+        sizes: "Length: 9 - 10 CM",
+        productClass: "First class",
+        packing: "Carton - Bulk pack 5 KG, Or as per customer's desire",
       },
       {
         name: "Carrots",
@@ -385,47 +553,107 @@ export const productCategories: ProductCategory[] = [
         info: "Bright, uniform carrots with excellent crunch and sweetness.",
         description:
           "Grown in the sandy, loamy soils of the Nile Delta, our Egyptian Carrots are mechanically harvested, thoroughly washed, and hydro-cooled. They are distinguished by their vibrant orange colour, excellent structural crunch, and notably high natural sugar content. Graded for perfect uniformity, they are supplied in diverse retail and wholesale packaging formats to major European supermarkets and Gulf distributors.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Orange"],
+        sizes: "Length: 15 - 20 CM",
+        productClass: "First class",
+        packing: "Carton - Bulk pack 8 KG, Or as per customer's desire",
       },
       {
-        name: "Broccoli",
+        name: "Egyptian Fresh Broccoli",
         image: "/images/products/fresh-vegetables/broccoli.jpg",
         info: "Tight-headed broccoli crowns packed for premium retail display.",
         description:
           "Egypt's cool-season climate is ideally suited for producing premium broccoli. Our crowns are characterized by their dense, tight heads, deep blue-green colouration, and excellent structural firmness. They are rapidly ice-packed or hydro-cooled immediately post-harvest to halt respiration, making them an ideal, high-quality offering for premium retail programs and specialty wholesale markets across Europe and the Gulf.",
-        harvestMonths: [11, 12, 1, 2, 3],
+        harvestMonths: [12, 1, 2, 3],
+        varieties: ["Egyptian Broccoli"],
+        sizes: "1 Piece = 1 KG - 1.75 KG",
+        productClass: "First class",
+        packing: "Foam Box with ice 4 KG, Or as per customer's desire",
       },
       {
         name: "Cauliflower",
         image: "/images/products/fresh-vegetables/cauliflower.jpg",
         info: "White cauliflower with clean curds and consistent sizing.",
         description:
-          "Harvested during the optimal cool season in the Delta Region, our Egyptian Cauliflower features bright, exceptionally compact white curds and consistent, standardized calibre. The leaves are carefully trimmed to protect the head during transit. It is a highly reliable winter vegetable commodity, packed to stringent specifications for both large-scale retail and wholesale export programs.",
-        harvestMonths: [11, 12, 1, 2, 3],
+          "Harvested during the optimal cool season in the Delta Region, our Egyptian Cauliflower features bright, exceptionally compact natural white curds and consistent, standardized calibre. The leaves are carefully trimmed to protect the head during transit. It is a highly reliable winter vegetable commodity, packed to stringent specifications for both large-scale retail and wholesale export programs.",
+        harvestMonths: [11, 12, 1, 2],
+        varieties: ["Fresh Sultani", "Addam", "ElNazeer", "Ashiri"],
+        sizes: "100 - 400 Gm",
+        productClass: "First class",
+        packing: "Carton 7 KG, Or as event request",
       },
       {
-        name: "Cabbage",
+        name: "Egyptian Cabbage",
         image: "/images/products/fresh-vegetables/cabbage.jpg",
         info: "Firm, compact cabbage heads for wholesale and processing.",
         description:
           "Cultivated in the nutrient-rich Nile Delta, our Egyptian Cabbage yields dense, heavy, and exceptionally firm heads that boast an outstanding post-harvest shelf life. Available in robust green, red, and savoy varieties, they are graded for size uniformity. This makes them an incredibly stable and highly economical commodity perfectly suited for long-haul wholesale distribution, the food-service industry, and commercial processing.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Green", "Red"],
+        sizes: "1 Piece = 1 - 1.25 KG",
+        productClass: "First class",
+        packing: "Carton 10 KG, Or as per customer's desire",
       },
       {
-        name: "Eggplant",
+        name: "Egyptian Eggplant (Aubergine)",
         image: "/images/products/fresh-vegetables/eggplant.jpg",
         info: "Glossy eggplants with smooth skin and uniform grade.",
         description:
-          "Egyptian Eggplant is carefully hand-harvested at optimal maturity to guarantee a deep-purple, glossy colouration, firm, seedless flesh, and perfectly smooth skin. We cultivate multiple commercial varieties, including classic globe and long purple types, grading them meticulously to meet the specific culinary and visual requirements of the wholesale, retail, and international food-service sectors.",
-        harvestMonths: [3, 4, 5, 6, 10, 11, 12],
+          "Egyptian Eggplant is carefully hand-harvested at optimal maturity to guarantee a deep-purple/red, glossy colouration, firm, seedless flesh, and perfectly smooth skin. We cultivate multiple commercial varieties, including classic globe and long purple types, grading them meticulously to meet the specific culinary and visual requirements of the wholesale, retail, and international food-service sectors.",
+        harvestMonths: [11, 12, 1, 2, 3, 4, 5, 6],
+        varieties: ["Black", "White", "Long", "Arouse"],
+        sizes: "10 - 15 CM",
+        productClass: "First class",
+        packing: "Wooden / Plastic Boxes 5 KG, Or as per customer's desire",
       },
       {
-        name: "Okra",
+        name: "Egyptian Okra",
         image: "/images/products/fresh-vegetables/okra.jpg",
         info: "Tender okra pods packed quickly to preserve freshness.",
         description:
           "Recognized as a premium specialty vegetable, Egyptian Okra is harvested highly immature to ensure maximum tenderness and zero woodiness. Because of its high respiration rate, it undergoes immediate, rapid cold-chain packing to preserve its vibrant green colour and delicate texture. It is a highly sought-after product by Gulf importers, European specialty grocers, and international food-service buyers.",
-        harvestMonths: [5, 6, 7, 8, 9, 10],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Indian", "Baladi"],
+        sizes: "3 - 9 CM",
+        productClass: "First class",
+        packing: "Carton - Bulk pack 3 KG, Or upon client's request",
+      },
+      {
+        name: "Egyptian Spring Onions",
+        image: "/images/products/fresh-vegetables/Egyptian Spring Onions.jpg",
+        info: "Fresh spring onions packed in bunches for catering and salad.",
+        description:
+          "Our fresh Egyptian Spring Onions deliver a crisp bite and aromatic flavor. Grown under optimal conditions, they are meticulously cleaned and bunched according to buyer requirements, ideal for the catering industry, supermarkets, and culinary applications.",
+        harvestMonths: [10, 11, 12, 1, 2, 3, 4],
+        varieties: ["Giza 6", "Foton"],
+        sizes: "Bulb: 8-30mm, Length: 27-38cm (2Gr/2.5Gr/3Gr/4Gr/5Gr/6Gr)",
+        productClass: "First class",
+        packing: "Carton / Plastic Basket. Bunches: 14 bunch (cooking) or 20 bunch (salad)",
+      },
+      {
+        name: "Fresh Lettuce \"Iceberg\"",
+        image: "/images/products/fresh-vegetables/Fresh Lettuce .jpg",
+        info: "Crisp Egyptian Iceberg lettuce heads for fresh markets.",
+        description:
+          "Cultivated during the mild Egyptian winter, our Iceberg Lettuce develops tight, compact heads with exceptional crunch and hydration. We utilize careful harvesting and immediate cooling to maintain its structural integrity all the way to global retail shelves.",
+        harvestMonths: [12, 1, 2, 3, 4],
+        varieties: ["Egyptian Iceberg Lettuce"],
+        sizes: "600 Gm - 1 KG",
+        productClass: "First class",
+        packing: "Carton 7 KG (8 to 12 Pieces per carton), Or upon client's request",
+      },
+      {
+        name: "Snow Peas",
+        image: "/images/products/fresh-vegetables/Snow Peas.jpg",
+        info: "Crisp, sweet snow and sugar snap peas.",
+        description:
+          "Egyptian Snow Peas and Sugar Snaps are highly prized for their vibrant green color, sweet flavor, and satisfying crunch. Hand-harvested and immediately cooled, they are an excellent premium vegetable offering for retail produce sections and fine dining.",
+        harvestMonths: [11, 12, 1, 2, 3, 4],
+        varieties: ["Egypt Snow Peas", "Sugar Snap"],
+        sizes: "5 to 10 cm",
+        productClass: "First class",
+        packing: "Carton (12 Punnet x 250 Gm) 3 KG, Or upon client's request",
       },
       {
         name: "Seasonal vegetables",
@@ -479,7 +707,7 @@ export const productCategories: ProductCategory[] = [
         info: "Sun-dried tomatoes with concentrated flavor and rich color.",
         description:
           "Produced exclusively from premium Egyptian plum tomatoes and naturally dried under the intense, arid summer sun, our sun-dried tomatoes deliver an extraordinary concentration of umami flavour and a deep, rich red colour. Graded for perfection, they are a high-value, premium ingredient supplied in bulk or retail formats to food manufacturers, specialty distributors, and Mediterranean-focused retail channels globally.",
-        harvestMonths: [6, 7, 8, 9],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       },
       {
         name: "Selected agricultural ingredients",

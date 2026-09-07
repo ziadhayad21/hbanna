@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useLanguage } from "@/contexts/LanguageProvider";
-
 import { getTranslatedProducts } from "@/lib/i18n/products";
+import { productCategories } from "@/lib/products";
 
 /* ─────────────────────────────────────────────────────────────
    TYPES & DATA MODELS
@@ -38,79 +38,60 @@ function avail(available: number[], limited: number[] = []): Avail[] {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   SEASONALITY DATA
+   CALENDAR DATA — derived directly from productCategories.
+   Single source of truth: lib/products.ts
+   Rules:
+     • Every product with harvestMonths appears exactly once.
+     • Products without harvestMonths are excluded.
+     • No manual list to maintain — stays in sync automatically.
 ───────────────────────────────────────────────────────────── */
-const CATEGORIES: SeasonCategory[] = [
-  {
-    id: "citrus",
-    label: "Citrus",
-    products: [
-      { id: "navel",        name: "Navel Oranges",     categoryId: "citrus", categoryLabel: "Citrus", months: avail([11,12,1,2,3,4]) },
-      { id: "valencia",     name: "Valencia Oranges",  categoryId: "citrus", categoryLabel: "Citrus", months: avail([3,4,5,6]) },
-      { id: "baladi",       name: "Baladi Oranges",    categoryId: "citrus", categoryLabel: "Citrus", months: avail([12,1,2,3]) },
-      { id: "sweet-orange", name: "Sweet Oranges",     categoryId: "citrus", categoryLabel: "Citrus", months: avail([11,12,1,2]) },
-      { id: "shamouti",     name: "Shamouti",          categoryId: "citrus", categoryLabel: "Citrus", months: avail([1,2,3,4]) },
-      { id: "blood",        name: "Blood Oranges",     categoryId: "citrus", categoryLabel: "Citrus", months: avail([12,1,2,3]) },
-      { id: "mandarins",    name: "Mandarins",         categoryId: "citrus", categoryLabel: "Citrus", months: avail([10,11,12,1]) },
-      { id: "murcott",      name: "Murcott Mandarins", categoryId: "citrus", categoryLabel: "Citrus", months: avail([1,2,3]) },
-      { id: "easy",         name: "Easy Peelers",      categoryId: "citrus", categoryLabel: "Citrus", months: avail([10,11,12]) },
-      { id: "lemons",       name: "Lemons",            categoryId: "citrus", categoryLabel: "Citrus", months: avail([10,11,12,1,2,3,4,5,6]) },
-      { id: "limes",        name: "Limes",             categoryId: "citrus", categoryLabel: "Citrus", months: avail([6,7,8,9,10]) },
-      { id: "grapefruit",   name: "Grapefruit",        categoryId: "citrus", categoryLabel: "Citrus", months: avail([11,12,1,2,3,4]) },
-    ],
-  },
-  {
-    id: "dates",
-    label: "Dates",
-    products: [
-      { id: "semi-dry",      name: "Semi-Dry Dates",   categoryId: "dates", categoryLabel: "Dates", months: avail([8,9,10]) },
-      { id: "dry",           name: "Dry Dates",         categoryId: "dates", categoryLabel: "Dates", months: avail([9,10,11]) },
-      { id: "medjool",       name: "Medjool Dates",     categoryId: "dates", categoryLabel: "Dates", months: avail([9,10]) },
-      { id: "barhi",         name: "Fresh Barhi Dates", categoryId: "dates", categoryLabel: "Dates", months: avail([8,9]) },
-      { id: "fresh-dates",   name: "Fresh Dates",       categoryId: "dates", categoryLabel: "Dates", months: avail([8,9,10,11]) },
-      { id: "premium-dates", name: "Premium Varieties", categoryId: "dates", categoryLabel: "Dates", months: avail([8,9,10,11]) },
-      { id: "date-products", name: "Date Products",     categoryId: "dates", categoryLabel: "Dates", months: avail([8,9,10,11,12],[1,2,3,4,5,6,7]) },
-    ],
-  },
-  {
-    id: "fresh-fruits",
-    label: "Fresh Fruits",
-    products: [
-      { id: "grapes",       name: "Grapes",          categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([6,7,8,9]) },
-      { id: "pomegranates", name: "Pomegranates",    categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([9,10,11,12]) },
-      { id: "mangoes",      name: "Mangoes",         categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([6,7,8,9]) },
-      { id: "strawberries", name: "Strawberries",    categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([12,1,2,3,4]) },
-      { id: "peaches",      name: "Peaches",         categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([4,5,6,7]) },
-      { id: "apricots",     name: "Apricots",        categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([4,5,6]) },
-      { id: "melons",       name: "Melons",          categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([4,5,6,7,8]) },
-      { id: "watermelons",  name: "Watermelons",     categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([4,5,6,7,8]) },
-      { id: "guava",        name: "Guava",           categoryId: "fresh-fruits", categoryLabel: "Fresh Fruits", months: avail([7,8,9,11,12,1]) },
-    ],
-  },
-  {
-    id: "vegetables",
-    label: "Vegetables",
-    products: [
-      { id: "onions",        name: "Red & Yellow Onions", categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([2,3,4,5,6]) },
-      { id: "garlic",        name: "Garlic",              categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([3,4,5,6]) },
-      { id: "potatoes",      name: "Potatoes",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([2,3,4,5,10,11]) },
-      { id: "sweet-potato",  name: "Sweet Potatoes",      categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([9,10,11,12,1,2]) },
-      { id: "tomatoes",      name: "Tomatoes",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3,4,5]) },
-      { id: "peppers",       name: "Peppers",             categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3,4,5]) },
-      { id: "cucumbers",     name: "Cucumbers",           categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3,4]) },
-      { id: "carrots",       name: "Carrots",             categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3,4]) },
-      { id: "broccoli",      name: "Broccoli",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
-      { id: "eggplant",      name: "Eggplant",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([3,4,5,6,10,11,12]) },
-      { id: "artichokes",    name: "Artichokes",          categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([12,1,2,3,4]) },
-      { id: "cabbage",       name: "Cabbage",             categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
-      { id: "cauliflower",   name: "Cauliflower",         categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
-      { id: "green-beans",   name: "Green Beans",         categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([3,4,5,6,10,11]) },
-      { id: "okra",          name: "Okra",                categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([5,6,7,8,9,10]) },
-    ],
-  },
-];
 
-const ALL_PRODUCTS: SeasonProduct[] = CATEGORIES.flatMap((c) => c.products);
+/**
+ * Convert a 1-indexed harvestMonths array into a 12-slot Avail array.
+ * All listed months get value 2 (peak/available). Unlisted = 0 (off-season).
+ */
+function harvestToAvail(harvestMonths: number[]): Avail[] {
+  return Array.from({ length: 12 }, (_, i) =>
+    harvestMonths.includes(i + 1) ? 2 : 0
+  ) as Avail[];
+}
+
+/**
+ * Build a stable slug from a product name for use as an ID.
+ * e.g. "Navel Oranges" → "navel-oranges"
+ */
+function nameToId(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/**
+ * Derived from productCategories. Re-computed once at module load.
+ * Calendar category ID mirrors the product category slug,
+ * except fresh-vegetables is mapped to "vegetables" for the tab UI.
+ */
+const CATEGORIES: SeasonCategory[] = productCategories
+  .map((cat) => {
+    const catId = cat.slug === "fresh-vegetables" ? "vegetables" : cat.slug;
+    const products: SeasonProduct[] = cat.products
+      .filter((p) => p.harvestMonths && p.harvestMonths.length > 0)
+      .map((p) => ({
+        id: nameToId(p.name),
+        name: p.name,
+        categoryId: catId,
+        categoryLabel: cat.title,
+        months: harvestToAvail(p.harvestMonths!),
+      }));
+
+    return {
+      id: catId,
+      label: cat.title,
+      products,
+    };
+  })
+  // Only include categories that have at least one product with harvest data
+  .filter((cat) => cat.products.length > 0);
+
+
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTHS_LETTERS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const MONTHS_FULL = [
@@ -192,38 +173,39 @@ export default function SeasonalityCalendar() {
     return () => obs.disconnect();
   }, []);
 
-  // Filter products by category and optional search term
+  // Translate category labels and product names based on current locale
   const { translatedCats, translatedAllProducts } = useMemo(() => {
     const globalCategories = getTranslatedProducts(locale);
 
     const cats = CATEGORIES.map((c) => {
-      // Find matching global category to get translations
-      // The IDs differ slightly, e.g., 'vegetables' vs 'fresh-vegetables'
+      // Map calendar category ID back to product-library slug for lookup
       const globalCatId = c.id === "vegetables" ? "fresh-vegetables" : c.id;
       const globalCat = globalCategories.find(gc => gc.slug === globalCatId);
 
+      // Translated category label: use calendarCats override, then global title, then fallback
+      const catLabel = t.calendarCats?.[c.id] || globalCat?.title || c.label;
+
       return {
         ...c,
-        label: globalCat ? globalCat.title : c.label,
+        label: catLabel,
         products: c.products.map((p) => {
-          const globalProduct = globalCat?.products.find(gp => gp.name === p.name || gp.name === p.id || p.name.includes(gp.name));
-          // If direct match fails, we try our best. Note that SeasonalityCalendar uses different product names than Products array.
-          // This ensures we fallback to the hardcoded English name if translation not found.
-          
+          // Exact name match against translated product list
+          const globalProduct = globalCat?.products.find(gp => gp.name === p.name);
           return {
             ...p,
-            name: (t.cats as any)?.[p.id] || globalProduct?.name || p.name,
-            categoryLabel: globalCat ? globalCat.title : c.label,
+            name: globalProduct?.name || p.name,
+            categoryLabel: catLabel,
           };
         }),
       };
     });
-    
+
     return {
       translatedCats: cats,
       translatedAllProducts: cats.flatMap(c => c.products),
     };
   }, [locale, t]);
+
 
   const displayedProducts = useMemo(() => {
     let list = selectedCat === "all"

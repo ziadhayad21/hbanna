@@ -15,6 +15,7 @@ export default function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -75,7 +76,7 @@ export default function ContactForm() {
     }
   }, []);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = formRef.current;
     const success = successRef.current;
@@ -97,9 +98,22 @@ export default function ContactForm() {
     });
 
     setIsSubmitting(true);
+    setErrorMessage("");
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to send request");
+      }
+
       if (success) {
         success.classList.remove("is-visible");
         void success.offsetWidth;
@@ -107,7 +121,12 @@ export default function ContactForm() {
       }
 
       form.reset();
-    }, 1500);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(t?.form?.error || "An error occurred while sending your request. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -262,6 +281,11 @@ export default function ContactForm() {
               <span className="form-note-dot" aria-hidden="true" />
               {t.form.note || "Direct response from HBanna export desk within 1-2 business days."}
             </p>
+            {errorMessage && (
+              <div style={{ color: '#ef4444', marginTop: '12px', fontSize: '14px', fontWeight: 500 }}>
+                {errorMessage}
+              </div>
+            )}
 
             <div className="form-success" id="contactSuccess" role="status" aria-live="polite" ref={successRef}>
               <span className="form-success-icon" aria-hidden="true">

@@ -5370,6 +5370,8 @@ footer::before {
   width:100%;
   max-height:90vh;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
   animation:pm-scale-in .4s var(--ease) both;
 }
 @keyframes pm-scale-in{
@@ -5403,8 +5405,8 @@ footer::before {
 .pm-inner{
   display:grid;
   grid-template-columns:42% 58%;
-  height:100%;
-  max-height:90vh;
+  flex:1;
+  min-height:0;
 }
 
 /* Image column */
@@ -5575,6 +5577,48 @@ footer::before {
   height:5px;
   border-radius:50%;
   background:var(--orange);
+}
+
+/* Specifications block */
+.pm-specs-block{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:18px 0 0;
+  border-top:1px solid var(--line);
+}
+.pm-specs-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin:0;
+  padding:0;
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden;
+}
+.pm-spec-row{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  align-items:baseline;
+  gap:12px;
+  padding:9px 14px;
+  border-bottom:1px solid var(--line);
+}
+.pm-spec-row:last-child{border-bottom:none;}
+.pm-spec-key{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--muted-soft);
+  margin:0;
+}
+.pm-spec-val{
+  font-size:13px;
+  font-weight:500;
+  color:var(--fg);
+  margin:0;
 }
 
 /* Season bar */

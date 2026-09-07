@@ -190,6 +190,7 @@ export type Messages = {
     inq3: string;
     inq4: string;
     inq5: string;
+    error: string;
   };
   productsPage: {
     eyebrow: string;
@@ -224,6 +225,7 @@ export type Messages = {
   };
   catDescriptions?: Record<string, string>;
   catSummaries?: Record<string, string>;
+  calendarCats?: Record<string, string>;
 
   calendarPage?: {
     eyebrow: string;
@@ -470,8 +472,9 @@ export const en: Messages = {
     inq1: "Product Inquiry",
     inq2: "Export Partnership",
     inq3: "Logistics Information",
-    inq4: "Quality Assurance",
+    inq4: "Bespoke Packaging",
     inq5: "General Inquiry",
+    error: "An error occurred while sending your request. Please try again later.",
   },
   productsPage: {
     eyebrow: "Our Produce",
@@ -503,6 +506,12 @@ export const en: Messages = {
     freshVegetables: "Fresh Vegetables",
     herbsSpices: "Herbs & Spices",
     pulsesGrains: "Pulses & Grains",
+  },
+  calendarCats: {
+    citrus: "Citrus",
+    grapes: "Grapes",
+    "fresh-fruits": "Fresh Fruits",
+    vegetables: "Vegetables",
   },
   calendarPage: {
     eyebrow: "Agricultural Cycles",
@@ -773,8 +782,9 @@ export const de: Messages = {
     inq1: "Produktanfrage",
     inq2: "Exportpartnerschaft",
     inq3: "Logistikinformationen",
-    inq4: "Qualitätssicherung",
+    inq4: "Bespoke Packaging",
     inq5: "Allgemeine Anfrage",
+    error: "Beim Senden Ihrer Anfrage ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.",
   },
   productsPage: {
     eyebrow: "Unsere Produkte",
@@ -806,6 +816,12 @@ export const de: Messages = {
     freshVegetables: "Frischgemüse",
     herbsSpices: "Kräuter & Gewürze",
     pulsesGrains: "Hülsenfrüchte & Getreide",
+  },
+  calendarCats: {
+    citrus: "Zitrusfrüchte",
+    grapes: "Trauben",
+    "fresh-fruits": "Frischobst",
+    vegetables: "Frischgemüse",
   },
   calendarPage: {
     eyebrow: "Landwirtschaftliche Zyklen",
@@ -1067,8 +1083,9 @@ export const zh: Messages = {
     inq1: "产品询盘",
     inq2: "出口合作",
     inq3: "物流信息",
-    inq4: "质量保障",
+    inq4: "Bespoke Packaging",
     inq5: "一般咨询",
+    error: "发送您的请求时出错。请稍后再试。",
   },
   productsPage: {
     eyebrow: "我们的产品",
@@ -1100,6 +1117,12 @@ export const zh: Messages = {
     freshVegetables: "新鲜蔬菜",
     herbsSpices: "香草与香料",
     pulsesGrains: "豆类与谷物",
+  },
+  calendarCats: {
+    citrus: "柑橘",
+    grapes: "葡萄",
+    "fresh-fruits": "新鲜水果",
+    vegetables: "新鲜蔬菜",
   },
   calendarPage: {
     eyebrow: "农业周期",

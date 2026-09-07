@@ -93,6 +93,45 @@ export default function ProductModal({ product, onClose }: Props) {
                 <p className="pm-description">{product.description}</p>
               )}
 
+              {/* Specifications */}
+              {(product.sugarBrix || product.varieties || product.sizes || product.packing || product.productClass) && (
+                <div className="pm-specs-block">
+                  <span className="pm-detail-label">Specifications</span>
+                  <dl className="pm-specs-list">
+                    {product.varieties && product.varieties.length > 0 && (
+                      <div className="pm-spec-row">
+                        <dt className="pm-spec-key">Varieties</dt>
+                        <dd className="pm-spec-val">{product.varieties.join(", ")}</dd>
+                      </div>
+                    )}
+                    {product.sugarBrix && (
+                      <div className="pm-spec-row">
+                        <dt className="pm-spec-key">Sugar (Brix)</dt>
+                        <dd className="pm-spec-val">{product.sugarBrix}</dd>
+                      </div>
+                    )}
+                    {product.sizes && (
+                      <div className="pm-spec-row">
+                        <dt className="pm-spec-key">Sizes</dt>
+                        <dd className="pm-spec-val">{product.sizes}</dd>
+                      </div>
+                    )}
+                    {product.productClass && (
+                      <div className="pm-spec-row">
+                        <dt className="pm-spec-key">Class</dt>
+                        <dd className="pm-spec-val">{product.productClass}</dd>
+                      </div>
+                    )}
+                    {product.packing && (
+                      <div className="pm-spec-row">
+                        <dt className="pm-spec-key">Packing</dt>
+                        <dd className="pm-spec-val">{product.packing}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              )}
+
               {/* Season bar */}
               <div className="pm-season-block">
                 <span className="pm-detail-label">{t.modal?.harvestSeason || "Harvest / Availability Season"}</span>
