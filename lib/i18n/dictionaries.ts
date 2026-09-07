@@ -196,6 +196,7 @@ export type Messages = {
     title: string;
     desc: string;
     viewCategory: string;
+    viewDetails: string;
     ctaEyebrow: string;
     ctaTitle: string;
     ctaContact: string;
@@ -207,6 +208,12 @@ export type Messages = {
     more: string;
     continue: string;
   };
+  modal?: {
+    productDetails: string;
+    harvestSeason: string;
+    requestQuote: string;
+    close: string;
+  };
   cats: {
     citrus: string;
     dates: string;
@@ -214,6 +221,56 @@ export type Messages = {
     freshVegetables: string;
     herbsSpices: string;
     pulsesGrains: string;
+  };
+  catDescriptions?: Record<string, string>;
+  catSummaries?: Record<string, string>;
+
+  calendarPage?: {
+    eyebrow: string;
+    title: string;
+    desc: string;
+    months: string[];
+    legendPeak: string;
+    legendLimited: string;
+    legendOff: string;
+    allTab: string;
+    searchPlaceholder: string;
+    noResults: string;
+    inSeasonNow: string;
+    yearRound: string;
+    consultDesk: string;
+    peak: string;
+    harvest: string;
+    clickHint: string;
+  };
+  countriesPage?: {
+    eyebrow: string;
+    title1: string;
+    title2: string;
+    desc: string;
+    activeCorridors: string;
+    continentsServed: string;
+    directOrigin: string;
+    seaPorts: string;
+    activeCorridorFilter: string;
+    directCargo: string;
+    primaryLoading: string;
+    clickHint: string;
+    corridorSuffix: string;
+    commercialScope: string;
+    exportOrigin: string;
+    modality: string;
+    qualityProtocol: string;
+    documentation: string;
+    egyptDirect: string;
+    reeferAir: string;
+    globalGap: string;
+    eur1: string;
+    requestAllocation: string;
+    commercialCorridors: string;
+    clickToSpotlight: string;
+    regions: Record<string, string>;
+    markets: Record<string, { label: string; tagline: string }>;
   };
 };
 
@@ -417,20 +474,27 @@ export const en: Messages = {
     inq5: "General Inquiry",
   },
   productsPage: {
-    eyebrow: "Our Products",
-    title: "Premium Egyptian Agricultural Products.",
-    desc: "Browse our export categories — citrus, dates, fresh produce, herbs, spices, pulses, and grains.",
-    viewCategory: "View category",
-    ctaEyebrow: "Trade Inquiries",
-    ctaTitle: "Need volumes, specs, or shipping support?",
-    ctaContact: "Contact Export Desk",
-    ctaAbout: "About HBanna",
+    eyebrow: "Our Produce",
+    title: "Premium Egyptian Harvests",
+    desc: "A comprehensive range of Global GAP-certified fruits, vegetables, and dates, cultivated in Egypt's fertile lands and exported worldwide.",
+    viewCategory: "View Category",
+    viewDetails: "View Details",
+    ctaEyebrow: "Quality Guaranteed",
+    ctaTitle: "Ready to import our premium harvests?",
+    ctaContact: "Request a Quote",
+    ctaAbout: "Learn About Our Farms",
   },
   categoryPage: {
     request: "Request Availability",
     all: "All Categories",
-    more: "More Categories",
-    continue: "Continue exploring our range",
+    more: "More from HBanna",
+    continue: "Continue Exploring",
+  },
+  modal: {
+    productDetails: "Product Details",
+    harvestSeason: "Harvest / Availability Season",
+    requestQuote: "Request a Quote",
+    close: "Close",
   },
   cats: {
     citrus: "Citrus",
@@ -439,6 +503,77 @@ export const en: Messages = {
     freshVegetables: "Fresh Vegetables",
     herbsSpices: "Herbs & Spices",
     pulsesGrains: "Pulses & Grains",
+  },
+  calendarPage: {
+    eyebrow: "Agricultural Cycles",
+    title: "Seasonal Availability & Harvest Calendar",
+    desc: "Direct visibility into Egyptian harvest cycles, peak export windows, and cold-storage availability.",
+    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    legendPeak: "Peak Harvest",
+    legendLimited: "Limited / Stored",
+    legendOff: "Off Season",
+    allTab: "All Categories",
+    searchPlaceholder: "Search varieties...",
+    noResults: "No varieties found for",
+    inSeasonNow: "In Season",
+    yearRound: "Year-round availability",
+    consultDesk: "Consult export desk",
+    peak: "Peak",
+    harvest: "Harvest",
+    clickHint: "Tap any variety for harvest details or instant quote",
+  },
+  countriesPage: {
+    eyebrow: "Verified Global Footprint",
+    title1: "Export Destinations ",
+    title2: "& Trade Corridors",
+    desc: "Strategically connecting Egyptian agricultural harvests to tier-one international importers, wholesalers, and retail networks across Europe, Africa, Asia, and the Americas.",
+    activeCorridors: "Active Trade Corridors",
+    continentsServed: "Continents Served",
+    directOrigin: "Direct Origin",
+    seaPorts: "Alexandria & Damietta Sea Ports",
+    activeCorridorFilter: "Active Corridor Filter:",
+    directCargo: "Direct Sea & Air Cargo",
+    primaryLoading: "Primary Loading: Port of Alexandria & Port of Damietta (Egypt)",
+    clickHint: "Click any route or market to inspect trade details",
+    corridorSuffix: "Corridor",
+    commercialScope: "Commercial Scope",
+    exportOrigin: "Export Origin",
+    modality: "Modality",
+    qualityProtocol: "Quality Protocol",
+    documentation: "Documentation",
+    egyptDirect: "Egypt (Direct)",
+    reeferAir: "Reefer Container / Air",
+    globalGap: "Global GAP & ISO",
+    eur1: "EUR.1 / Phytosanitary",
+    requestAllocation: "Request Allocation for",
+    commercialCorridors: "Commercial Corridors",
+    clickToSpotlight: "Click to spotlight on map",
+    regions: {
+      "All": "All",
+      "Africa": "Africa",
+      "Europe": "Europe",
+      "Asia": "Asia",
+      "Eurasia": "Eurasia",
+      "Latin America": "Latin America",
+      "Australia & Oceania": "Australia & Oceania",
+    },
+    markets: {
+      "europe": { label: "European Markets", tagline: "Premium fresh produce for EU retail & wholesale channels." },
+      "russia": { label: "Russia", tagline: "Citrus, fresh fruits and vegetables for Russian distributors." },
+      "morocco": { label: "Morocco", tagline: "Egyptian citrus and fresh produce to North African markets." },
+      "senegal": { label: "Senegal", tagline: "Fresh agricultural produce for West African markets." },
+      "ethiopia": { label: "Ethiopia", tagline: "Grains, pulses and fresh produce for Ethiopian buyers." },
+      "kenya": { label: "Kenya", tagline: "Fresh produce and dates for East African buyers." },
+      "rwanda": { label: "Rwanda", tagline: "Quality Egyptian produce for Rwandan importers." },
+      "congo": { label: "Congo", tagline: "Premium Egyptian exports to Central African trade partners." },
+      "southafrica": { label: "South Africa", tagline: "Dates and dried products to South African importers." },
+      "comoros": { label: "Comoros", tagline: "Specialty Egyptian products to island markets." },
+      "mauritius": { label: "Mauritius", tagline: "Premium dates and fresh produce to Mauritius." },
+      "china": { label: "China", tagline: "Premium agricultural commodities for the Chinese market." },
+      "maldives": { label: "Maldives", tagline: "Specialty fresh produce for the Maldivian hospitality sector." },
+      "latam": { label: "Latin America", tagline: "Export-grade Egyptian produce for Latin American importers." },
+      "australia": { label: "Australia", tagline: "High-quality Egyptian exports meeting Australian standards." },
+    }
   },
 };
 
@@ -646,6 +781,7 @@ export const de: Messages = {
     title: "Premium ägyptische Agrarprodukte.",
     desc: "Entdecken Sie unsere Exportkategorien — Zitrus, Datteln, frische Ware, Kräuter, Gewürze, Hülsenfrüchte und Getreide.",
     viewCategory: "Kategorie ansehen",
+    viewDetails: "Details anzeigen",
     ctaEyebrow: "Handelsanfragen",
     ctaTitle: "Brauchen Sie Mengen, Specs oder Versandunterstützung?",
     ctaContact: "Export-Desk kontaktieren",
@@ -654,8 +790,14 @@ export const de: Messages = {
   categoryPage: {
     request: "Verfügbarkeit anfragen",
     all: "Alle Kategorien",
-    more: "Weitere Kategorien",
-    continue: "Sortiment weiter entdecken",
+    more: "Mehr von HBanna",
+    continue: "Weiter entdecken",
+  },
+  modal: {
+    productDetails: "Produktdetails",
+    harvestSeason: "Ernte- / Verfügbarkeitssaison",
+    requestQuote: "Angebot anfragen",
+    close: "Schließen",
   },
   cats: {
     citrus: "Zitrusfrüchte",
@@ -664,6 +806,77 @@ export const de: Messages = {
     freshVegetables: "Frischgemüse",
     herbsSpices: "Kräuter & Gewürze",
     pulsesGrains: "Hülsenfrüchte & Getreide",
+  },
+  calendarPage: {
+    eyebrow: "Landwirtschaftliche Zyklen",
+    title: "Saisonale Verfügbarkeit & Erntekalender",
+    desc: "Direkter Einblick in ägyptische Erntezyklen, Hauptexportfenster und Kühlhausverfügbarkeit.",
+    months: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+    legendPeak: "Haupternte",
+    legendLimited: "Begrenzt / Gelagert",
+    legendOff: "Außerhalb der Saison",
+    allTab: "Alle Kategorien",
+    searchPlaceholder: "Sorten suchen...",
+    noResults: "Keine Sorten gefunden für",
+    inSeasonNow: "In Saison",
+    yearRound: "Ganzjährige Verfügbarkeit",
+    consultDesk: "Export-Desk kontaktieren",
+    peak: "Hochsaison",
+    harvest: "Ernte",
+    clickHint: "Tippen Sie auf eine Sorte für Erntedetails oder ein Sofortangebot",
+  },
+  countriesPage: {
+    eyebrow: "Verifizierte globale Präsenz",
+    title1: "Exportziele ",
+    title2: "& Handelskorridore",
+    desc: "Wir verbinden ägyptische landwirtschaftliche Ernten strategisch mit erstklassigen internationalen Importeuren, Großhändlern und Einzelhandelsnetzwerken in Europa, Afrika, Asien und Amerika.",
+    activeCorridors: "Aktive Handelskorridore",
+    continentsServed: "Bediente Kontinente",
+    directOrigin: "Direkter Ursprung",
+    seaPorts: "Seehäfen Alexandria & Damietta",
+    activeCorridorFilter: "Aktiver Korridorfilter:",
+    directCargo: "Direkte See- & Luftfracht",
+    primaryLoading: "Hauptverladung: Hafen von Alexandria & Hafen von Damietta (Ägypten)",
+    clickHint: "Klicken Sie auf eine Route oder einen Markt, um Handelsdetails einzusehen",
+    corridorSuffix: "Korridor",
+    commercialScope: "Kommerzieller Umfang",
+    exportOrigin: "Exportursprung",
+    modality: "Modalität",
+    qualityProtocol: "Qualitätsprotokoll",
+    documentation: "Dokumentation",
+    egyptDirect: "Ägypten (Direkt)",
+    reeferAir: "Kühlcontainer / Luftfracht",
+    globalGap: "Global GAP & ISO",
+    eur1: "EUR.1 / Pflanzengesundheit",
+    requestAllocation: "Zuteilung anfragen für",
+    commercialCorridors: "Kommerzielle Korridore",
+    clickToSpotlight: "Klicken, um auf der Karte hervorzuheben",
+    regions: {
+      "All": "Alle",
+      "Africa": "Afrika",
+      "Europe": "Europa",
+      "Asia": "Asien",
+      "Eurasia": "Eurasien",
+      "Latin America": "Lateinamerika",
+      "Australia & Oceania": "Australien & Ozeanien",
+    },
+    markets: {
+      "europe": { label: "Europäische Märkte", tagline: "Premium-Frischwaren für den EU-Einzel- und Großhandel." },
+      "russia": { label: "Russland", tagline: "Zitrusfrüchte, Frischobst und Gemüse für russische Händler." },
+      "morocco": { label: "Marokko", tagline: "Ägyptische Zitrusfrüchte und Frischwaren für nordafrikanische Märkte." },
+      "senegal": { label: "Senegal", tagline: "Frische landwirtschaftliche Erzeugnisse für westafrikanische Märkte." },
+      "ethiopia": { label: "Äthiopien", tagline: "Getreide, Hülsenfrüchte und Frischwaren für äthiopische Käufer." },
+      "kenya": { label: "Kenia", tagline: "Frischwaren und Datteln für ostafrikanische Käufer." },
+      "rwanda": { label: "Ruanda", tagline: "Hochwertige ägyptische Produkte für ruandische Importeure." },
+      "congo": { label: "Kongo", tagline: "Premium-ägyptische Exporte an zentralafrikanische Handelspartner." },
+      "southafrica": { label: "Südafrika", tagline: "Datteln und Trockenprodukte für südafrikanische Importeure." },
+      "comoros": { label: "Komoren", tagline: "Ägyptische Spezialitäten für Inselmärkte." },
+      "mauritius": { label: "Mauritius", tagline: "Premium-Datteln und Frischwaren für Mauritius." },
+      "china": { label: "China", tagline: "Premium-Agrarrohstoffe für den chinesischen Markt." },
+      "maldives": { label: "Malediven", tagline: "Frischwarenspezialitäten für den maledivischen Gastgewerbesektor." },
+      "latam": { label: "Lateinamerika", tagline: "Exportfähige ägyptische Produkte für lateinamerikanische Importeure." },
+      "australia": { label: "Australien", tagline: "Hochwertige ägyptische Exporte, die australischen Standards entsprechen." },
+    }
   },
 };
 
@@ -860,18 +1073,25 @@ export const zh: Messages = {
   productsPage: {
     eyebrow: "我们的产品",
     title: "优质埃及农产品。",
-    desc: "浏览出口品类——柑橘、椰枣、新鲜果蔬、香草香料、豆类与谷物。",
-    viewCategory: "查看品类",
-    ctaEyebrow: "贸易咨询",
-    ctaTitle: "需要数量、规格或运输支持？",
-    ctaContact: "联系出口团队",
+    desc: "浏览我们的出口类别——柑橘、椰枣、新鲜农产品、香草、香料、豆类和谷物。",
+    viewCategory: "查看类别",
+    viewDetails: "查看详情",
+    ctaEyebrow: "贸易查询",
+    ctaTitle: "需要了解数量、规格或运输支持？",
+    ctaContact: "联系出口处",
     ctaAbout: "关于 HBanna",
   },
   categoryPage: {
-    request: "询价供应",
-    all: "全部品类",
-    more: "更多品类",
-    continue: "继续浏览我们的产品线",
+    request: "请求配额",
+    all: "所有类别",
+    more: "更多 HBanna 产品",
+    continue: "继续探索",
+  },
+  modal: {
+    productDetails: "产品详情",
+    harvestSeason: "收获 / 供应季节",
+    requestQuote: "获取报价",
+    close: "关闭",
   },
   cats: {
     citrus: "柑橘",
@@ -880,6 +1100,77 @@ export const zh: Messages = {
     freshVegetables: "新鲜蔬菜",
     herbsSpices: "香草与香料",
     pulsesGrains: "豆类与谷物",
+  },
+  calendarPage: {
+    eyebrow: "农业周期",
+    title: "季节性供应与收获日历",
+    desc: "直接了解埃及的收获周期、出口高峰期和冷库供应情况。",
+    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    legendPeak: "收获高峰",
+    legendLimited: "有限 / 储存",
+    legendOff: "淡季",
+    allTab: "所有类别",
+    searchPlaceholder: "搜索品种...",
+    noResults: "未找到相关品种：",
+    inSeasonNow: "当季",
+    yearRound: "全年供应",
+    consultDesk: "咨询出口团队",
+    peak: "旺季",
+    harvest: "收获季",
+    clickHint: "点击任何品种查看收获详情或即时报价",
+  },
+  countriesPage: {
+    eyebrow: "经过验证的全球足迹",
+    title1: "出口目的地 ",
+    title2: "与贸易走廊",
+    desc: "将埃及的农业丰收与欧洲、非洲、亚洲和美洲的一流国际进口商、批发商和零售网络战略性地连接起来。",
+    activeCorridors: "活跃贸易走廊",
+    continentsServed: "服务大洲",
+    directOrigin: "直接原产地",
+    seaPorts: "亚历山大港 & 达米埃塔海港",
+    activeCorridorFilter: "活跃走廊过滤器：",
+    directCargo: "直达海运和空运",
+    primaryLoading: "主要装货港：亚历山大港 & 达米埃塔港 (埃及)",
+    clickHint: "点击任何路线或市场以查看贸易详情",
+    corridorSuffix: "走廊",
+    commercialScope: "商业范围",
+    exportOrigin: "出口原产地",
+    modality: "运输方式",
+    qualityProtocol: "质量协议",
+    documentation: "文件",
+    egyptDirect: "埃及 (直达)",
+    reeferAir: "冷藏集装箱 / 空运",
+    globalGap: "Global GAP & ISO",
+    eur1: "EUR.1 / 植物检疫",
+    requestAllocation: "请求配额：",
+    commercialCorridors: "商业走廊",
+    clickToSpotlight: "点击在地图上突出显示",
+    regions: {
+      "All": "全部",
+      "Africa": "非洲",
+      "Europe": "欧洲",
+      "Asia": "亚洲",
+      "Eurasia": "欧亚大陆",
+      "Latin America": "拉丁美洲",
+      "Australia & Oceania": "澳大利亚与大洋洲",
+    },
+    markets: {
+      "europe": { label: "欧洲市场", tagline: "为欧盟零售和批发渠道提供优质的新鲜农产品。" },
+      "russia": { label: "俄罗斯", tagline: "为俄罗斯分销商提供柑橘、新鲜水果和蔬菜。" },
+      "morocco": { label: "摩洛哥", tagline: "向北非市场提供埃及柑橘和新鲜农产品。" },
+      "senegal": { label: "塞内加尔", tagline: "为西非市场提供新鲜农产品。" },
+      "ethiopia": { label: "埃塞俄比亚", tagline: "为埃塞俄比亚买家提供谷物、豆类和新鲜农产品。" },
+      "kenya": { label: "肯尼亚", tagline: "为东非买家提供新鲜农产品和椰枣。" },
+      "rwanda": { label: "卢旺达", tagline: "为卢旺达进口商提供高品质埃及农产品。" },
+      "congo": { label: "刚果", tagline: "向中非贸易伙伴提供优质的埃及出口产品。" },
+      "southafrica": { label: "南非", tagline: "向南非进口商提供椰枣和干货产品。" },
+      "comoros": { label: "科摩罗", tagline: "向岛屿市场提供特色的埃及产品。" },
+      "mauritius": { label: "毛里求斯", tagline: "向毛里求斯提供优质椰枣和新鲜农产品。" },
+      "china": { label: "中国", tagline: "为中国市场提供优质的农产品商品。" },
+      "maldives": { label: "马尔代夫", tagline: "为马尔代夫的酒店业提供特色新鲜农产品。" },
+      "latam": { label: "拉丁美洲", tagline: "为拉丁美洲进口商提供出口级的埃及农产品。" },
+      "australia": { label: "澳大利亚", tagline: "符合澳大利亚标准的高品质埃及出口产品。" },
+    }
   },
 };
 

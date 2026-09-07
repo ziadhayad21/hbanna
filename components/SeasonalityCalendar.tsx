@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useLanguage } from "@/contexts/LanguageProvider";
+
+import { getTranslatedProducts } from "@/lib/i18n/products";
 
 /* ─────────────────────────────────────────────────────────────
    TYPES & DATA MODELS
@@ -35,7 +38,7 @@ function avail(available: number[], limited: number[] = []): Avail[] {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   SEASONALITY DATA (Exact same products & months preserved)
+   SEASONALITY DATA
 ───────────────────────────────────────────────────────────── */
 const CATEGORIES: SeasonCategory[] = [
   {
@@ -98,13 +101,16 @@ const CATEGORIES: SeasonCategory[] = [
       { id: "carrots",       name: "Carrots",             categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3,4]) },
       { id: "broccoli",      name: "Broccoli",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
       { id: "eggplant",      name: "Eggplant",            categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([3,4,5,6,10,11,12]) },
+      { id: "artichokes",    name: "Artichokes",          categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([12,1,2,3,4]) },
+      { id: "cabbage",       name: "Cabbage",             categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
+      { id: "cauliflower",   name: "Cauliflower",         categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([11,12,1,2,3]) },
+      { id: "green-beans",   name: "Green Beans",         categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([3,4,5,6,10,11]) },
       { id: "okra",          name: "Okra",                categoryId: "vegetables", categoryLabel: "Vegetables", months: avail([5,6,7,8,9,10]) },
     ],
   },
 ];
 
 const ALL_PRODUCTS: SeasonProduct[] = CATEGORIES.flatMap((c) => c.products);
-
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const MONTHS_LETTERS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 const MONTHS_FULL = [
@@ -154,6 +160,8 @@ function getSeasonSummary(months: Avail[]): string {
    MAIN COMPONENT
 ───────────────────────────────────────────────────────────── */
 export default function SeasonalityCalendar() {
+  const { t, locale } = useLanguage();
+  const cal = t.calendarPage;
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -167,6 +175,7 @@ export default function SeasonalityCalendar() {
   // Current calendar month for "IN SEASON NOW" detection
   const currentMonthIdx = useMemo(() => new Date().getMonth(), []);
 
+  // Interactivity & Observability
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -184,10 +193,42 @@ export default function SeasonalityCalendar() {
   }, []);
 
   // Filter products by category and optional search term
+  const { translatedCats, translatedAllProducts } = useMemo(() => {
+    const globalCategories = getTranslatedProducts(locale);
+
+    const cats = CATEGORIES.map((c) => {
+      // Find matching global category to get translations
+      // The IDs differ slightly, e.g., 'vegetables' vs 'fresh-vegetables'
+      const globalCatId = c.id === "vegetables" ? "fresh-vegetables" : c.id;
+      const globalCat = globalCategories.find(gc => gc.slug === globalCatId);
+
+      return {
+        ...c,
+        label: globalCat ? globalCat.title : c.label,
+        products: c.products.map((p) => {
+          const globalProduct = globalCat?.products.find(gp => gp.name === p.name || gp.name === p.id || p.name.includes(gp.name));
+          // If direct match fails, we try our best. Note that SeasonalityCalendar uses different product names than Products array.
+          // This ensures we fallback to the hardcoded English name if translation not found.
+          
+          return {
+            ...p,
+            name: (t.cats as any)?.[p.id] || globalProduct?.name || p.name,
+            categoryLabel: globalCat ? globalCat.title : c.label,
+          };
+        }),
+      };
+    });
+    
+    return {
+      translatedCats: cats,
+      translatedAllProducts: cats.flatMap(c => c.products),
+    };
+  }, [locale, t]);
+
   const displayedProducts = useMemo(() => {
     let list = selectedCat === "all"
-      ? ALL_PRODUCTS
-      : (CATEGORIES.find((c) => c.id === selectedCat)?.products || []);
+      ? translatedAllProducts
+      : (translatedCats.find((c) => c.id === selectedCat)?.products || []);
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
@@ -199,12 +240,12 @@ export default function SeasonalityCalendar() {
     }
 
     return list;
-  }, [selectedCat, searchQuery]);
+  }, [selectedCat, searchQuery, translatedCats, translatedAllProducts]);
 
   // Selected product object
   const activeProduct = useMemo(
-    () => (selectedRowId ? ALL_PRODUCTS.find((p) => p.id === selectedRowId) || null : null),
-    [selectedRowId]
+    () => (selectedRowId ? translatedAllProducts.find((p) => p.id === selectedRowId) || null : null),
+    [selectedRowId, translatedAllProducts]
   );
 
   // Products available in selected month
@@ -215,8 +256,8 @@ export default function SeasonalityCalendar() {
 
   // Total products currently in peak season this month
   const currentlyInSeasonCount = useMemo(
-    () => ALL_PRODUCTS.filter((p) => p.months[currentMonthIdx] > 0).length,
-    [currentMonthIdx]
+    () => translatedAllProducts.filter((p) => p.months[currentMonthIdx] > 0).length,
+    [currentMonthIdx, translatedAllProducts]
   );
 
   // Handlers
@@ -269,34 +310,35 @@ export default function SeasonalityCalendar() {
         <div className={`sc-header ${inView ? "in-view" : ""}`}>
           <div className="sc-eyebrow-wrap">
             <span className="sc-eyebrow-dot" aria-hidden="true" />
-            <span className="eyebrow">Export Supply Planning</span>
+            <span className="eyebrow">{cal?.eyebrow || "Export Supply Planning"}</span>
           </div>
 
           <h2 className="serif sc-title">
-            Seasonal Availability <span className="sc-title-accent">& Harvest Cycles</span>
+            {cal?.title || "Seasonal Availability & Harvest Cycles"}
           </h2>
 
           <p className="sc-lead">
-            Direct tracking of Egyptian cultivation seasons, peak export windows, and cold-storage availability.
-            Designed for international wholesale buyers and procurement directors planning annual import programs.
+            {cal?.desc || "Direct tracking of Egyptian cultivation seasons, peak export windows, and cold-storage availability."}
           </p>
 
           {/* Key B2B Procurement Proof Indicators */}
           <div className="sc-metrics-ribbon">
             <div className="sc-metric-pill">
-              <span className="sc-metric-val">39</span>
+              <span className="sc-metric-val">{translatedAllProducts.length}</span>
               <span className="sc-metric-lbl">Commercial Varieties</span>
             </div>
             <div className="sc-metric-divider" aria-hidden="true" />
             <div className="sc-metric-pill">
-              <span className="sc-metric-val">12 Months</span>
-              <span className="sc-metric-lbl">Continuous Export Operations</span>
+              <span className="sc-metric-val">12</span>
+              <span className="sc-metric-lbl">Months Operations</span>
             </div>
             <div className="sc-metric-divider" aria-hidden="true" />
             <div className="sc-metric-pill sc-metric-pill--active">
               <span className="sc-metric-dot" aria-hidden="true" />
-              <span className="sc-metric-val">{MONTHS_FULL[currentMonthIdx]}: {currentlyInSeasonCount}</span>
-              <span className="sc-metric-lbl">Varieties Active for Shipping</span>
+              <span className="sc-metric-val">
+                {cal?.months?.[currentMonthIdx] || MONTHS_FULL[currentMonthIdx]}: {currentlyInSeasonCount}
+              </span>
+              <span className="sc-metric-lbl">{cal?.inSeasonNow || "Varieties Active"}</span>
             </div>
           </div>
         </div>
@@ -312,11 +354,11 @@ export default function SeasonalityCalendar() {
               className={`sc-tab-btn ${selectedCat === "all" ? "is-active" : ""}`}
               onClick={() => handleCatSelect("all")}
             >
-              <span>All Varieties</span>
-              <span className="sc-tab-count">{ALL_PRODUCTS.length}</span>
+              <span>{cal?.allTab || "All Varieties"}</span>
+              <span className="sc-tab-count">{translatedAllProducts.length}</span>
             </button>
 
-            {CATEGORIES.map((cat) => (
+            {translatedCats.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
@@ -353,7 +395,7 @@ export default function SeasonalityCalendar() {
               <input
                 type="text"
                 className="sc-search-input"
-                placeholder="Search 39 varieties..."
+                placeholder={cal?.searchPlaceholder || "Search varieties..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Filter products by name"
@@ -429,19 +471,20 @@ export default function SeasonalityCalendar() {
                       <span className="sc-th-count">({displayedProducts.length})</span>
                     </div>
                   </th>
-                  {MONTHS_SHORT.map((m, idx) => {
+                  {MONTHS_SHORT.map((_, idx) => {
+                    const mName = cal?.months?.[idx] || MONTHS_SHORT[idx];
                     const isCurrent = idx === currentMonthIdx;
                     const isColActive = selectedColIdx === idx;
                     return (
                       <th
-                        key={m}
+                        key={mName + idx}
                         scope="col"
                         className={`sc-th-month ${isCurrent ? "is-current-month" : ""} ${isColActive ? "is-active-col" : ""}`}
                         onClick={() => handleColClick(idx)}
-                        title={`Click to filter varieties ready in ${MONTHS_FULL[idx]}`}
+                        title={`Click to filter varieties ready in ${cal?.months?.[idx] || MONTHS_FULL[idx]}`}
                       >
                         <button type="button" className="sc-th-month-btn">
-                          <span className="sc-month-abbr">{m}</span>
+                          <span className="sc-month-abbr">{mName}</span>
                           <span className="sc-month-num">{String(idx + 1).padStart(2, "0")}</span>
                           {isCurrent && <span className="sc-now-badge">NOW</span>}
                         </button>
@@ -455,7 +498,7 @@ export default function SeasonalityCalendar() {
                 {displayedProducts.length === 0 ? (
                   <tr>
                     <td colSpan={13} className="sc-empty-state">
-                      No produce varieties matched your search criteria.
+                      {cal?.noResults || "No produce varieties matched your search criteria."} &quot;{searchQuery}&quot;
                     </td>
                   </tr>
                 ) : (
@@ -504,24 +547,24 @@ export default function SeasonalityCalendar() {
                           else if (nextIsActive) connClass = " sc-conn--start";
 
                           return (
-                            <td
-                              key={`${product.id}-${mIdx}`}
-                              className={`sc-td-cell ${isColActive ? "is-active-col" : ""} ${isCurrent ? "is-current-col" : ""}`}
-                              onClick={() => handleRowClick(product.id)}
-                            >
-                              <div
-                                className={`sc-cell-bar ${cellType}${connClass}`}
-                                title={`${product.name} — ${MONTHS_FULL[mIdx]}: ${
-                                  status === 2
-                                    ? "Peak Harvest & Export Window"
-                                    : status === 1
-                                    ? "Limited / Cold Storage Supply"
-                                    : "Off Season"
-                                }`}
+                              <td
+                                key={`${product.id}-${mIdx}`}
+                                className={`sc-td-cell ${isColActive ? "is-active-col" : ""} ${isCurrent ? "is-current-col" : ""}`}
+                                onClick={() => handleRowClick(product.id)}
                               >
-                                {status === 0 && <span className="sc-cell-dot" aria-hidden="true">·</span>}
-                              </div>
-                            </td>
+                                <div
+                                  className={`sc-cell-bar ${cellType}${connClass}`}
+                                  title={`${product.name} — ${cal?.months?.[mIdx] || MONTHS_FULL[mIdx]}: ${
+                                    status === 2
+                                      ? cal?.legendPeak || "Peak Harvest"
+                                      : status === 1
+                                      ? cal?.legendLimited || "Limited / Stored"
+                                      : cal?.legendOff || "Off Season"
+                                  }`}
+                                >
+                                  {status === 0 && <span className="sc-cell-dot" aria-hidden="true">·</span>}
+                                </div>
+                              </td>
                           );
                         })}
                       </tr>
@@ -536,14 +579,37 @@ export default function SeasonalityCalendar() {
         {/* ── MOBILE TIMELINE CARDS (Intentionally Designed for Mobile Scanning) ── */}
         <div className={`sc-cards-wrap ${mobileView === "matrix" ? "desktop-only" : ""} ${inView ? "in-view" : ""}`}>
           <div className="sc-mobile-hint">
-            <span>Tap any variety for harvest details or instant quote</span>
+            <span>{cal?.clickHint || "Tap any variety for harvest details or instant quote"}</span>
           </div>
 
           <div className="sc-cards-grid">
             {displayedProducts.map((product) => {
               const isSelected = selectedRowId === product.id;
               const isNow = product.months[currentMonthIdx] > 0;
-              const summary = getSeasonSummary(product.months);
+              
+              // Apply translated names for peak / harvest using the helper
+              const peakIndices: number[] = [];
+              const allActiveIndices: number[] = [];
+              product.months.forEach((status, idx) => {
+                if (status === 2) peakIndices.push(idx);
+                if (status > 0) allActiveIndices.push(idx);
+              });
+
+              let summary = "";
+              if (allActiveIndices.length === 12) summary = cal?.yearRound || "Year-round availability";
+              else if (allActiveIndices.length === 0) summary = cal?.consultDesk || "Consult export desk";
+              else {
+                const formatIndices = (indices: number[]) => {
+                  if (indices.length === 0) return "";
+                  const names = indices.map((i) => cal?.months?.[i] || MONTHS_SHORT[i]);
+                  if (indices.length === 1) return names[0];
+                  return `${names[0]} – ${names[names.length - 1]}`;
+                };
+                
+                const peakText = formatIndices(peakIndices);
+                if (peakText) summary = `${cal?.peak || "Peak"}: ${peakText}`;
+                else summary = `${cal?.harvest || "Harvest"}: ${formatIndices(allActiveIndices)}`;
+              }
 
               return (
                 <div
@@ -557,7 +623,7 @@ export default function SeasonalityCalendar() {
                       <h3 className="sc-card-name">{product.name}</h3>
                     </div>
                     {isNow ? (
-                      <span className="sc-card-badge sc-card-badge--now">In Season</span>
+                      <span className="sc-card-badge sc-card-badge--now">{cal?.inSeasonNow || "In Season"}</span>
                     ) : (
                       <span className="sc-card-badge sc-card-badge--off">Off Season</span>
                     )}

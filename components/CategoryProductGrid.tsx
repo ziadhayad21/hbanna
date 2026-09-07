@@ -31,11 +31,13 @@ function ProductCard({
   onClick,
   priority = false,
   loading,
+  viewDetailsText,
 }: {
   product: CategoryProduct;
   onClick: (product: CategoryProduct) => void;
   priority?: boolean;
   loading?: "eager" | "lazy";
+  viewDetailsText: string;
 }) {
   return (
     <article
@@ -66,7 +68,7 @@ function ProductCard({
             <circle cx="9" cy="9" r="7.2" />
             <path d="M9 6v6M6 9h6" />
           </svg>
-          <span>View Details</span>
+          <span>{viewDetailsText}</span>
         </div>
       </div>
       <div className="product-card-body">
@@ -74,13 +76,18 @@ function ProductCard({
         {product.info ? (
           <p className="product-card-info">{product.info}</p>
         ) : null}
-        <span className="product-card-cta">View Details →</span>
+        <span className="product-card-cta">{viewDetailsText} →</span>
       </div>
     </article>
   );
 }
 
+import { useLanguage } from "@/contexts/LanguageProvider";
+
 export default function CategoryProductGrid({ summary, products }: Props) {
+  const { t } = useLanguage();
+  const viewDetailsText = t.productsPage.viewDetails || "View Details";
+
   const [cardsPerSlide, setCardsPerSlide] = useState(3);
   const [activeSlide, setActiveSlide] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState<CategoryProduct | null>(null);
@@ -163,6 +170,7 @@ export default function CategoryProductGrid({ summary, products }: Props) {
                             onClick={handleProductClick}
                             priority={isPriority}
                             loading={loadingMode}
+                            viewDetailsText={viewDetailsText}
                           />
                         ))}
                       </div>
@@ -218,6 +226,7 @@ export default function CategoryProductGrid({ summary, products }: Props) {
                   onClick={handleProductClick}
                   priority={idx < 2}
                   loading={idx < 3 ? "eager" : "lazy"}
+                  viewDetailsText={viewDetailsText}
                 />
               ))}
             </div>

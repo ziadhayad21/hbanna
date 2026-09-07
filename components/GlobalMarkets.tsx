@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
+import { useLanguage } from "@/contexts/LanguageProvider";
 import {
   ComposableMap,
   Geographies,
@@ -342,6 +343,7 @@ const DynamicWorldMap = dynamic(
    MAIN SECTION COMPONENT
 ───────────────────────────────────────────────────────────── */
 export default function GlobalMarkets() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [activeMarketId, setActiveMarketId] = useState<string>("europe");
@@ -413,33 +415,32 @@ export default function GlobalMarkets() {
         <div className={`gm-header ${inView ? "in-view" : ""}`}>
           <div className="gm-eyebrow-row">
             <span className="gm-eyebrow-pip" aria-hidden="true" />
-            <span className="eyebrow">Verified Global Footprint</span>
+            <span className="eyebrow">{t.countriesPage?.eyebrow}</span>
           </div>
 
           <h2 className="serif gm-title">
-            Export Destinations <span className="gm-title-accent">& Trade Corridors</span>
+            {t.countriesPage?.title1} <span className="gm-title-accent">{t.countriesPage?.title2}</span>
           </h2>
 
           <p className="gm-lead">
-            Strategically connecting Egyptian agricultural harvests to tier-one international importers,
-            wholesalers, and retail networks across Europe, Africa, Asia, and the Americas.
+            {t.countriesPage?.desc}
           </p>
 
           {/* Institutional Trade Metrics Bar */}
           <div className="gm-stats-ribbon">
             <div className="gm-stat-item">
               <span className="gm-stat-number">15+</span>
-              <span className="gm-stat-label">Active Trade Corridors</span>
+              <span className="gm-stat-label">{t.countriesPage?.activeCorridors}</span>
             </div>
             <div className="gm-stat-divider" aria-hidden="true" />
             <div className="gm-stat-item">
               <span className="gm-stat-number">4</span>
-              <span className="gm-stat-label">Continents Served</span>
+              <span className="gm-stat-label">{t.countriesPage?.continentsServed}</span>
             </div>
             <div className="gm-stat-divider" aria-hidden="true" />
             <div className="gm-stat-item">
-              <span className="gm-stat-number">Direct Origin</span>
-              <span className="gm-stat-label">Alexandria & Damietta Sea Ports</span>
+              <span className="gm-stat-number">{t.countriesPage?.directOrigin}</span>
+              <span className="gm-stat-label">{t.countriesPage?.seaPorts}</span>
             </div>
           </div>
         </div>
@@ -451,7 +452,7 @@ export default function GlobalMarkets() {
             {/* Top Toolbar: Geographic Region Filter */}
             <div className="gm-map-toolbar">
               <div className="gm-toolbar-left">
-                <span className="gm-toolbar-label">Active Corridor Filter:</span>
+                <span className="gm-toolbar-label">{t.countriesPage?.activeCorridorFilter}</span>
                 <div className="gm-region-pills" role="tablist" aria-label="Filter export corridors by continent">
                   {REGIONS.map((r) => (
                     <button
@@ -462,7 +463,7 @@ export default function GlobalMarkets() {
                       className={`gm-region-pill ${selectedRegion === r ? "is-active" : ""}`}
                       onClick={() => setSelectedRegion(r)}
                     >
-                      {r}
+                      {t.countriesPage?.regions?.[r] || r}
                     </button>
                   ))}
                 </div>
@@ -471,7 +472,7 @@ export default function GlobalMarkets() {
               <div className="gm-toolbar-right">
                 <span className="gm-legend-indicator">
                   <span className="gm-dot-live" aria-hidden="true" />
-                  Direct Sea & Air Cargo
+                  {t.countriesPage?.directCargo}
                 </span>
               </div>
             </div>
@@ -491,10 +492,10 @@ export default function GlobalMarkets() {
             <div className="gm-map-footer">
               <div className="gm-map-footer-origin">
                 <span className="gm-footer-dot" aria-hidden="true" />
-                <span>Primary Loading: <strong>Port of Alexandria</strong> & <strong>Port of Damietta</strong> (Egypt)</span>
+                <span>{t.countriesPage?.primaryLoading}</span>
               </div>
               <div className="gm-map-footer-hint">
-                <span>Click any route or market to inspect trade details</span>
+                <span>{t.countriesPage?.clickHint}</span>
               </div>
             </div>
           </div>
@@ -505,37 +506,37 @@ export default function GlobalMarkets() {
             <div className="gm-active-dossier">
               <div className="gm-dossier-header">
                 <div className="gm-dossier-meta">
-                  <span className="gm-dossier-badge">{activeMarket.region} Corridor</span>
+                  <span className="gm-dossier-badge">{t.countriesPage?.regions?.[activeMarket.region] || activeMarket.region} {t.countriesPage?.corridorSuffix}</span>
                   <span className="gm-dossier-coords">
                     {Math.abs(activeMarket.coordinates[1]).toFixed(1)}°{activeMarket.coordinates[1] >= 0 ? "N" : "S"},{" "}
                     {Math.abs(activeMarket.coordinates[0]).toFixed(1)}°{activeMarket.coordinates[0] >= 0 ? "E" : "W"}
                   </span>
                 </div>
-                <h3 className="serif gm-dossier-title">{activeMarket.label}</h3>
+                <h3 className="serif gm-dossier-title">{t.countriesPage?.markets?.[activeMarket.id]?.label || activeMarket.label}</h3>
               </div>
 
               <div className="gm-dossier-body">
                 <div className="gm-dossier-row">
-                  <span className="gm-dossier-label">Commercial Scope</span>
-                  <p className="gm-dossier-tagline">{activeMarket.tagline}</p>
+                  <span className="gm-dossier-label">{t.countriesPage?.commercialScope}</span>
+                  <p className="gm-dossier-tagline">{t.countriesPage?.markets?.[activeMarket.id]?.tagline || activeMarket.tagline}</p>
                 </div>
 
                 <div className="gm-dossier-specs">
                   <div className="gm-spec-cell">
-                    <span className="gm-spec-lbl">Export Origin</span>
-                    <strong className="gm-spec-val">Egypt (Direct)</strong>
+                    <span className="gm-spec-lbl">{t.countriesPage?.exportOrigin}</span>
+                    <strong className="gm-spec-val">{t.countriesPage?.egyptDirect}</strong>
                   </div>
                   <div className="gm-spec-cell">
-                    <span className="gm-spec-lbl">Modality</span>
-                    <strong className="gm-spec-val">Reefer Container / Air</strong>
+                    <span className="gm-spec-lbl">{t.countriesPage?.modality}</span>
+                    <strong className="gm-spec-val">{t.countriesPage?.reeferAir}</strong>
                   </div>
                   <div className="gm-spec-cell">
-                    <span className="gm-spec-lbl">Quality Protocol</span>
-                    <strong className="gm-spec-val">Global GAP & ISO</strong>
+                    <span className="gm-spec-lbl">{t.countriesPage?.qualityProtocol}</span>
+                    <strong className="gm-spec-val">{t.countriesPage?.globalGap}</strong>
                   </div>
                   <div className="gm-spec-cell">
-                    <span className="gm-spec-lbl">Documentation</span>
-                    <strong className="gm-spec-val">EUR.1 / Phytosanitary</strong>
+                    <span className="gm-spec-lbl">{t.countriesPage?.documentation}</span>
+                    <strong className="gm-spec-val">{t.countriesPage?.eur1}</strong>
                   </div>
                 </div>
 
@@ -544,7 +545,7 @@ export default function GlobalMarkets() {
                   className="gm-dossier-cta"
                   onClick={() => handleInquireClick(activeMarket.label)}
                 >
-                  <span>Request Allocation for {activeMarket.label}</span>
+                  <span>{t.countriesPage?.requestAllocation} {t.countriesPage?.markets?.[activeMarket.id]?.label || activeMarket.label}</span>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M2 6h8M7 3l3 3-3 3" />
                   </svg>
@@ -555,8 +556,8 @@ export default function GlobalMarkets() {
             {/* Corridor Directory Index */}
             <div className="gm-directory-card">
               <div className="gm-directory-header">
-                <h4 className="gm-directory-heading">Commercial Corridors ({filteredMarkets.length})</h4>
-                <span className="gm-directory-sub">Click to spotlight on map</span>
+                <h4 className="gm-directory-heading">{t.countriesPage?.commercialCorridors} ({filteredMarkets.length})</h4>
+                <span className="gm-directory-sub">{t.countriesPage?.clickToSpotlight}</span>
               </div>
 
               <div className="gm-directory-list">
@@ -575,8 +576,8 @@ export default function GlobalMarkets() {
                     >
                       <div className="gm-corridor-indicator" aria-hidden="true" />
                       <div className="gm-corridor-info">
-                        <span className="gm-corridor-name">{m.label}</span>
-                        <span className="gm-corridor-reg">{m.region}</span>
+                        <span className="gm-corridor-name">{t.countriesPage?.markets?.[m.id]?.label || m.label}</span>
+                        <span className="gm-corridor-reg">{t.countriesPage?.regions?.[m.region] || m.region}</span>
                       </div>
                       <svg
                         className="gm-corridor-arrow"

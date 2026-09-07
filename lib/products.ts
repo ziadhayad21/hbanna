@@ -19,13 +19,22 @@ export type ProductCategory = {
   products: CategoryProduct[];
 };
 
+export const CAT_KEY: Record<string, "citrus" | "dates" | "freshFruits" | "freshVegetables" | "herbsSpices" | "pulsesGrains"> = {
+  citrus: "citrus",
+  dates: "dates",
+  "fresh-fruits": "freshFruits",
+  "fresh-vegetables": "freshVegetables",
+  "herbs-spices": "herbsSpices",
+  "pulses-grains": "pulsesGrains",
+};
+
 export const productCategories: ProductCategory[] = [
   {
     slug: "citrus",
     num: "01",
     title: "Citrus",
     shortLabel: "Citrus",
-    image: "/images/citrus.jpg",
+    image: "/images/citruss.jpg",
     alt: "Citrus fruits",
     summary:
       "Navel, Valencia & Baladi Oranges · Blood Oranges · Mandarins · Murcott · Easy Peelers · Lemons · Limes · Grapefruit",
@@ -143,7 +152,7 @@ export const productCategories: ProductCategory[] = [
     num: "02",
     title: "Dates & Date Products",
     shortLabel: "Dates & Date Products",
-    image: "/images/dates.jpg",
+    image: "/images/Date.jpeg",
     alt: "Egyptian dates",
     summary:
       "Medjool · Semi-Dry & Dry Dates · Fresh Barhi Dates · Fresh Dates · Premium Egyptian date varieties",
@@ -213,7 +222,7 @@ export const productCategories: ProductCategory[] = [
     num: "03",
     title: "Fresh Fruits",
     shortLabel: "Fresh Fruits",
-    image: "/images/grapes.jpg",
+    image: "/images/Fruit.jpeg",
     alt: "Fresh fruits",
     summary:
       "Grapes · Pomegranates · Mangoes · Strawberries · Peaches · Apricots · Melons · Watermelons · Guava",
@@ -307,7 +316,7 @@ export const productCategories: ProductCategory[] = [
     num: "04",
     title: "Fresh Vegetables",
     shortLabel: "Fresh Vegetables",
-    image: "/images/vegetables.jpg",
+    image: "/images/veg.jpeg",
     alt: "Fresh vegetables",
     summary:
       "Onions · Garlic · Potatoes · Sweet Potatoes · Tomatoes · Peppers · Cucumbers · Carrots · Broccoli · Cabbage",
@@ -433,7 +442,7 @@ export const productCategories: ProductCategory[] = [
     num: "05",
     title: "Herbs, Spices & Dried Products",
     shortLabel: "Herbs, Spices & Dried",
-    image: "/images/herbs.jpg",
+    image: "/images/herpp.jpg",
     alt: "Herbs and spices",
     summary:
       "Fresh Herbs · Herbs & Spices · Dried Vegetables · Sun-Dried Tomatoes · Selected agricultural ingredients",
@@ -487,7 +496,7 @@ export const productCategories: ProductCategory[] = [
     num: "06",
     title: "Pulses & Grains",
     shortLabel: "Pulses & Grains",
-    image: "/images/grains.jpg",
+    image: "/images/Puls.jpeg",
     alt: "Pulses and grains",
     summary:
       "Beans · Legumes · Grains · Agricultural commodities — sourced and supplied to customer requirements",

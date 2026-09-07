@@ -4,8 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useCallback } from "react";
 import type { CategoryProduct } from "@/lib/products";
-
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+import { useLanguage } from "@/contexts/LanguageProvider";
 
 type Props = {
   product: CategoryProduct | null;
@@ -13,6 +12,7 @@ type Props = {
 };
 
 export default function ProductModal({ product, onClose }: Props) {
+  const { t } = useLanguage();
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +58,7 @@ export default function ProductModal({ product, onClose }: Props) {
         <button
           className="pm-close"
           onClick={onClose}
-          aria-label="Close product details"
+          aria-label={t.modal?.close || "Close"}
           type="button"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -86,23 +86,22 @@ export default function ProductModal({ product, onClose }: Props) {
           {/* RIGHT: content */}
           <div className="pm-content-col">
             <div className="pm-content-scroll">
-              <span className="pm-eyebrow">Product Details</span>
+              <span className="pm-eyebrow">{t.modal?.productDetails || "Product Details"}</span>
               <h2 className="pm-title serif">{product.name}</h2>
 
               {product.description && (
                 <p className="pm-description">{product.description}</p>
               )}
 
-              {/* Extra details removed per user request */}
               {/* Season bar */}
               <div className="pm-season-block">
-                <span className="pm-detail-label">Harvest / Availability Season</span>
+                <span className="pm-detail-label">{t.modal?.harvestSeason || "Harvest / Availability Season"}</span>
                 <div className="pm-months" role="list" aria-label="Availability by month">
-                  {MONTHS.map((month, idx) => {
+                  {(t.calendarPage?.months || ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]).map((month, idx) => {
                     const active = activeMonths.includes(idx + 1);
                     return (
                       <div
-                        key={month}
+                        key={month + idx}
                         className={`pm-month${active ? " pm-month--active" : ""}`}
                         role="listitem"
                         aria-label={`${month}: ${active ? "available" : "not available"}`}
@@ -118,13 +117,13 @@ export default function ProductModal({ product, onClose }: Props) {
               {/* CTA */}
               <div className="pm-cta-row">
                 <Link href={quoteHref} className="pm-cta-btn" onClick={onClose}>
-                  Request a Quote
+                  {t.modal?.requestQuote || "Request a Quote"}
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 8h10M9 4l4 4-4 4" />
                   </svg>
                 </Link>
                 <button type="button" className="pm-close-text" onClick={onClose}>
-                  Close
+                  {t.modal?.close || "Close"}
                 </button>
               </div>
             </div>
