@@ -10,8 +10,8 @@ export default function ContactContent() {
   const rows = [
     {
       label: t.contact.emailLabel,
-      value: "export@hbanna.com",
-      href: "mailto:export@hbanna.com",
+      value: "marketing@hbanna.com",
+      href: "mailto:marketing@hbanna.com",
       note: t.contact.emailNote,
     },
     {
