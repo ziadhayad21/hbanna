@@ -157,9 +157,9 @@ export const productCategories: ProductCategory[] = [
     image: "/images/Date.jpeg",
     alt: "Egyptian dates",
     summary:
-      "Medjool · Semi-Dry & Dry Dates · Fresh Barhi Dates · Fresh Dates · Premium Egyptian date varieties",
+      "Medjool · Semi-Dry Dates · King Baraka Dates · Fresh Barhi Dates · Fresh Dates · Premium Egyptian date varieties",
     description:
-      "Processed in our own modern dates factories — semi-dry, dry, Medjool, fresh Barhi, and a wide range of premium Egyptian date varieties and date-based products.",
+      "Processed in our own modern dates factories — semi-dry, King Baraka, Medjool, fresh Barhi, and a wide range of premium Egyptian date varieties and date-based products.",
     products: [
       {
         name: "Semi-Dry Dates",
@@ -173,41 +173,41 @@ export const productCategories: ProductCategory[] = [
         packing: "1 kg, 5 kg, 10 kg cartons",
       },
       {
-        name: "Dry Dates",
+        name: "King Baraka Dates",
         image: "/images/products/dates/dry-dates.jpg",
-        info: "Fully dried dates ideal for snacking, baking, and industrial use.",
+        info: "Fully dried King Baraka dates — ideal for snacking, baking, and industrial use.",
         description:
-          "Fully dehydrated and processed to rigorous international food-grade standards, our Dry Dates offer unparalleled shelf life and commercial versatility. They maintain a robust, concentrated sweetness that is highly valued by the food manufacturing industry. These dates are the ideal ingredient for commercial baking, confectionery, energy bars, and as a staple dried fruit for long-distance export and retail snacking programs.",
+          "King Baraka is a premium dry date variety, naturally low in moisture and known for its excellent keeping quality and long shelf life. It features a pleasantly chewy texture and a rich, distinctive flavor with balanced natural sweetness. Naturally less sweet than many other date varieties, King Baraka offers a satisfying taste without being overly sugary or heavy. Its plump yet naturally dry texture makes it less sticky than softer date varieties, making it an excellent choice for everyday snacking and a balanced diet. Naturally rich in dietary fiber and essential nutrients, King Baraka provides wholesome natural energy in every bite.",
         harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        varieties: ["Bartamoda", "Sakkoty", "Malkaby", "Shamia"],
-        sizes: "Standard Commercial Grades",
-        packing: "10 kg, 25 kg woven sacks or cartons",
+        varieties: ["King Baraka"],
+        sizes: "Premium Grades",
+        packing: "400 gm- 800 gm, 3 kg and 5 KG",
       },
       {
         name: "Medjool Dates",
         image: "/images/products/dates/medjool-dates.jpg",
         info: "Large, premium Medjool dates with soft texture and rich sweetness.",
         description:
-          "Internationally recognized as the 'king of dates,' our Medjool Dates are cultivated in Southern Egypt under strict agronomic protocols. They are hand-sorted to guarantee exceptional jumbo sizing, a soft, melt-in-the-mouth caramel texture, and rich natural sweetness. Positioned as a luxury agricultural product, they are the definitive choice for premium retail, exclusive gifting sectors, and high-end hospitality buyers.",
+          "Internationally recognized as the 'king of dates,' our Medjool Dates are cultivated in Southern Egypt under strict agronomic protocols. They are hand-sorted to guarantee exceptional sizing, a soft, melt-in-the-mouth caramel texture, and rich natural sweetness. Positioned as a luxury agricultural product, they are the definitive choice for premium retail, exclusive gifting sectors, and high-end hospitality buyers.",
         harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         varieties: ["Medjool"],
-        sizes: "Jumbo (20–25g+), Large (15–20g), Medium",
-        packing: "1 kg, 5 kg premium cartons",
+        sizes: "Super Jumbo · Jumbo · Large · Medium · Small · Baby Small · Fancy",
+        packing: "500 gm / 1 kg / 5 kg",
       },
       {
         name: "Fresh Barhi Dates",
-        image: "/images/products/dates/fresh-barhi-dates.jpg",
+        image: "/images/products/dates/date.jpg",
         info: "Fresh Barhi dates harvested at peak ripeness from our own factories.",
         description:
           "A highly anticipated seasonal delicacy, our Fresh Barhi Dates are harvested precisely at the Khalal (yellow, crunchy) stage or the fully ripe Tamar stage. Processed directly in our own facilities to ensure immediate cold-chain integrity, they offer a unique buttery, crisp sweetness. They are supplied in limited, highly sought-after quantities directly to premium importers in the Gulf and Europe.",
         harvestMonths: [8, 9, 10],
         varieties: ["Barhi"],
         sizes: "On branches",
-        packing: "4.5 kg, 5 kg open-top or telescopic cartons",
+        packing: "5 kg box",
       },
       {
         name: "Fresh Dates",
-        image: "/images/products/dates/fresh-dates.jpg",
+        image: "/images/products/dates/image copy.png",
         info: "Fresh Egyptian dates packed for markets that demand soft, moist fruit.",
         description:
           "Freshly harvested Egyptian dates are packed with meticulous care to cater to markets that specifically demand soft, moist, and highly flavourful fruit. With multiple regional varieties available across the harvest season, we provide tailored sorting and rapid cold-chain logistics to ensure the fruit arrives at international destinations maintaining its delicate texture and peak freshness.",
@@ -222,6 +222,7 @@ export const productCategories: ProductCategory[] = [
         description:
           "Capitalizing on Egypt's extraordinary diversity of date cultivars, we curate and export a highly specialized selection of premium, heritage varieties. These unique dates offer distinct flavour profiles, textures, and appearances, catering to discerning buyers, boutique brands, and specialty importers who seek to differentiate their product lines beyond the standard mainstream date offerings.",
         harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        varieties: ["Bartamoda", "Sakkoty", "Shamia"],
       },
       {
         name: "Date-based products",
@@ -407,14 +408,6 @@ export const productCategories: ProductCategory[] = [
         description:
           "Harvested twice yearly from the lush regions of Ismailia and Beheira, Egyptian Guava is experiencing surging international demand. It is celebrated for its intensely fragrant tropical aroma, high Vitamin C content, and exceptional flavor profile. Carefully packed to protect its delicate skin, it serves as a highly profitable exotic line for fresh markets, as well as a premium input for juicing and food manufacturing.",
         harvestMonths: [7, 8, 9, 11, 12, 1],
-      },
-      {
-        name: "Other seasonal Egyptian fruits",
-        image: "/images/products/fresh-fruits/seasonal-fruits.jpg",
-        info: "Additional varieties sourced seasonally to meet buyer requirements.",
-        description:
-          "Complementing our core fruit portfolio, HBanna expertly sources a broad spectrum of specialty seasonal Egyptian fruits, including fresh figs, prickly pears, and loquats. Leveraging our extensive grower network, we tailor our procurement to meet specific, bespoke buyer requirements, providing flexible volume, precise scheduling, and stringent quality control for niche and exotic market segments.",
-        harvestMonths: [4, 5, 6, 7, 8, 9, 10],
       },
       {
         name: "Prickly Pear",
@@ -643,26 +636,6 @@ export const productCategories: ProductCategory[] = [
         productClass: "First class",
         packing: "Carton 7 KG (8 to 12 Pieces per carton), Or upon client's request",
       },
-      {
-        name: "Snow Peas",
-        image: "/images/products/fresh-vegetables/Snow Peas.jpg",
-        info: "Crisp, sweet snow and sugar snap peas.",
-        description:
-          "Egyptian Snow Peas and Sugar Snaps are highly prized for their vibrant green color, sweet flavor, and satisfying crunch. Hand-harvested and immediately cooled, they are an excellent premium vegetable offering for retail produce sections and fine dining.",
-        harvestMonths: [11, 12, 1, 2, 3, 4],
-        varieties: ["Egypt Snow Peas", "Sugar Snap"],
-        sizes: "5 to 10 cm",
-        productClass: "First class",
-        packing: "Carton (12 Punnet x 250 Gm) 3 KG, Or upon client's request",
-      },
-      {
-        name: "Seasonal vegetables",
-        image: "/images/products/fresh-vegetables/seasonal-vegetables.jpg",
-        info: "Additional seasonal vegetables sourced to meet buyer requirements.",
-        description:
-          "Beyond our core year-round vegetable range, HBanna actively sources and supplies a wide array of specialized seasonal vegetables, including zucchini, green beans, and leeks. We work closely with our agricultural partners to meet precise buyer specifications, managing the entire procurement, grading, and logistics process to ensure consistent quality and reliable delivery for highly specific market demands.",
-        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      },
     ],
   },
   {
@@ -673,24 +646,16 @@ export const productCategories: ProductCategory[] = [
     image: "/images/herpp.jpg",
     alt: "Herbs and spices",
     summary:
-      "Fresh Herbs · Herbs & Spices · Dried Vegetables · Sun-Dried Tomatoes · Selected agricultural ingredients",
+      "Herbs & Spices · Dried Vegetables · Sun-Dried Tomatoes",
     description:
-      "Fresh herbs, spices, dried vegetables, sun-dried tomatoes, and selected agricultural ingredients for wholesale and food-industry partners.",
+      "Spices, dried vegetables, and sun-dried tomatoes — sourced and processed to international food-grade standards for wholesale and food-industry partners.",
     products: [
-      {
-        name: "Fresh Herbs",
-        image: "/images/products/herbs-spices-dried/fresh-herbs.jpg",
-        info: "Aromatic fresh herbs packed for retail and food-service partners.",
-        description:
-          "Grown in Egypt's ideal, temperate conditions, our fresh herb program encompasses a wide range of highly aromatic varieties including basil, mint, and dill. They are harvested in the cool of the morning and immediately subjected to rigorous cold-chain packing protocols to prevent wilting. We supply these premium herbs to retail supermarkets, high-end hospitality, and food-service partners worldwide, ensuring maximum essential oil retention and visual freshness.",
-        harvestMonths: [10, 11, 12, 1, 2, 3, 4, 5],
-      },
       {
         name: "Herbs & Spices",
         image: "/images/products/herbs-spices-dried/herbs-spices.jpg",
         info: "Dried herbs and spices supplied for wholesale and industry use.",
         description:
-          "Building on millennia of agricultural history, Egypt remains a premier global source for high-quality spices and dried herbs. Our comprehensive range—including cumin, coriander, and chamomile—is thoroughly cleaned, sifted, and processed to strict international food-grade standards. We provide reliable, bulk supply solutions tailored for global spice traders, wholesale distributors, and the commercial food manufacturing industry.",
+          "Building on millennia of agricultural history, Egypt remains a premier global source for high-quality spices and dried herbs. Our comprehensive range is thoroughly cleaned, sifted, and processed to strict international food-grade standards. We provide reliable, bulk supply solutions tailored for global spice traders, wholesale distributors, and the commercial food manufacturing industry.",
         harvestMonths: [3, 4, 5, 6, 7, 8],
       },
       {
@@ -708,14 +673,6 @@ export const productCategories: ProductCategory[] = [
         description:
           "Produced exclusively from premium Egyptian plum tomatoes and naturally dried under the intense, arid summer sun, our sun-dried tomatoes deliver an extraordinary concentration of umami flavour and a deep, rich red colour. Graded for perfection, they are a high-value, premium ingredient supplied in bulk or retail formats to food manufacturers, specialty distributors, and Mediterranean-focused retail channels globally.",
         harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      },
-      {
-        name: "Selected agricultural ingredients",
-        image: "/images/products/herbs-spices-dried/ingredients.jpg",
-        info: "Specialty agricultural ingredients sourced to customer specifications.",
-        description:
-          "HBanna acts as a trusted procurement partner for specialized agricultural ingredients, sourcing niche botanicals such as hibiscus, carob, and moringa. We expertly navigate the Egyptian agricultural landscape to supply food manufacturers, nutraceutical companies, and ingredient buyers worldwide, ensuring all products meet exacting quality, purity, and certification specifications.",
-        harvestMonths: [4, 5, 6, 7, 8, 9, 10],
       },
     ],
   },
@@ -740,20 +697,13 @@ export const productCategories: ProductCategory[] = [
         harvestMonths: [3, 4, 5, 6],
       },
       {
-        name: "Beans",
-        image: "/images/products/pulses-grains/beans.jpg",
-        info: "Dried beans supplied in volumes tailored to buyer requirements.",
+        name: "White Beans",
+        image: "/images/products/pulses-grains/white-beans.jpg",
+        info: "Premium white beans cleaned and graded for export markets.",
         description:
-          "As a major global producer, Egypt offers an exceptional supply of dried beans, particularly Faba (Foul) beans. Our comprehensive range is meticulously processed to remove impurities and graded to ensure uniform cooking times. Supplied in highly flexible bulk packaging formats, they cater seamlessly to the demands of international retail packing operations, food manufacturers, and large-scale wholesale commodity buyers.",
+          "A premium staple in global markets, our White Beans are meticulously processed to remove impurities and graded for exceptional uniformity and cooking consistency. Supplied in highly flexible bulk packaging formats, they cater seamlessly to the demands of international retail packing operations, food manufacturers, and large-scale wholesale commodity buyers seeking a reliable, quality-assured supply.",
         harvestMonths: [3, 4, 5],
-      },
-      {
-        name: "Legumes",
-        image: "/images/products/pulses-grains/legumes.jpg",
-        info: "A broad range of legumes sourced for food-industry partners.",
-        description:
-          "HBanna's legume portfolio, featuring high-demand items like lupins and sesame, provides the global food industry with a highly reliable, quality-assured source of essential plant-based proteins. We manage strict quality control throughout the supply chain and offer custom sourcing capabilities to meet specific variety, origin, or processing requirements for specialized food manufacturing applications.",
-        harvestMonths: [4, 5, 6, 7],
+        varieties: ["White Beans"],
       },
       {
         name: "Grains",
