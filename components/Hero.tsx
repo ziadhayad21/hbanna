@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageProvider";
 
-const HERO_VIDEO = "/hero-background.mp4";
+const HERO_VIDEO = "/low.mp4";
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
