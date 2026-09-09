@@ -225,8 +225,8 @@ export const productCategories: ProductCategory[] = [
         varieties: ["Bartamoda", "Sakkoty", "Shamia"],
       },
       {
-        name: "Date based",
-        image: "/images/products/dates/Date based.jpg",
+        name: "Date Paste",
+        image: "/images/products/dates/Paste.jpeg",
         info: "Value-added date products processed to customer specifications.",
         description:
           "Our comprehensive range of value-added date products—including pure date paste, rich date syrup, date powder, and precision-chopped dates—is processed entirely within our own Egyptian factories. Adhering to the strictest international food-grade standards (BRC, HACCP), these products serve as premium, natural sweetening and texturizing ingredients for the global food manufacturing, baking, and foodservice industries.",
