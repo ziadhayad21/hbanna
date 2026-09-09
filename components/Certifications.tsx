@@ -4,19 +4,34 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageProvider";
 
+const CERTIFICATES = [
+  {
+    src: "/certificate2.png",
+    alt: "HBanna ISO 22000 Food Safety Certificate",
+    title: "ISO 22000 — Food Safety Management",
+    buttonLabel: "View Certificate ISO 22000",
+  },
+  {
+    src: "/certificate.png",
+    alt: "HBanna ISO 9001 Quality Certificate",
+    title: "ISO 9001 — Quality Management",
+    buttonLabel: "View Certificate ISO 9001",
+  },
+];
+
 export default function Certifications() {
   const { t } = useLanguage();
-  const [isOpen, setIsOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const handleKey = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      setIsOpen(false);
+      setOpenIndex(null);
     }
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
+    if (openIndex !== null) {
       document.addEventListener("keydown", handleKey);
       document.body.style.overflow = "hidden";
     }
@@ -24,13 +39,15 @@ export default function Certifications() {
       document.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
     };
-  }, [isOpen, handleKey]);
+  }, [openIndex, handleKey]);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === overlayRef.current) {
-      setIsOpen(false);
+      setOpenIndex(null);
     }
   };
+
+  const activeCert = openIndex !== null ? CERTIFICATES[openIndex] : null;
 
   return (
     <section id="certifications">
@@ -58,45 +75,48 @@ export default function Certifications() {
       </div>
       <p className="cert-sub reveal">{t.certs.body}</p>
 
-      {/* Centered Button Below Certifications */}
-      <div className="cert-action-wrap reveal">
-        <button
-          type="button"
-          onClick={() => setIsOpen(true)}
-          className="btn btn-primary"
-          aria-haspopup="dialog"
-          aria-expanded={isOpen}
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
+      {/* Two side-by-side View Certificate buttons */}
+      <div className="cert-action-wrap reveal" style={{ gap: "16px" }}>
+        {CERTIFICATES.map((cert, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => setOpenIndex(idx)}
+            className="btn btn-primary"
+            aria-haspopup="dialog"
+            aria-expanded={openIndex === idx}
           >
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-            <polyline points="10 9 9 9 8 9" />
-          </svg>
-          <span>View Certificate</span>
-        </button>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <span>{cert.buttonLabel}</span>
+          </button>
+        ))}
       </div>
 
       {/* Certificate Lightbox Modal */}
-      {isOpen && (
+      {activeCert && (
         <div
           ref={overlayRef}
           className="cert-modal-overlay"
           onClick={handleOverlayClick}
           role="dialog"
           aria-modal="true"
-          aria-label="Official Certificate"
+          aria-label={activeCert.title}
         >
           <div className="cert-modal">
             <div className="cert-modal-header">
@@ -115,12 +135,12 @@ export default function Certifications() {
                   <circle cx="12" cy="8" r="7" />
                   <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
                 </svg>
-                <span>Quality & Compliance Certificate</span>
+                <span>{activeCert.title}</span>
               </div>
 
               <div className="cert-modal-actions">
                 <a
-                  href="/certificate.png"
+                  href={activeCert.src}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-ghost"
@@ -155,7 +175,7 @@ export default function Certifications() {
                   type="button"
                   className="pm-close"
                   style={{ position: "static", transform: "none" }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setOpenIndex(null)}
                   aria-label="Close certificate dialog"
                 >
                   <svg
@@ -175,8 +195,8 @@ export default function Certifications() {
 
             <div className="cert-modal-body">
               <Image
-                src="/certificate.png"
-                alt="HBanna Quality and Safety Certificate"
+                src={activeCert.src}
+                alt={activeCert.alt}
                 width={540}
                 height={770}
                 priority

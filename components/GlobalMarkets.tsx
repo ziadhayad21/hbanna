@@ -161,6 +161,204 @@ const MARKETS: Market[] = [
     labelAnchor: "middle",
     labelDy: 14,
   },
+  {
+    id: "uae",
+    label: "UAE",
+    region: "Asia",
+    coordinates: [54.4, 23.7],
+    tagline: "Premium dates, citrus and fresh produce to Gulf importers.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "india",
+    label: "India",
+    region: "Asia",
+    coordinates: [78.9, 20.6],
+    tagline: "Egyptian herbs, spices and commodities for Indian trade partners.",
+    labelAnchor: "end",
+    labelDy: 14,
+  },
+  {
+    id: "bangladesh",
+    label: "Bangladesh",
+    region: "Asia",
+    coordinates: [90.4, 23.7],
+    tagline: "Pulses, grains and fresh produce for Bangladeshi buyers.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "malaysia",
+    label: "Malaysia",
+    region: "Asia",
+    coordinates: [109.7, 4.2],
+    tagline: "Egyptian agricultural products for Malaysian distributors.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "thailand",
+    label: "Thailand",
+    region: "Asia",
+    coordinates: [100.9, 15.9],
+    tagline: "Premium Egyptian herbs, spices and fresh produce to Thailand.",
+    labelAnchor: "end",
+    labelDy: 14,
+  },
+  {
+    id: "singapore",
+    label: "Singapore",
+    region: "Asia",
+    coordinates: [103.8, 1.4],
+    tagline: "High-grade Egyptian produce for Singapore's premium retail sector.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "indonesia",
+    label: "Indonesia",
+    region: "Asia",
+    coordinates: [117.9, -2.5],
+    tagline: "Egyptian agricultural commodities for Indonesian importers.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "brunei",
+    label: "Brunei",
+    region: "Asia",
+    coordinates: [114.7, 4.5],
+    tagline: "Premium Egyptian dates and fresh produce to Brunei.",
+    labelAnchor: "start",
+    labelDy: -12,
+  },
+  {
+    id: "taiwan",
+    label: "Taiwan",
+    region: "Asia",
+    coordinates: [120.9, 23.7],
+    tagline: "Export-grade Egyptian produce for Taiwanese markets.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "hongkong",
+    label: "Hong Kong",
+    region: "Asia",
+    coordinates: [114.2, 22.3],
+    tagline: "Premium Egyptian fresh produce for Hong Kong specialty retail.",
+    labelAnchor: "end",
+    labelDy: -12,
+  },
+  {
+    id: "southkorea",
+    label: "South Korea",
+    region: "Asia",
+    coordinates: [127.8, 36.5],
+    tagline: "Egyptian agricultural exports for South Korean importers.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "japan",
+    label: "Japan",
+    region: "Asia",
+    coordinates: [138.3, 36.2],
+    tagline: "Premium-grade Egyptian produce meeting Japanese standards.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "france",
+    label: "France",
+    region: "Europe",
+    coordinates: [2.3, 46.2],
+    tagline: "Egyptian citrus, dates and fresh produce for French importers.",
+    labelAnchor: "end",
+    labelDy: -12,
+  },
+  {
+    id: "netherlands",
+    label: "Netherlands",
+    region: "Europe",
+    coordinates: [5.3, 52.1],
+    tagline: "Serving Dutch wholesale hubs as a key European gateway.",
+    labelAnchor: "middle",
+    labelDy: -12,
+  },
+  {
+    id: "germany",
+    label: "Germany",
+    region: "Europe",
+    coordinates: [10.5, 51.2],
+    tagline: "High-quality Egyptian produce for German wholesale and retail.",
+    labelAnchor: "middle",
+    labelDy: -12,
+  },
+  {
+    id: "poland",
+    label: "Poland",
+    region: "Europe",
+    coordinates: [19.1, 51.9],
+    tagline: "Egyptian citrus and fresh vegetables for Polish distributors.",
+    labelAnchor: "start",
+    labelDy: -12,
+  },
+  {
+    id: "romania",
+    label: "Romania",
+    region: "Europe",
+    coordinates: [24.9, 45.9],
+    tagline: "Egyptian fresh produce and pulses for Romanian trade partners.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "spain",
+    label: "Spain",
+    region: "Europe",
+    coordinates: [-3.7, 40.4],
+    tagline: "Egyptian citrus and vegetables for Spanish import channels.",
+    labelAnchor: "end",
+    labelDy: -12,
+  },
+  {
+    id: "turkey",
+    label: "Turkey",
+    region: "Eurasia",
+    coordinates: [35.2, 39.0],
+    tagline: "Egyptian herbs, spices and fresh produce for Turkish buyers.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
+  {
+    id: "kazakhstan",
+    label: "Kazakhstan",
+    region: "Eurasia",
+    coordinates: [66.9, 48.0],
+    tagline: "Agricultural commodities and fresh produce for Kazakh markets.",
+    labelAnchor: "middle",
+    labelDy: -12,
+  },
+  {
+    id: "capeverde",
+    label: "Cape Verde",
+    region: "Africa",
+    coordinates: [-23.6, 16.0],
+    tagline: "Egyptian produce and dates for Cape Verde island markets.",
+    labelAnchor: "end",
+    labelDy: 14,
+  },
+  {
+    id: "seychelles",
+    label: "Seychelles",
+    region: "Africa",
+    coordinates: [55.5, -4.7],
+    tagline: "Specialty Egyptian agricultural products to Seychelles.",
+    labelAnchor: "start",
+    labelDy: 14,
+  },
 ];
 
 const EGYPT_COORDS: [number, number] = [30.8, 26.8];
@@ -429,7 +627,7 @@ export default function GlobalMarkets() {
           {/* Institutional Trade Metrics Bar */}
           <div className="gm-stats-ribbon">
             <div className="gm-stat-item">
-              <span className="gm-stat-number">15+</span>
+              <span className="gm-stat-number">{MARKETS.length}+</span>
               <span className="gm-stat-label">{t.countriesPage?.activeCorridors}</span>
             </div>
             <div className="gm-stat-divider" aria-hidden="true" />
@@ -602,7 +800,7 @@ export default function GlobalMarkets() {
         {/* ── Mobile-Dedicated Scannable Corridor Strip ── */}
         <div className={`gm-mobile-corridors ${inView ? "in-view" : ""}`}>
           <div className="gm-mobile-header">
-            <span>Explore All 15 Export Corridors:</span>
+            <span>Explore All {MARKETS.length} Export Corridors:</span>
           </div>
           <div className="gm-mobile-chips-scroll">
             {MARKETS.map((m) => {

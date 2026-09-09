@@ -12,25 +12,25 @@ export default function Facilities() {
   const facilities = useMemo(
     () => [
       {
-        image: "/images/dates-factory.jpg",
+        image: "/images/Two Modern Dates Factories.jpg",
         eyebrow: t.facilities.s1eyebrow,
         title: t.facilities.s1title,
         description: t.facilities.s1desc,
       },
       {
-        image: "/images/citrus-packing.jpg",
+        image: "/images/packing.jpeg",
         eyebrow: t.facilities.s2eyebrow,
         title: t.facilities.s2title,
         description: t.facilities.s2desc,
       },
       {
-        image: "/images/farm.jpg",
+        image: "/images/farm.jpeg",
         eyebrow: t.facilities.s3eyebrow,
         title: t.facilities.s3title,
         description: t.facilities.s3desc,
       },
       {
-        image: "/images/orange.jpg",
+        image: "/images/large hanger.jpeg",
         eyebrow: t.facilities.s4eyebrow,
         title: t.facilities.s4title,
         description: t.facilities.s4desc,
