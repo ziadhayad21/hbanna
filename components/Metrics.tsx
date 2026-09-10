@@ -10,7 +10,8 @@ export default function Metrics() {
   const metrics = [
     { target: 40, suffix: "+", label: t.metrics.years },
     { target: 75, suffix: "%+", label: t.metrics.groves },
-    { target: 3, suffix: "", label: t.metrics.factories },
+    { target: 2, suffix: "", label: t.metrics.datesFactories },
+    { target: 1, suffix: "", label: t.metrics.packingHouse },
   ] as const;
 
   useEffect(() => {

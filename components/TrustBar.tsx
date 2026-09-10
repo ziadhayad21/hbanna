@@ -14,7 +14,7 @@ export default function TrustBar() {
     {
       label: "Infrastructure",
       value: "3 Facilities",
-      desc: "2 Dates Factories & 1 Citrus House",
+      desc: "2 Own Modern Dates Factories & 1 Packing House for Citrus & Fresh Fruit",
     },
     {
       label: "Global Reach",

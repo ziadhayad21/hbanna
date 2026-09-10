@@ -40,7 +40,8 @@ export type Messages = {
   metrics: {
     years: string;
     groves: string;
-    factories: string;
+    datesFactories: string;
+    packingHouse: string;
   };
   about: {
     eyebrow: string;
@@ -312,7 +313,8 @@ export const en: Messages = {
   metrics: {
     years: "Years of agricultural excellence since 1992",
     groves: "Of our dates grown & packed in our own factories",
-    factories: "Our own modern dates factories",
+    datesFactories: "Own Modern Dates Factories",
+    packingHouse: "Packing House for Citrus & Fresh Fruit",
   },
   about: {
     eyebrow: "Who We Are",
@@ -622,7 +624,8 @@ export const de: Messages = {
   metrics: {
     years: "Jahre landwirtschaftliche Exzellenz seit 1992",
     groves: "Unserer Datteln aus eigenen Fabriken",
-    factories: "Eigene moderne Dattelfabriken",
+    datesFactories: "Eigene moderne Dattelfabriken",
+    packingHouse: "Packhaus für Zitrusfrüchte & Frischobst",
   },
   about: {
     eyebrow: "Wer wir sind",
@@ -932,7 +935,8 @@ export const zh: Messages = {
   metrics: {
     years: "自1992年以来的农业卓越历程",
     groves: "自有工厂种植与包装的椰枣",
-    factories: "自有现代化椰枣工厂",
+    datesFactories: "自有现代化椰枣工厂",
+    packingHouse: "柑橘及鲜果包装车间",
   },
   about: {
     eyebrow: "我们是谁",

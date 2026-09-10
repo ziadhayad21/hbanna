@@ -130,6 +130,18 @@ export const productCategories: ProductCategory[] = [
         packing: "Telescopic cartons 15 KG NW - 16 KG GW"
       },
       {
+        name: "Limes",
+        image: "/images/products/citrus/limes.jpg",
+        info: "Bright Egyptian limes with high juice content and thin, aromatic skin.",
+        description:
+          "Egyptian Limes are prized for their vibrant green color, thin aromatic skin, and exceptionally high juice content with a refreshing tartness. Grown in Egypt's warm citrus belts, they are carefully harvested, graded, and cold-chain packed for export. A versatile product in high demand across the food-service, beverage, and culinary sectors globally.",
+        harvestMonths: [10, 11, 12, 1, 2, 3],
+        varieties: ["Persian Lime", "Baladi Lime"],
+        sizes: "42 - 48 - 54 - 60 - 70",
+        productClass: "First Class",
+        packing: "Telescopic cartons 15 KG NW - 16 KG GW"
+      },
+      {
         name: "Grapefruit",
         image: "/images/products/citrus/grapefruit.jpg",
         info: "Large, firm grapefruits packed for long-distance export.",
@@ -430,7 +442,7 @@ export const productCategories: ProductCategory[] = [
     image: "/images/veg.jpeg",
     alt: "Fresh vegetables",
     summary:
-      "Onions · Garlic · Potatoes · Sweet Potatoes · Tomatoes · Peppers · Cucumbers · Carrots · Broccoli · Cabbage",
+      "Onions · Garlic · Potatoes · Sweet Potatoes · Tomatoes · Peppers · Cucumbers · Carrots · Broccoli · Cabbage · Fresh Molokhia",
     description:
       "A broad vegetable program packed for freshness — onions, garlic, roots, tomatoes, peppers, crucifers, and a wide range of seasonal Egyptian vegetables.",
     products: [
@@ -636,6 +648,16 @@ export const productCategories: ProductCategory[] = [
         productClass: "First class",
         packing: "Carton 7 KG (8 to 12 Pieces per carton), Or upon client's request",
       },
+      {
+        name: "Fresh Molokhia",
+        image: "/images/products/fresh-vegetables/fresh-molokhia.jpg",
+        info: "Freshly harvested Egyptian Molokhia leaves (Corchorus olitorius).",
+        description:
+          "Our fresh Egyptian Molokhia is carefully selected and harvested at optimal maturity to ensure vibrant color and excellent culinary properties. Known for its rich flavor and nutritional profile, this classic Mediterranean staple is packed fresh for direct distribution.",
+        harvestMonths: [5, 6, 7, 8, 9, 10],
+        varieties: ["Egyptian Fresh Molokhia"],
+        packing: "5 KG Cartons · 10 KG Cartons · As per customer request",
+      },
     ],
   },
   {
@@ -646,7 +668,7 @@ export const productCategories: ProductCategory[] = [
     image: "/images/herpp.jpg",
     alt: "Herbs and spices",
     summary:
-      "Basil · Bay Leaves · Caraway · Cardamom · Chamomile · Coriander · Cumin · Dill · Fennel · Hibiscus · Marjoram · Mint · Oregano · Rosemary · Sage · Thyme · Dried Vegetables · Sun-Dried Tomatoes",
+      "Basil · Bay Leaves · Caraway · Cardamom · Chamomile · Coriander · Cumin · Dill · Fennel · Hibiscus · Marjoram · Mint · Oregano · Rosemary · Sage · Thyme · Dried Tomatoes · Dried Molokhia · Dried Vegetables",
     description:
       "Egyptian herbs and spices are known for their high quality, rich aroma and natural taste. Our products are carefully selected, cleaned and processed to preserve their natural flavor, color and essential oils. We supply whole, crushed, ground and cut forms, packed in a wide variety of packages according to customers' requirements.",
     products: [
@@ -794,22 +816,33 @@ export const productCategories: ProductCategory[] = [
         harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
-      // {
-      //   name: "Dried Vegetables",
-      //   image: "/images/products/herbs-spices-dried/dried-vegetables.jpg",
-      //   info: "Dehydrated vegetables processed for extended shelf life.",
-      //   description:
-      //     "Utilizing advanced commercial dehydration technology, our dried vegetable range—featuring onion and garlic flakes—delivers an incredibly consistent colour, texture, and nutritional profile. Processed in certified facilities, these highly shelf-stable ingredients offer immense logistical efficiency and are a critical, high-volume input for soup manufacturers, ready-meal producers, and the broader global food processing industry.",
-      //   harvestMonths: [4, 5, 6, 7, 8, 9, 10, 11],
-      // },
-      // {
-      //   name: "Sun-Dried Tomatoes",
-      //   image: "/images/products/herbs-spices-dried/sun-dried-tomatoes.jpg",
-      //   info: "Sun-dried tomatoes with concentrated flavor and rich color.",
-      //   description:
-      //     "Produced exclusively from premium Egyptian plum tomatoes and naturally dried under the intense, arid summer sun, our sun-dried tomatoes deliver an extraordinary concentration of umami flavour and a deep, rich red colour. Graded for perfection, they are a high-value, premium ingredient supplied in bulk or retail formats to food manufacturers, specialty distributors, and Mediterranean-focused retail channels globally.",
-      //   harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      // },
+      {
+        name: "Dried Tomatoes",
+        image: "/images/products/herbs-spices-dried/sun-dried-tomatoes.jpg",
+        info: "Sun-dried tomatoes with concentrated umami flavor and deep red color.",
+        description:
+          "Produced exclusively from premium Egyptian plum tomatoes and naturally dried under the intense, arid summer sun, our Dried Tomatoes deliver an extraordinary concentration of umami flavour and a deep, rich red colour. Graded for perfection and processed under strict food-grade standards, they are a high-value, premium ingredient supplied in bulk or retail formats to food manufacturers, specialty distributors, and Mediterranean-focused retail channels globally.",
+        harvestMonths: [6, 7, 8, 9, 10],
+        packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
+      },
+      {
+        name: "Dried Molokhia",
+        image: "/images/products/herbs-spices-dried/dried-molokhia.jpg",
+        info: "Dehydrated Molokhia leaves with vibrant color and intense flavor.",
+        description:
+          "Egyptian Dried Molokhia (Corchorus olitorius) is a prized culinary staple across the Middle East and North Africa, cherished for its distinctive earthy flavor, nutritional richness, and remarkable versatility. Our Molokhia is carefully harvested at peak quality, then gently dehydrated to preserve its vibrant green color, high vitamin content, and characteristic viscous cooking properties. A shelf-stable, convenient format widely exported to Gulf markets, specialty food manufacturers, and MENA diaspora retailers worldwide.",
+        harvestMonths: [5, 6, 7, 8, 9, 10],
+        packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
+      },
+      {
+        name: "Dried Vegetables",
+        image: "/images/products/herbs-spices-dried/dried-vegetabless.jpg",
+        info: "Dehydrated mixed vegetables processed for extended shelf life and concentrated flavor.",
+        description:
+          "Utilizing advanced commercial dehydration technology, our Dried Vegetables range — featuring onion flakes, garlic flakes, dried carrot pieces, dried leek, and mixed vegetable blends — delivers an incredibly consistent colour, texture, and nutritional profile. Processed in certified facilities adhering to strict international food-grade standards (BRC, HACCP), these highly shelf-stable ingredients offer immense logistical efficiency. They are a critical, high-volume input for soup manufacturers, ready-meal producers, seasoning blenders, and the broader global food processing industry.",
+        harvestMonths: [4, 5, 6, 7, 8, 9, 10, 11],
+        packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
+      },
     ],
   },
   {

@@ -1343,6 +1343,10 @@ p {
     padding: 56px 16px 50px;
   }
 
+  .metric::before {
+    left: 0;
+  }
+
   .sc-header {
     margin-bottom: 32px;
   }
@@ -2125,7 +2129,7 @@ body.hero-video-page .nav:not(.solid) .logo-img,
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .metric {
@@ -6921,7 +6925,7 @@ footer::before {
   }
 
   .metrics-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0;
   }
 
@@ -9351,4 +9355,82 @@ html.show-loader .initial-loader {
 
 html.show-loader body {
   overflow: hidden !important;
+}
+
+/* --- Trust Bar --- */
+.trust-bar {
+  background-color: var(--sand);
+  padding: 40px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.trust-bar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.trust-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 1px solid var(--orange);
+  padding-left: 20px;
+}
+
+.trust-fact:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.trust-label {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.trust-value {
+  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-size: 32px;
+  color: var(--brown);
+  line-height: 1.1;
+}
+
+.trust-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+@media (max-width: 1024px) {
+  .trust-bar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 24px;
+  }
+  .trust-fact:nth-child(3) {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .trust-bar-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .trust-fact {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--orange);
+    padding-top: 16px;
+  }
+  .trust-fact:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
 }
