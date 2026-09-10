@@ -656,7 +656,7 @@ export const productCategories: ProductCategory[] = [
         info: "Sweet Egyptian basil with rich aroma, supplied whole, cut or ground.",
         description:
           "Egyptian Basil is cultivated in the fertile Nile Delta and prized for its intensely sweet, clove-like aroma and bright green colour. Carefully harvested at peak aromatic oil content, it is thoroughly cleaned, dried and processed to preserve its characteristic fragrance and natural essential oils. Available in whole leaf, cut, crushed, and ground forms for the food manufacturing, herbal tea, and spice blending industries.",
-        harvestMonths: [5, 6, 7, 8, 9],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -665,7 +665,7 @@ export const productCategories: ProductCategory[] = [
         info: "Aromatic dried bay leaves for culinary and industrial use.",
         description:
           "Egyptian Bay Leaves are hand-selected from cultivated laurel groves and carefully shade-dried to preserve their distinctive warm, slightly floral aroma and full essential oil content. Known for their superior colour and uniform sizing, they are a staple seasoning ingredient for the food manufacturing, catering, and retail spice sectors worldwide. Supplied whole or crumbled to specification.",
-        harvestMonths: [10, 11, 12, 1, 2],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -674,7 +674,7 @@ export const productCategories: ProductCategory[] = [
         info: "Whole and ground Egyptian caraway seeds with warm, earthy flavor.",
         description:
           "Egyptian Caraway seeds are renowned globally for their distinctive warm, earthy, and slightly anise-like flavour profile with high essential oil content. Grown primarily in Upper Egypt and the Delta, they are mechanically cleaned, colour-sorted and graded for superior uniformity. Supplied whole or ground, they are widely used in the bakery, dairy, meat processing, and herbal supplement industries.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -683,7 +683,7 @@ export const productCategories: ProductCategory[] = [
         info: "Premium Egyptian cardamom with intense, complex fragrance.",
         description:
           "Egyptian Cardamom delivers an intensely complex, sweet-spicy aroma with warm eucalyptus undertones, making it one of the world's most prized spices. Carefully harvested and processed to preserve its volatile essential oils, our cardamom is supplied as whole pods, decorticated seeds, or fine ground powder — catering to specialty food manufacturers, the premium coffee and tea industry, and confectionery producers.",
-        harvestMonths: [9, 10, 11],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -692,7 +692,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried Egyptian chamomile flowers for tea and herbal applications.",
         description:
           "Egypt is one of the world's leading producers of Chamomile, and our dried chamomile flowers are celebrated for their exceptional golden colour, high essential oil and chamazulene content, and delicate, honey-like apple fragrance. Carefully harvested and gently dried to preserve bioactive compounds, they are a premium ingredient for the herbal tea, nutraceutical, cosmetics, and pharmaceutical industries globally.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -701,7 +701,7 @@ export const productCategories: ProductCategory[] = [
         info: "Whole and ground coriander seeds with bright citrusy aroma.",
         description:
           "Egyptian Coriander seeds are highly sought after for their warm, nutty, and distinctly citrusy aroma and high essential oil yield. Grown extensively across the Nile Delta and Upper Egypt, they are mechanically harvested, rigorously cleaned, and carefully sorted by size and colour. Available in whole seed, cracked, or finely ground forms, they are essential to spice blenders, food manufacturers, and the global culinary industry.",
-        harvestMonths: [4, 5],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -710,7 +710,7 @@ export const productCategories: ProductCategory[] = [
         info: "Aromatic Egyptian cumin seeds — whole or ground to specification.",
         description:
           "Egyptian Cumin is a cornerstone of the global spice trade, celebrated for its strong, warm, earthy aroma and distinctively bold flavour. Cultivated in Egypt's arid growing zones under optimal conditions, our cumin seeds feature high essential oil content and excellent colour. Supplied as whole seeds or ground powder, they serve as a critical ingredient for spice blend manufacturers, food processors, and the international wholesale spice trade.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -719,7 +719,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried Egyptian dill weed and seeds for culinary and industrial use.",
         description:
           "Egyptian Dill is prized for its bright, fresh anise-like aroma and high volatile oil content. Grown along the Nile Delta, our dill is harvested at peak freshness and carefully dried to lock in its characteristic flavour profile. Available as whole herb (cut & sifted), dill seeds whole or ground — it is widely used in the pickling, dairy, seafood, and ready-meal food manufacturing industries.",
-        harvestMonths: [3, 4, 5],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -728,7 +728,7 @@ export const productCategories: ProductCategory[] = [
         info: "Whole Egyptian fennel seeds with sweet, licorice-like aroma.",
         description:
           "Egyptian Fennel seeds are renowned for their exceptionally sweet, anise-like aroma and characteristic warm flavour with high trans-anethole content. A versatile commodity, our fennel is supplied as whole seeds, crushed, or finely ground powder. It is widely used across the herbal tea, confectionery, bakery, sausage manufacturing, and nutraceutical supplement industries, with high demand from European and Gulf markets.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -737,7 +737,7 @@ export const productCategories: ProductCategory[] = [
         info: "Deep-red dried hibiscus flowers for teas, beverages and extracts.",
         description:
           "Egypt is the world's premier supplier of dried Hibiscus (Karkadé), and our product is renowned for its exceptional deep ruby-red colour, high anthocyanin content, and intense tartly refreshing flavour. Sourced from specialized cultivation zones in Upper Egypt, our hibiscus flowers are meticulously cleaned and dried to strict food-grade standards, serving the herbal beverage, nutraceutical, cosmetic extract, and food colouring industries globally.",
-        harvestMonths: [10, 11, 12],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -746,7 +746,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried Egyptian marjoram with delicate, sweet-pine aroma.",
         description:
           "Egyptian Marjoram is one of the country's most valuable herb exports, celebrated worldwide for its delicate, sweetly aromatic, and slightly piney flavour profile and exceptionally high essential oil content. Carefully harvested at peak flowering and gently dried to preserve its volatile compounds, it is a premium ingredient for sausage and meat processors, herbal tea blenders, and the natural cosmetics and pharmaceutical industries.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -755,7 +755,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried Egyptian mint with vibrant color and intense cool aroma.",
         description:
           "Egypt produces some of the world's finest Mint, cultivated extensively across the Nile Delta for its extraordinarily high menthol content and intensely refreshing, cooling aroma. Our dried mint is available in whole leaf, cut & sifted, and powder forms. It is a high-value, high-demand commodity for the global herbal tea, confectionery, pharmaceutical, oral hygiene, and cosmetics industries.",
-        harvestMonths: [4, 5, 6, 7, 8, 9],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -764,7 +764,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried Egyptian oregano with robust, peppery herbal aroma.",
         description:
           "Egyptian Oregano is valued for its robust, peppery, and intensely herbal aroma with a pleasantly warming flavour and high carvacrol and thymol essential oil content. Dried at optimal conditions to lock in its characteristic complexity, it is an indispensable ingredient for the pizza and pasta industry, meat seasoning manufacturers, spice blend producers, and the global food-service sector.",
-        harvestMonths: [5, 6, 7],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -773,7 +773,7 @@ export const productCategories: ProductCategory[] = [
         info: "Aromatic dried rosemary — needles, cut or ground for industry.",
         description:
           "Egyptian Rosemary is prized for its intensely piney, camphor-rich aroma and strong, resinous flavour with high carnosic acid content, making it a valuable natural antioxidant for the food industry. Carefully harvested and dried to preserve its essential oil profile, our rosemary is supplied as whole needles, cut & sifted, or finely ground. It is widely used in meat processing, bakery, natural food preservation, and the cosmetic and fragrance industries.",
-        harvestMonths: [4, 5, 6, 10, 11],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -782,7 +782,7 @@ export const productCategories: ProductCategory[] = [
         info: "Dried sage leaves with earthy, musky aroma for culinary use.",
         description:
           "Egyptian Sage is carefully cultivated and harvested at peak essential oil content, delivering a distinctively earthy, musky, and slightly peppery aroma. Dried under controlled conditions to preserve its characteristic thujone and camphor compounds, our sage is supplied as whole leaves, rubbed, or ground powder. It is widely used in sausage and poultry seasoning, stuffing mixes, herbal medicine, and the cosmetics and fragrance industries.",
-        harvestMonths: [5, 6, 7],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       {
@@ -791,7 +791,7 @@ export const productCategories: ProductCategory[] = [
         info: "Whole and ground Egyptian thyme with bold, herby flavor.",
         description:
           "Egyptian Thyme is a globally traded herb prized for its bold, intensely herby, and slightly floral aroma with high thymol and carvacrol essential oil content. Harvested at peak flowering and carefully dried to preserve its aromatic complexity, our thyme is available as whole herb, cut & sifted, or ground powder. It is an essential seasoning ingredient for meat processors, za'atar blenders, the food manufacturing industry, and the herbal health supplement sector.",
-        harvestMonths: [4, 5, 6],
+        harvestMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         packing: "25 KG PP Bags · 10 KG Cartons · 5 KG Cartons · 1 KG Bags · As per customer request",
       },
       // {
